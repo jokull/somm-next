@@ -1,0 +1,9 @@
+query Product($id: ID!) {
+  product(id: $id) {
+    ...ProductFields
+    seo {
+      title
+      description
+    }
+  }
+}

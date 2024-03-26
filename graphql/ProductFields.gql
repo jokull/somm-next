@@ -1,0 +1,48 @@
+fragment ProductFields on Product {
+	id
+	handle
+	title
+	description
+	availableForSale
+	totalInventory
+	vendor
+	thruga: metafield(namespace: "custom", key: "thruga") {
+		value
+		type
+	}
+	country: metafield(namespace: "custom", key: "country") {
+		value
+		type
+	}
+	region: metafield(namespace: "custom", key: "region") {
+		value
+		type
+	}
+	wineType: metafield(namespace: "custom", key: "wine_type") {
+		value
+		type
+	}
+	framleidandi: metafield(namespace: "custom", key: "framleidandi") {
+		value
+		type
+	}
+	raektun: metafield(namespace: "custom", key: "raektun") {
+		value
+		type
+	}
+	abv: metafield(namespace: "custom", key: "abv") {
+		value
+		type
+	}
+	magn: metafield(namespace: "custom", key: "magn") {
+		value
+		type
+	}
+	variants(first: 10) {
+		edges {
+			node {
+				...VariantFields
+			}
+		}
+	}
+}

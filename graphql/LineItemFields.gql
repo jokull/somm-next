@@ -1,0 +1,39 @@
+fragment LineItemFields on CartLine {
+  __typename
+  id
+  quantity
+  cost {
+    __typename
+    totalAmount {
+      amount
+      currencyCode
+    }
+  }
+  merchandise {
+    __typename
+    ... on ProductVariant {
+      __typename
+      id
+      title
+      product {
+        __typename
+        id
+        title
+        vendor
+      }
+      image {
+        __typename
+        id
+        url(transform: { maxHeight: 128, maxWidth: 128, scale: 2 })
+        altText
+        width
+        height
+      }
+      price {
+        __typename
+        amount
+        currencyCode
+      }
+    }
+  }
+}
