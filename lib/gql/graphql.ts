@@ -8419,6 +8419,16 @@ export type CartAttributesUpdateMutation = { __typename: 'Mutation', cartAttribu
 
 export type LineItemFieldsFragment = { __typename: 'CartLine', id: string, quantity: number, cost: { __typename: 'CartLineCost', totalAmount: { __typename: 'MoneyV2', amount: any, currencyCode: CurrencyCode } }, merchandise: { __typename: 'ProductVariant', id: string, title: string, product: { __typename: 'Product', id: string, title: string, vendor: string }, image?: { __typename: 'Image', id?: string | null, url: any, altText?: string | null, width?: number | null, height?: number | null } | null, price: { __typename: 'MoneyV2', amount: any, currencyCode: CurrencyCode } } };
 
+export type ShippingPolicyQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ShippingPolicyQuery = { __typename: 'QueryRoot', shop: { __typename: 'Shop', shippingPolicy?: { __typename: 'ShopPolicy', title: string, body: string, url: any } | null } };
+
+export type TermsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type TermsQuery = { __typename: 'QueryRoot', shop: { __typename: 'Shop', termsOfService?: { __typename: 'ShopPolicy', body: string } | null, privacyPolicy?: { __typename: 'ShopPolicy', body: string } | null } };
+
 export type PaginatedProductListFragment = { __typename: 'ProductConnection', edges: Array<{ __typename: 'ProductEdge', cursor: string, node: { __typename: 'Product', id: string, handle: string, title: string, description: string, availableForSale: boolean, totalInventory?: number | null, vendor: string, thruga?: { __typename: 'Metafield', value: string, type: string } | null, country?: { __typename: 'Metafield', value: string, type: string } | null, region?: { __typename: 'Metafield', value: string, type: string } | null, wineType?: { __typename: 'Metafield', value: string, type: string } | null, framleidandi?: { __typename: 'Metafield', value: string, type: string } | null, raektun?: { __typename: 'Metafield', value: string, type: string } | null, abv?: { __typename: 'Metafield', value: string, type: string } | null, magn?: { __typename: 'Metafield', value: string, type: string } | null, variants: { __typename: 'ProductVariantConnection', edges: Array<{ __typename: 'ProductVariantEdge', node: { __typename: 'ProductVariant', id: string, title: string, availableForSale: boolean, image?: { __typename: 'Image', id?: string | null, url: any, altText?: string | null, width?: number | null, height?: number | null } | null, price: { __typename: 'MoneyV2', amount: any, currencyCode: CurrencyCode }, compareAtPrice?: { __typename: 'MoneyV2', amount: any, currencyCode: CurrencyCode } | null } }> } } }>, pageInfo: { __typename: 'PageInfo', hasNextPage: boolean } };
 
 export type ProductQueryVariables = Exact<{
@@ -9245,6 +9255,36 @@ export const CartAttributesUpdateDocument = new TypedDocumentString(`
   }
 }
     `, {"hash":"2d57bb7dd5c2e1d98669f17acdc4ce985b5061c4"}) as unknown as TypedDocumentString<CartAttributesUpdateMutation, CartAttributesUpdateMutationVariables>;
+export const ShippingPolicyDocument = new TypedDocumentString(`
+    query ShippingPolicy {
+  __typename
+  shop {
+    __typename
+    shippingPolicy {
+      __typename
+      title
+      body
+      url
+    }
+  }
+}
+    `, {"hash":"d8fe090db67c3faa0a1de3f38455927786b09783"}) as unknown as TypedDocumentString<ShippingPolicyQuery, ShippingPolicyQueryVariables>;
+export const TermsDocument = new TypedDocumentString(`
+    query Terms {
+  __typename
+  shop {
+    __typename
+    termsOfService {
+      __typename
+      body
+    }
+    privacyPolicy {
+      __typename
+      body
+    }
+  }
+}
+    `, {"hash":"fffd90579526d87b262c0d2df75ecdd25a1716a5"}) as unknown as TypedDocumentString<TermsQuery, TermsQueryVariables>;
 export const ProductDocument = new TypedDocumentString(`
     query Product($id: ID!) {
   __typename

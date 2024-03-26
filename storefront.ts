@@ -8370,6 +8370,16 @@ export type LineItemFieldsFragment = { __typename: 'CartLine', id: string, quant
 
 export type LineItemFieldsFragmentVariables = Exact<{ [key: string]: never; }>;
 
+export type ShippingPolicyQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ShippingPolicyQuery = { __typename?: 'QueryRoot', shop: { __typename?: 'Shop', shippingPolicy?: { __typename?: 'ShopPolicy', title: string, body: string, url: string } | null } };
+
+export type TermsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type TermsQuery = { __typename?: 'QueryRoot', shop: { __typename?: 'Shop', termsOfService?: { __typename?: 'ShopPolicy', body: string } | null, privacyPolicy?: { __typename?: 'ShopPolicy', body: string } | null } };
+
 export type PaginatedProductListFragment = { __typename?: 'ProductConnection', edges: Array<{ __typename?: 'ProductEdge', cursor: string, node: { __typename?: 'Product', id: string, handle: string, title: string, description: string, availableForSale: boolean, totalInventory?: number | null, vendor: string, thruga?: { __typename?: 'Metafield', value: string, type: string } | null, country?: { __typename?: 'Metafield', value: string, type: string } | null, region?: { __typename?: 'Metafield', value: string, type: string } | null, wineType?: { __typename?: 'Metafield', value: string, type: string } | null, framleidandi?: { __typename?: 'Metafield', value: string, type: string } | null, raektun?: { __typename?: 'Metafield', value: string, type: string } | null, abv?: { __typename?: 'Metafield', value: string, type: string } | null, magn?: { __typename?: 'Metafield', value: string, type: string } | null, variants: { __typename?: 'ProductVariantConnection', edges: Array<{ __typename?: 'ProductVariantEdge', node: { __typename: 'ProductVariant', id: string, title: string, availableForSale: boolean, image?: { __typename: 'Image', id?: string | null, url: string, altText?: string | null, width?: number | null, height?: number | null } | null, price: { __typename: 'MoneyV2', amount: string, currencyCode: CurrencyCode }, compareAtPrice?: { __typename: 'MoneyV2', amount: string, currencyCode: CurrencyCode } | null } }> } } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean } };
 
 
@@ -8627,6 +8637,29 @@ export const CartAttributesUpdateDocument = gql`
   }
 }
     `;
+export const ShippingPolicyDocument = gql`
+    query ShippingPolicy {
+  shop {
+    shippingPolicy {
+      title
+      body
+      url
+    }
+  }
+}
+    `;
+export const TermsDocument = gql`
+    query Terms {
+  shop {
+    termsOfService {
+      body
+    }
+    privacyPolicy {
+      body
+    }
+  }
+}
+    `;
 export const ProductDocument = gql`
     query Product($id: ID!) {
   product(id: $id) {
@@ -8667,6 +8700,12 @@ export function getSdk<C>(requester: Requester<C>) {
     },
     CartAttributesUpdate(variables: CartAttributesUpdateMutationVariables, options?: C): Promise<CartAttributesUpdateMutation> {
       return requester<CartAttributesUpdateMutation, CartAttributesUpdateMutationVariables>(CartAttributesUpdateDocument, variables, options) as Promise<CartAttributesUpdateMutation>;
+    },
+    ShippingPolicy(variables?: ShippingPolicyQueryVariables, options?: C): Promise<ShippingPolicyQuery> {
+      return requester<ShippingPolicyQuery, ShippingPolicyQueryVariables>(ShippingPolicyDocument, variables, options) as Promise<ShippingPolicyQuery>;
+    },
+    Terms(variables?: TermsQueryVariables, options?: C): Promise<TermsQuery> {
+      return requester<TermsQuery, TermsQueryVariables>(TermsDocument, variables, options) as Promise<TermsQuery>;
     },
     Product(variables: ProductQueryVariables, options?: C): Promise<ProductQuery> {
       return requester<ProductQuery, ProductQueryVariables>(ProductDocument, variables, options) as Promise<ProductQuery>;

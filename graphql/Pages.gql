@@ -1,0 +1,20 @@
+query ShippingPolicy {
+  shop {
+    shippingPolicy {
+      title
+      body
+      url
+    }
+  }
+}
+
+query Terms {
+  shop {
+    termsOfService {
+      body
+    }
+    privacyPolicy {
+      body
+    }
+  }
+}
