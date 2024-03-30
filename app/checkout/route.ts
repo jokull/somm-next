@@ -7,7 +7,7 @@ import { getSession } from "~/lib/cart";
 import { shopify } from "~/lib/shopify";
 import { type CountryCode } from "~/storefront";
 
-export interface DokobitSession {
+interface DokobitSession {
   status: string;
   session_token: string;
   code: string;
@@ -19,7 +19,7 @@ export interface DokobitSession {
   phone?: string;
 }
 
-export async function getDokobitSession(sessionToken: string) {
+async function getDokobitSession(sessionToken: string) {
   const response = await fetch(
     `${env.DOKOBIT_URL}/${sessionToken}/status?access_token=${env.DOKOBIT_TOKEN}`,
   );
