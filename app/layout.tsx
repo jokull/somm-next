@@ -3,7 +3,9 @@ import localFont from "next/font/local";
 
 import "./globals.css";
 
+import Image from "next/image";
 import Link from "next/link";
+import { Toaster } from "sonner";
 
 import { getCart } from "~/lib/cart";
 import { vendors } from "~/lib/commerce";
@@ -106,7 +108,7 @@ export default async function RootLayout({
                       </a>
                     </li>
                     <li className="mt-4">
-                      <div className="flex gap-2">
+                      <div className="flex items-center gap-2">
                         <svg
                           width="32"
                           height="32"
@@ -143,6 +145,13 @@ export default async function RootLayout({
                             fill="#1434CB"
                           />
                         </svg>
+                        <Image
+                          alt="Pikkoló"
+                          src="/pikkolo.png"
+                          height={146}
+                          width={484}
+                          className="h-5 w-auto"
+                        />
                       </div>
                     </li>
                   </ul>
@@ -153,6 +162,7 @@ export default async function RootLayout({
               </footer>
             </div>
           </div>
+          <Toaster />
         </body>
       </html>
     </CartProvider>

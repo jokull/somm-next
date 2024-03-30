@@ -9,6 +9,16 @@ import { cn } from "~/lib/classnames";
 import { GetCartDocument } from "~/lib/gql/graphql";
 
 import { CartLines } from "./cart-lines";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "./drawer";
 
 function Button({
   open,
@@ -126,23 +136,34 @@ export function Cart({ cart: serverCart }: { cart?: CartType }) {
     pause: !serverCart,
   });
   const cart = result.data?.cart ?? serverCart;
-
   const [open, setOpen] = useState(false);
+  const totalQuantity = cart?.totalQuantity ?? 0;
   return (
     <div className="font-sans">
       <nav className="fixed right-4 top-3 z-20">
-        {/* <div className="sm:hidden">
-					<Button
-						onClick={() => {
-							dialog.showModal();
-						}}
-						{open}
-						totalQuantity={cart.totalQuantity}
-					/>
-					<Dialog bind:dialog on:close={() => (open = false)}>
-						<div className="p-4"><CartLines {cart} {dialog} /></div>
-					</Dialog>
-				</div> */}
+        <div className="sm:hidden">
+          <Drawer>
+            <DrawerTrigger>
+              Karfa {totalQuantity > 0 ? <span>{totalQuantity}</span> : null}
+            </DrawerTrigger>
+            <DrawerContent>
+              <DrawerHeader>
+                <DrawerTitle>Karfan þín</DrawerTitle>
+              </DrawerHeader>
+              <Inner
+                cart={cart}
+                onClose={() => {
+                  setOpen(false);
+                }}
+              />
+              <DrawerFooter>
+                <DrawerClose>
+                  <button>Cancel</button>
+                </DrawerClose>
+              </DrawerFooter>
+            </DrawerContent>
+          </Drawer>
+        </div>
         <div className="hidden sm:block">
           <Popover.Root
             open={open}

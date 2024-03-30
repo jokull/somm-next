@@ -39,7 +39,7 @@ export const vendors = {
   // },
   akkurat: {
     name: "Akkúrat",
-    shopifyVendor: "Akkúrat",
+    shopifyVendor: "Tefélagið ehf.",
     slug: "akkurat",
     instagram: "akkurat",
   },
