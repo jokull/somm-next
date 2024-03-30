@@ -130,4 +130,5 @@ module.exports = {
       version: "18.2.0",
     },
   },
+  ignorePatterns: ["lib/gql"],
 };
