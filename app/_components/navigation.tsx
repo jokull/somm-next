@@ -3,8 +3,8 @@
 import Link from "next/link";
 import { useSearchParams, useSelectedLayoutSegments } from "next/navigation";
 
-import { cn } from "~/lib/classnames";
 import { getVendorFromSlug, type Vendor } from "~/lib/commerce";
+import { cn } from "~/lib/utils";
 
 function Option({ href, option }: { option: string | null; href: string }) {
   const searchParams = useSearchParams();

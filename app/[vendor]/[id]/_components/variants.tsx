@@ -5,7 +5,7 @@ import { useContext, useState } from "react";
 
 import { AddToCart } from "~/app/_components/add-to-cart";
 import { CartContext } from "~/app/_components/cart-provider";
-import { cn } from "~/lib/classnames";
+import { cn } from "~/lib/utils";
 import { type VariantFieldsFragment } from "~/storefront";
 
 export function Variants({ variants }: { variants: VariantFieldsFragment[] }) {

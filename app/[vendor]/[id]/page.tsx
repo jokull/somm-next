@@ -44,7 +44,7 @@ export default async function ProductComponent({
   return (
     <div className="flex flex-col gap-4 sm:flex-row sm:gap-8">
       {selectedVariant.image && (
-        <div className="sm:max-w-2xl">
+        <div className="grow-0 sm:w-1/2">
           <img
             src={selectedVariant.image.url}
             width={selectedVariant.image.width ?? undefined}
@@ -55,7 +55,7 @@ export default async function ProductComponent({
           />
         </div>
       )}
-      <div className="shrink-0">
+      <div className="max-w-xs grow">
         <div className="mb-4 border-b pb-2">
           <VendorName vendor={vendor} linkify />
         </div>
@@ -67,37 +67,37 @@ export default async function ProductComponent({
           <tbody>
             {product.wineType && (
               <tr>
-                <td className="pr-2 font-semibold">Tegund</td>
+                <td className="pr-2">Tegund</td>
                 <td>{product.wineType.value}</td>
               </tr>
             )}
             {product.framleidandi && (
               <tr>
-                <td className="pr-2 font-semibold">Framleiðandi</td>
+                <td className="pr-2">Framleiðandi</td>
                 <td>{product.framleidandi.value}</td>
               </tr>
             )}
             {product.region && (
               <tr>
-                <td className="pr-2 font-semibold">Hérað</td>
+                <td className="pr-2">Hérað</td>
                 <td>{product.region.value}</td>
               </tr>
             )}
             {product.country && (
               <tr>
-                <td className="pr-2 font-semibold">Land</td>
+                <td className="pr-2">Land</td>
                 <td>{product.country.value}</td>
               </tr>
             )}
             {thruga.length > 0 && (
               <tr>
-                <td className="pr-2 font-semibold">Þrúga</td>
+                <td className="pr-2">Þrúga</td>
                 <td>{thruga.join(", ")}</td>
               </tr>
             )}
             {product.magn && (
               <tr>
-                <td className="pr-2 font-semibold">Magn</td>
+                <td className="pr-2">Magn</td>
                 <td>
                   {Number(product.magn.value).toLocaleString("de-DE", {
                     maximumFractionDigits: 3,
@@ -108,7 +108,7 @@ export default async function ProductComponent({
             )}
             {product.abv && (
               <tr>
-                <td className="pr-2 font-semibold">ABV</td>
+                <td className="pr-2">ABV</td>
                 <td>
                   {Number(product.abv.value).toLocaleString("de-DE", {
                     minimumFractionDigits: 1,
@@ -120,7 +120,7 @@ export default async function ProductComponent({
             )}
             {raektun.length > 0 && (
               <tr>
-                <td className="pr-2 font-semibold">Ræktun</td>
+                <td className="pr-2">Ræktun</td>
                 <td>{raektun.join(", ")}</td>
               </tr>
             )}

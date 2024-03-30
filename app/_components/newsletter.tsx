@@ -3,7 +3,7 @@
 import { useFormState } from "react-dom";
 
 import { subscribeToHubspot } from "~/lib/actions";
-import { cn } from "~/lib/classnames";
+import { cn } from "~/lib/utils";
 
 export function Newsletter() {
   const [message, action] = useFormState(subscribeToHubspot, null);

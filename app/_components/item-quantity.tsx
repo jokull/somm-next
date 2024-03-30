@@ -21,9 +21,9 @@ export function ItemQuantity({
             quantity: quantity - 1,
           });
         }}
-        className="h-5 w-5 rounded-full text-[blue]"
+        className="h-6 w-6 rounded-full text-[blue]"
       >
-        <img className="h-5 w-5" src="/icons/minus.svg" alt="Mínus" />
+        <img className="h-6 w-6" src="/icons/minus.svg" alt="Mínus" />
       </button>
       <div className="mt-0.5 leading-none">{quantity}</div>
       <button
@@ -36,9 +36,9 @@ export function ItemQuantity({
             quantity: quantity + 1,
           });
         }}
-        className="h-5 w-5 rounded-full enabled:text-[blue] disabled:text-neutral-500"
+        className="h-6 w-6 rounded-full enabled:text-[blue] disabled:text-neutral-500"
       >
-        <img className="h-5 w-5" src="/icons/plus.svg" alt="Plús" />
+        <img className="h-6 w-6" src="/icons/plus.svg" alt="Plús" />
       </button>
     </div>
   );

@@ -4,8 +4,8 @@ import { toast } from "sonner";
 import { useQuery } from "urql";
 
 import { addToCart } from "~/lib/actions";
-import { cn } from "~/lib/classnames";
 import { GetCartDocument } from "~/lib/gql/graphql";
+import { cn } from "~/lib/utils";
 import { type VariantFieldsFragment } from "~/storefront";
 
 import { CartContext } from "./cart-provider";
@@ -51,7 +51,6 @@ export function AddToCart({ variant }: { variant: VariantFieldsFragment }) {
               void addToCart(variant.id).then(() => {
                 router.refresh();
                 queryExecute({ requestPolicy: "network-only" });
-                toast(`${variant.title} bætt í körfu`);
               });
             });
           }}

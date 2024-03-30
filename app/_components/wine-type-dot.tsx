@@ -1,4 +1,4 @@
-import { cn } from "~/lib/classnames";
+import { cn } from "~/lib/utils";
 
 export function WineTypeDot({ wineType }: { wineType: string }) {
   return (

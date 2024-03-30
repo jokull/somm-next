@@ -10,12 +10,9 @@ export function VendorName({
   linkify?: boolean;
 }) {
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center justify-between gap-2">
       {linkify ? (
-        <a
-          href={`/${vendor.slug}`}
-          className="text-xl font-bold hover:text-[blue]"
-        >
+        <a href={`/${vendor.slug}`} className="text-xl hover:text-[blue]">
           {vendor.name}
         </a>
       ) : (

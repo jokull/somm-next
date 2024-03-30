@@ -1,7 +1,7 @@
 import Link from "next/link";
 
-import { cn } from "~/lib/classnames";
 import { getVendorFromName } from "~/lib/commerce";
+import { cn } from "~/lib/utils";
 import { type ProductFieldsFragment } from "~/storefront";
 
 import { VariantToCart } from "./variant-to-cart";

@@ -1,10 +1,10 @@
 import Link from "next/link";
-import { useTransition } from "react";
+import { useMutation } from "urql";
 
-import { removeCartItem } from "~/lib/actions";
 import { type CartLine } from "~/lib/cart";
-import { cn } from "~/lib/classnames";
 import { getVendorFromName } from "~/lib/commerce";
+import { RemoveCartItemDocument } from "~/lib/gql/graphql";
+import { cn } from "~/lib/utils";
 
 import { ItemQuantity } from "./item-quantity";
 
@@ -21,9 +21,9 @@ export function CartLine({
   cartId: string;
 }) {
   const vendor = getVendorFromName(product.vendor);
-  const [pending, startTransition] = useTransition();
+  const [{ fetching }, remove] = useMutation(RemoveCartItemDocument.toString());
   return (
-    <div className="flex gap-2">
+    <>
       <div className="w-full min-w-0 truncate">
         <Link
           href={`/${vendor.slug}/${product.id.split("/").at(-1) ?? ""}`}
@@ -41,19 +41,17 @@ export function CartLine({
         })}{" "}
         kr
       </div>
-      <div className="whitespace-nowrap">
+      <div className="min-w-0 whitespace-nowrap">
         <button
-          className={cn(pending && "opacity-20", "hover:text-[blue]")}
+          className={cn(fetching && "opacity-20", "hover:text-[blue]")}
           onClick={(event) => {
             event.preventDefault();
-            startTransition(() => {
-              void removeCartItem(id);
-            });
+            void remove({ cartId, lineItemId: id });
           }}
         >
-          <img src="/icons/trash.svg" alt="Trash" />
+          <img src="/icons/trash.svg" alt="Trash" className="h-6 w-6" />
         </button>
       </div>
-    </div>
+    </>
   );
 }

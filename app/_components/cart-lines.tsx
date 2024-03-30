@@ -20,8 +20,6 @@ export function CartLines({
   );
   return (
     <>
-      <h2 className="mb-2 text-xl font-medium">Karfa</h2>
-
       <div className="mb-8 grid max-w-md grid-cols-8 items-center gap-1">
         {bottles.slice(0, maxBottleLength - 1).map((bottle, index) => (
           <img
@@ -43,7 +41,12 @@ export function CartLines({
 
       {lines.length > 0
         ? lines.map((line) => (
-            <CartLine key={line.id} line={line} cartId={cartId} />
+            <div
+              key={line.id}
+              className="center grid grid-cols-[1fr,auto,auto,auto] place-items-center gap-2 text-base"
+            >
+              <CartLine line={line} cartId={cartId} />
+            </div>
           ))
         : null}
     </>
