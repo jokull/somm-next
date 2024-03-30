@@ -31,14 +31,13 @@ const allWineTypes = [
   "Rósavín",
   "Freyðivín",
   "Gulvín",
-  "Te",
+  "Óáfengt",
 ] as const;
 
 export function Navigation({ vendors }: { vendors: Vendor[] }) {
   const segments = useSelectedLayoutSegments();
   const vendorSlug = segments[0];
   const vendor = vendorSlug ? getVendorFromSlug(vendorSlug) : undefined;
-  const url = vendor ? `/${vendorSlug}` : "/";
   return (
     <nav className="space-y-4">
       <ul className="flex w-full flex-wrap justify-center gap-x-2 text-[blue] md:gap-x-4 lg:w-auto">
@@ -58,7 +57,7 @@ export function Navigation({ vendors }: { vendors: Vendor[] }) {
         {allWineTypes.map((wineType) => (
           <Option
             key={wineType}
-            href={wineType ? `${url}?wineType=${wineType}` : url}
+            href={`/?wineType=${wineType}`}
             option={wineType}
           />
         ))}

@@ -1,6 +1,5 @@
 import { useRouter } from "next/navigation";
 import { useContext, useTransition } from "react";
-import { toast } from "sonner";
 import { useQuery } from "urql";
 
 import { addToCart } from "~/lib/actions";
