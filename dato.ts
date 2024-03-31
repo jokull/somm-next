@@ -287,6 +287,32 @@ export type GlobalSeoField = {
   twitterAccount?: Maybe<Scalars["String"]["output"]>;
 };
 
+/** Record of type 🏠 Home Page (home_page) */
+export type HomePageRecord = RecordInterface & {
+  __typename?: "HomePageRecord";
+  _createdAt: Scalars["DateTime"]["output"];
+  /** Editing URL */
+  _editingUrl?: Maybe<Scalars["String"]["output"]>;
+  _firstPublishedAt?: Maybe<Scalars["DateTime"]["output"]>;
+  _isValid: Scalars["BooleanType"]["output"];
+  _modelApiKey: Scalars["String"]["output"];
+  _publicationScheduledAt?: Maybe<Scalars["DateTime"]["output"]>;
+  _publishedAt?: Maybe<Scalars["DateTime"]["output"]>;
+  /** Generates SEO and Social card meta tags to be used in your frontend */
+  _seoMetaTags: Array<Tag>;
+  _status: ItemStatus;
+  _unpublishingScheduledAt?: Maybe<Scalars["DateTime"]["output"]>;
+  _updatedAt: Scalars["DateTime"]["output"];
+  id: Scalars["ItemId"]["output"];
+  newProducts: Array<ProductRecord>;
+  seo?: Maybe<SeoField>;
+};
+
+/** Record of type 🏠 Home Page (home_page) */
+export type HomePageRecord_SeoMetaTagsArgs = {
+  locale?: InputMaybe<SiteLocale>;
+};
+
 export type ImageFileField = FileFieldInterface & {
   __typename?: "ImageFileField";
   _createdAt: Scalars["DateTime"]["output"];
@@ -1796,7 +1822,7 @@ export type PostModelOrderBy =
   | "title_ASC"
   | "title_DESC";
 
-/** Record of type Post (post) */
+/** Record of type 📮 Post (post) */
 export type PostRecord = RecordInterface & {
   __typename?: "PostRecord";
   _createdAt: Scalars["DateTime"]["output"];
@@ -1820,7 +1846,7 @@ export type PostRecord = RecordInterface & {
   title: Scalars["String"]["output"];
 };
 
-/** Record of type Post (post) */
+/** Record of type 📮 Post (post) */
 export type PostRecord_SeoMetaTagsArgs = {
   locale?: InputMaybe<SiteLocale>;
 };
@@ -1881,6 +1907,8 @@ export type Query = {
   allPosts: Array<PostRecord>;
   /** Returns a collection of assets */
   allUploads: Array<FileField>;
+  /** Returns the single instance record */
+  homePage?: Maybe<HomePageRecord>;
   /** Returns a specific record */
   post?: Maybe<PostRecord>;
   /** Returns a specific asset */
@@ -1923,6 +1951,12 @@ export type QueryAllUploadsArgs = {
   locale?: InputMaybe<SiteLocale>;
   orderBy?: InputMaybe<Array<InputMaybe<UploadOrderBy>>>;
   skip?: InputMaybe<Scalars["IntType"]["input"]>;
+};
+
+/** The query root for this schema */
+export type QueryHomePageArgs = {
+  fallbackLocales?: InputMaybe<Array<SiteLocale>>;
+  locale?: InputMaybe<SiteLocale>;
 };
 
 /** The query root for this schema */
@@ -2477,6 +2511,34 @@ export type FocalPoint = {
   y: Scalars["FloatType"]["output"];
 };
 
+export const HomePageDocument = gql`
+  query HomePage {
+    homePage {
+      id
+      newProducts {
+        id
+        shopifyProductId
+      }
+      _seoMetaTags {
+        attributes
+        content
+        tag
+      }
+      seo {
+        title
+        description
+        image {
+          responsiveImage(imgixParams: { w: 1200, h: 630 }) {
+            width
+            height
+            src
+            alt
+          }
+        }
+      }
+    }
+  }
+`;
 export const PostsDocument = gql`
   query Posts {
     allPosts {
@@ -2519,6 +2581,16 @@ export type Requester<C = {}> = <R, V>(
 ) => Promise<R> | AsyncIterable<R>;
 export function getSdk<C>(requester: Requester<C>) {
   return {
+    HomePage(
+      variables?: HomePageQueryVariables,
+      options?: C,
+    ): Promise<HomePageQuery> {
+      return requester<HomePageQuery, HomePageQueryVariables>(
+        HomePageDocument,
+        variables,
+        options,
+      ) as Promise<HomePageQuery>;
+    },
     Posts(variables?: PostsQueryVariables, options?: C): Promise<PostsQuery> {
       return requester<PostsQuery, PostsQueryVariables>(
         PostsDocument,
@@ -2529,6 +2601,42 @@ export function getSdk<C>(requester: Requester<C>) {
   };
 }
 export type Sdk = ReturnType<typeof getSdk>;
+export type HomePageQueryVariables = Exact<{ [key: string]: never }>;
+
+export type HomePageQuery = {
+  __typename?: "Query";
+  homePage?: {
+    __typename?: "HomePageRecord";
+    id: string;
+    newProducts: Array<{
+      __typename?: "ProductRecord";
+      id: string;
+      shopifyProductId: string;
+    }>;
+    _seoMetaTags: Array<{
+      __typename?: "Tag";
+      attributes?: Record<string, string> | null;
+      content?: string | null;
+      tag: string;
+    }>;
+    seo?: {
+      __typename?: "SeoField";
+      title?: string | null;
+      description?: string | null;
+      image?: {
+        __typename?: "FileField";
+        responsiveImage?: {
+          __typename?: "ResponsiveImage";
+          width: number;
+          height: number;
+          src: string;
+          alt?: string | null;
+        } | null;
+      } | null;
+    } | null;
+  } | null;
+};
+
 export type PostsQueryVariables = Exact<{ [key: string]: never }>;
 
 export type PostsQuery = {

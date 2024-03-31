@@ -1,0 +1,26 @@
+query HomePage {
+  homePage {
+    id
+    newProducts {
+      id
+      shopifyProductId
+    }
+    _seoMetaTags {
+      attributes
+      content
+      tag
+    }
+    seo {
+      title
+      description
+      image {
+        responsiveImage(imgixParams: { w: 1200, h: 630 }) {
+          width
+          height
+          src
+          alt
+        }
+      }
+    }
+  }
+}

@@ -1,13 +1,35 @@
+import { type Metadata } from "next";
 import { notFound } from "next/navigation";
 import { z } from "zod";
 
 import { VendorName } from "~/app/_components/vendor-name";
-import { getVendorFromName } from "~/lib/commerce";
+import { getVendorFromName, getVendorFromSlug } from "~/lib/commerce";
 import { shopify, unwrap } from "~/lib/shopify";
 
 import { Variants } from "./_components/variants";
 
 export const runtime = "edge";
+
+interface Props {
+  params: { vendor: string; id: string };
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { product } = await shopify.Product({
+    id: `gid://shopify/Product/${params.id}`,
+  });
+
+  const vendorName = getVendorFromSlug(params.vendor)?.name;
+
+  if (!product || !vendorName) {
+    notFound();
+  }
+
+  return {
+    title: `${product.title} — ${vendorName} — Somm`,
+    description: `${product.title} frá ${product.framleidandi?.value ?? vendorName}`,
+  };
+}
 
 export default async function ProductComponent({
   params,

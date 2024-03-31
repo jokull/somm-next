@@ -1,3 +1,6 @@
+import { type Metadata } from "next";
+import { notFound } from "next/navigation";
+
 import { ProductsGrid } from "~/app/_components/products-grid";
 import { getVendorFromSlug } from "~/lib/commerce";
 import { getFirstSearchParam, type SearchParams } from "~/lib/search-params";
@@ -5,15 +8,28 @@ import { shopify } from "~/lib/shopify";
 
 export const runtime = "edge";
 
+interface Props {
+  params: { vendor: string };
+  searchParams: SearchParams;
+}
+
+export function generateMetadata({ params }: Props): Metadata {
+  const vendorName = getVendorFromSlug(params.vendor)?.name;
+  if (!vendorName) {
+    throw notFound();
+  }
+  return {
+    title: `${vendorName} - Somm`,
+    description: `Vín flutt inn af ${vendorName} til sölu á Somm`,
+  };
+}
+
 export default async function Page({
   params: { vendor },
   searchParams,
-}: {
-  params: { vendor: string };
-  searchParams: SearchParams;
-}) {
+}: Props) {
   const wineType = getFirstSearchParam(searchParams, "wineType");
-  const vendorName = getVendorFromSlug(vendor)?.shopifyVendor ?? "";
+  const vendorName = getVendorFromSlug(vendor)?.name ?? "";
   const { collection } = await shopify.Products({
     filters: [
       {
@@ -32,7 +48,7 @@ export default async function Page({
   });
   const products = collection?.products;
   if (!products) {
-    return "Empty";
+    return "Engar vörur";
   }
   return <ProductsGrid products={products} />;
 }
