@@ -57,7 +57,7 @@ export function Navigation({ vendors }: { vendors: Vendor[] }) {
         {allWineTypes.map((wineType) => (
           <Option
             key={wineType}
-            href={`/?wineType=${wineType}`}
+            href={wineType ? `/?wineType=${wineType}` : "/"}
             option={wineType}
           />
         ))}
