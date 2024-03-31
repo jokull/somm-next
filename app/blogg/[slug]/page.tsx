@@ -7,6 +7,7 @@ import { PostContent } from "~/app/_components/post-content";
 import { dato } from "~/lib/dato";
 
 export const runtime = "edge";
+export const dynamic = "force-dynamic";
 
 interface Props {
   params: { slug: string };

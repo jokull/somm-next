@@ -9,6 +9,7 @@ import { shopify, unwrap } from "~/lib/shopify";
 import { Variants } from "./_components/variants";
 
 export const runtime = "edge";
+export const dynamic = "force-dynamic";
 
 interface Props {
   params: { vendor: string; id: string };

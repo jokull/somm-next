@@ -11,6 +11,7 @@ export const metadata: Metadata = {
 };
 
 export const runtime = "edge";
+export const dynamic = "force-dynamic";
 
 function formatDateString(dateString: string): string {
   const [year, month] = dateString.split("-").map(Number) as [number, number];

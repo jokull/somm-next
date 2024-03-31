@@ -7,6 +7,7 @@ import { getFirstSearchParam, type SearchParams } from "~/lib/search-params";
 import { shopify } from "~/lib/shopify";
 
 export const runtime = "edge";
+export const dynamic = "force-dynamic";
 
 interface Props {
   params: { vendor: string };

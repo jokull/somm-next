@@ -12,6 +12,7 @@ import { ProductEmbed } from "./_components/product-embed";
 import { ProductsGrid } from "./_components/products-grid";
 
 export const runtime = "edge";
+export const dynamic = "force-dynamic";
 
 async function Post({
   post,

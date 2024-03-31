@@ -5,6 +5,7 @@ import { shopify } from "~/lib/shopify";
 import { Prose } from "../_components/prose";
 
 export const runtime = "edge";
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Skilmálar — Somm",
