@@ -60,7 +60,7 @@ export default async function ProductComponent({
   const thruga = z
     .array(z.string())
     .catch([])
-    .parse(JSON.parse(product.raektun?.value ?? "[]"));
+    .parse(JSON.parse(product.thruga?.value ?? "[]"));
   const vendor = getVendorFromName(params.vendor);
 
   return (

@@ -1,9 +1,10 @@
-query Post($id: ItemId!) {
-  post(filter: { id: { eq: $id } }) {
+query Post($slug: String!) {
+  post(filter: { slug: { eq: $slug } }) {
     id
     slug
     title
     date
+    excerpt
     content {
       __typename
       links
@@ -26,5 +27,11 @@ query Post($id: ItemId!) {
     }
     _status
     _firstPublishedAt
+    _seoMetaTags {
+      __typename
+      attributes
+      content
+      tag
+    }
   }
 }

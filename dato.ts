@@ -305,6 +305,7 @@ export type HomePageRecord = RecordInterface & {
   _updatedAt: Scalars["DateTime"]["output"];
   id: Scalars["ItemId"]["output"];
   newProducts: Array<ProductRecord>;
+  post: PostRecord;
   seo?: Maybe<SeoField>;
 };
 
@@ -2540,16 +2541,44 @@ export const HomePageDocument = gql`
           }
         }
       }
+      post {
+        id
+        slug
+        title
+        date
+        excerpt
+        content {
+          __typename
+          blocks {
+            __typename
+            id
+            ... on ProductRecord {
+              shopifyProductId
+            }
+          }
+        }
+        image {
+          responsiveImage(imgixParams: { w: 320, h: 320 }) {
+            width
+            height
+            src
+            alt
+          }
+        }
+        _status
+        _firstPublishedAt
+      }
     }
   }
 `;
 export const PostDocument = gql`
-  query Post($id: ItemId!) {
-    post(filter: { id: { eq: $id } }) {
+  query Post($slug: String!) {
+    post(filter: { slug: { eq: $slug } }) {
       id
       slug
       title
       date
+      excerpt
       content {
         __typename
         links
@@ -2572,6 +2601,12 @@ export const PostDocument = gql`
       }
       _status
       _firstPublishedAt
+      _seoMetaTags {
+        __typename
+        attributes
+        content
+        tag
+      }
     }
   }
 `;
@@ -2676,11 +2711,39 @@ export type HomePageQuery = {
         } | null;
       } | null;
     } | null;
+    post: {
+      __typename?: "PostRecord";
+      id: string;
+      slug: string;
+      title: string;
+      date: string;
+      excerpt: string;
+      _status: ItemStatus;
+      _firstPublishedAt?: string | null;
+      content: {
+        __typename: "PostModelContentField";
+        blocks: Array<{
+          __typename: "ProductRecord";
+          shopifyProductId: string;
+          id: string;
+        }>;
+      };
+      image: {
+        __typename?: "ImageFileField";
+        responsiveImage: {
+          __typename?: "ResponsiveImage";
+          width: number;
+          height: number;
+          src: string;
+          alt?: string | null;
+        };
+      };
+    };
   } | null;
 };
 
 export type PostQueryVariables = Exact<{
-  id: Scalars["ItemId"]["input"];
+  slug: Scalars["String"]["input"];
 }>;
 
 export type PostQuery = {
@@ -2691,6 +2754,7 @@ export type PostQuery = {
     slug: string;
     title: string;
     date: string;
+    excerpt: string;
     _status: ItemStatus;
     _firstPublishedAt?: string | null;
     content: {
@@ -2713,6 +2777,12 @@ export type PostQuery = {
         alt?: string | null;
       };
     };
+    _seoMetaTags: Array<{
+      __typename: "Tag";
+      attributes?: Record<string, string> | null;
+      content?: string | null;
+      tag: string;
+    }>;
   } | null;
 };
 

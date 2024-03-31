@@ -1,35 +1,43 @@
-"use client";
-
 import { StructuredText } from "react-datocms/structured-text";
-import { useQuery } from "urql";
 
-import { type PostsQuery } from "~/dato";
-import { ProductDocument } from "~/lib/gql/graphql";
+import { type PostQuery } from "~/dato";
+import { shopify } from "~/lib/shopify";
 
-import { LoadingSpinner } from "./loading-spinner";
+import { ProductEmbed } from "./product-embed";
 
-function Product({ id }: { id: string }) {
-  const [{ data, fetching }] = useQuery({
-    query: ProductDocument.toString(),
-    variables: { id: `gid://shopify/Product/${id}` },
+// function Product({ product }: { product: Extract<ProductsByIdsQuery['nodes'][0], {__typename: "Product"}> }) {
+//   return <div></div>;
+// }
+
+export async function getProducts(blocks: { shopifyProductId: string }[]) {
+  const ids = blocks.map(({ shopifyProductId }) => shopifyProductId);
+  const { nodes } = await shopify.ProductsByIds({
+    ids: ids.map((id) => `gid://shopify/Product/${id}`),
   });
-  if (fetching) {
-    return <LoadingSpinner />;
-  }
-  return data?.product?.title;
+  return nodes.flatMap((node) =>
+    node?.__typename === "Product" ? [node] : [],
+  );
 }
 
-export function PostContent({
+export async function PostContent({
   field,
 }: {
-  field: PostsQuery["allPosts"][0]["content"];
+  field: NonNullable<PostQuery["post"]>["content"];
 }) {
+  const products = await getProducts(field.blocks);
   return (
     <StructuredText
       data={{ ...field, links: [] }}
       renderBlock={({ record }) => {
-        if (record.shopifyProductId) {
-          return <Product id={record.shopifyProductId} />;
+        const product = products.find(({ id }) =>
+          id.includes(record.shopifyProductId),
+        );
+        if (product) {
+          return (
+            <div className="mx-auto mb-4">
+              <ProductEmbed product={product} />
+            </div>
+          );
         }
         return null;
       }}

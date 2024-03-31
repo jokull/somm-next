@@ -4,11 +4,7 @@ import { print } from "graphql/language/printer";
 import { getSdk } from "~/dato";
 import { env } from "~/env";
 
-const requester = async <R, V>(
-  doc: DocumentNode,
-  variables?: V,
-  options?: Partial<RequestInit>,
-) => {
+const requester = async <R, V>(doc: DocumentNode, variables?: V) => {
   const res = await fetch("https://graphql.datocms.com", {
     method: "POST",
     headers: {

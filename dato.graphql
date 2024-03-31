@@ -376,6 +376,7 @@ type HomePageRecord implements RecordInterface {
   _updatedAt: DateTime!
   id: ItemId!
   newProducts: [ProductRecord!]!
+  post: PostRecord!
   seo: SeoField
 }
 

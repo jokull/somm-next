@@ -53,15 +53,17 @@ export function Navigation({ vendors }: { vendors: Vendor[] }) {
           </li>
         ))}
       </ul>
-      <ul className="mb-4 flex w-full flex-wrap justify-center gap-x-2 sm:gap-4 lg:w-auto">
-        {allWineTypes.map((wineType) => (
-          <Option
-            key={wineType}
-            href={wineType ? `/?wineType=${wineType}` : "/"}
-            option={wineType}
-          />
-        ))}
-      </ul>
+      {segments.length === 0 ? (
+        <ul className="mb-4 flex w-full flex-wrap justify-center gap-x-2 sm:gap-4 lg:w-auto">
+          {allWineTypes.map((wineType) => (
+            <Option
+              key={wineType}
+              href={wineType ? `/?wineType=${wineType}` : "/"}
+              option={wineType}
+            />
+          ))}
+        </ul>
+      ) : null}
     </nav>
   );
 }

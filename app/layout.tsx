@@ -5,6 +5,7 @@ import "./globals.css";
 
 import Image from "next/image";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import { toNextMetadata } from "react-datocms";
 import { Toaster } from "sonner";
 
@@ -29,11 +30,14 @@ const ppeditorial = localFont({
 
 export async function generateMetadata(): Promise<Metadata> {
   const { homePage } = await dato.HomePage();
+  if (!homePage) {
+    notFound();
+  }
   return {
-    ...toNextMetadata(homePage?._seoMetaTags ?? []),
-    title: homePage?.seo?.title ?? "Somm",
+    ...toNextMetadata(homePage._seoMetaTags),
+    title: homePage.seo?.title ?? "Somm",
     description:
-      homePage?.seo?.description ??
+      homePage.seo?.description ??
       "Vefverslun með sérvalin vín frá birgjum með góð tengsl við framleiðendur",
     metadataBase: new URL(`https://${env.NEXT_PUBLIC_VERCEL_URL}`),
   };
