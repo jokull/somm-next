@@ -47,10 +47,10 @@ export default async function Page() {
               >
                 <DatoImage
                   data={post.image.responsiveImage}
-                  className="overflow-hidden rounded-md shadow-lg"
+                  className="shrink-0 overflow-hidden rounded-md shadow-lg"
                 />
                 <div>
-                  <div>{post.title}</div>
+                  <div className="text-xl">{post.title}</div>
                   <time
                     suppressHydrationWarning
                     className="text-sm text-neutral-500"
@@ -62,7 +62,7 @@ export default async function Page() {
                       timeStyle: undefined,
                     })}
                   </time>
-                  <p className="line-clamp-2 text-sm font-light">
+                  <p className="line-clamp-4 text-sm font-light">
                     {post.excerpt}
                   </p>
                 </div>

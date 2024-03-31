@@ -63,12 +63,12 @@ export default async function RootLayout({
         <body className={`${ppeditorial.variable} bg-white font-serif`}>
           <div className="relative mx-auto max-w-7xl">
             <div className="flex min-h-screen flex-col px-4 py-8">
-              <div className="mb-8 flex flex-row items-center justify-between gap-4 lg:my-12">
+              <div className="mb-6 flex flex-row items-center justify-between gap-4">
                 <div></div>
                 <Link href="/">
                   <div className="relative">
                     <div className="">
-                      <img
+                      <Image
                         src="/somm-logo.svg"
                         width="214"
                         height="44"

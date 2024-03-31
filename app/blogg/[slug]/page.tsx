@@ -47,12 +47,17 @@ export default async function Page({ params }: Props) {
             suppressHydrationWarning
             className="font-light text-neutral-500"
           >
-            {new Date(`${post.date}T00:00:00`).toLocaleDateString()}
+            {new Date(`${post.date}T00:00:00`).toLocaleString("is-IS", {
+              month: "long",
+              day: "numeric",
+              year: "numeric",
+              timeStyle: undefined,
+            })}
           </time>
           <p className="w-full text-xl">{post.excerpt}</p>
         </div>
       </div>
-      <div className="mx-auto max-w-2xl text-lg [&_p]:mb-4 [&_p]:font-light">
+      <div className="mx-auto max-w-xl text-lg @container [&_.embed]:my-12 [&_p]:mb-4 [&_p]:font-light">
         <PostContent field={post.content} />
       </div>
     </div>

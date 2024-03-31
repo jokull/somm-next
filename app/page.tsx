@@ -19,24 +19,27 @@ async function Post({
   post: NonNullable<HomePageQuery["homePage"]>["post"];
 }) {
   const products = await getProducts(post.content.blocks);
+  const date = new Date(`${post.date}T00:00:00`);
   return (
     <div className="mb-8">
       <div className="md:hidden">
         <div className="text-light text-center text-sm text-neutral-500">
           Kynning
         </div>
-        <h1 className="text-center text-2xl">{post.title}</h1>
+        <h1 className="text-center text-2xl">
+          <Link href={`/blogg/${post.slug}`}>{post.title}</Link>
+        </h1>
       </div>
       <div className="mx-auto my-8 grid grid-cols-[auto,1fr] gap-4 md:max-w-3xl md:gap-8">
-        <div className="max-w-32 sm:max-w-none">
+        <Link href={`/blogg/${post.slug}`} className="max-w-32 sm:max-w-none">
           <DatoImage
             data={post.image.responsiveImage}
             className="overflow-hidden rounded-md shadow-xl"
           />
-        </div>
+        </Link>
         <div className="flex flex-col">
           <h1 className="mb-0.5 hidden text-4xl md:mb-2 md:block">
-            {post.title}
+            <Link href={`/blogg/${post.slug}`}>{post.title}</Link>
           </h1>
           <p className="mb-4 grow text-xs sm:text-sm">{post.excerpt}</p>
           <div className="flex justify-between text-sm">
@@ -44,7 +47,19 @@ async function Post({
               suppressHydrationWarning
               className="font-light text-neutral-500"
             >
-              {new Date(`${post.date}T00:00:00`).toLocaleDateString()}
+              {date
+                .toLocaleDateString("is-IS", {
+                  timeStyle: undefined,
+                  dateStyle: "full",
+                })
+                .charAt(0)
+                .toLocaleUpperCase() +
+                date
+                  .toLocaleDateString("is-IS", {
+                    timeStyle: undefined,
+                    dateStyle: "full",
+                  })
+                  .slice(1)}
             </time>
             <Link className="text-[blue]" href={`/blogg/${post.slug}`}>
               Lesa meira

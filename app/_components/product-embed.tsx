@@ -1,9 +1,11 @@
 import Link from "next/link";
+import { z } from "zod";
 
 import { getVendorFromName } from "~/lib/commerce";
 import { type ProductFieldsFragment } from "~/storefront";
 
 import { AddToCart } from "./add-to-cart";
+import { WineTypeDot } from "./wine-type-dot";
 
 export function ProductEmbed({ product }: { product: ProductFieldsFragment }) {
   const id = product.id.split("/").at(-1) ?? "";
@@ -19,46 +21,56 @@ export function ProductEmbed({ product }: { product: ProductFieldsFragment }) {
     ? Number.parseInt(defaultVariant.price.amount)
     : undefined;
 
+  const thruga = z
+    .array(z.string())
+    .catch([])
+    .parse(JSON.parse(product.thruga?.value ?? "[]"));
+
   return (
-    <div className="flex w-full gap-4">
-      <Link href={`/${vendor.slug}/${id}`} className="max-w-24">
-        {variant?.image && (
-          <div className="overflow-hidden rounded-md shadow-xl">
-            <img
-              src={variant.image.url}
-              width={variant.image.width ?? undefined}
-              height={variant.image.height ?? undefined}
-              className="aspect-[3/4] object-cover"
-              loading="lazy"
-              alt="Product"
-            />
-          </div>
-        )}
-      </Link>
-      <div className="flex w-full flex-col justify-between gap-1 md:gap-1.5">
+    <div className="embed relative flex items-stretch gap-4 overflow-hidden rounded-md bg-gradient-to-tr from-neutral-50 to-neutral-200 p-px @container">
+      <div className="absolute right-20 top-3.5 z-20 hidden items-center gap-1.5 rounded-full bg-white px-2 py-1 font-sans text-xs leading-none text-neutral-600 shadow-sm @sm:inline-flex">
+        <WineTypeDot wineType={product.wineType?.value ?? ""} />
+        {thruga}
+      </div>
+      <div className="flex w-full flex-col justify-between gap-1 py-3 pl-3 md:gap-1.5">
         <div>
           <Link
             href={`/${vendor.slug}/${id}`}
-            className="min-w-0 max-w-full grow-[2] truncate sm:max-w-none"
+            className="min-w-0 truncate sm:max-w-none"
           >
             {product.title}
           </Link>
-          <div className="text-sm italic text-neutral-500">
+          <div className="text-xs italic text-neutral-500">
             {product.framleidandi?.value ?? ""}
           </div>
         </div>
         <div>
           {price ? (
-            <div className="text-xs">
+            <div className="text-sm">
               {new Intl.NumberFormat("de-DE", {
                 maximumFractionDigits: 0,
               }).format(price)}
               kr
             </div>
           ) : null}
-          {defaultVariant ? <AddToCart variant={defaultVariant} /> : null}
         </div>
+        {defaultVariant ? <AddToCart variant={defaultVariant} /> : null}
       </div>
+      <Link
+        href={`/${vendor.slug}/${id}`}
+        className="relative w-24 flex-shrink-0 overflow-hidden rounded-md"
+      >
+        {variant?.image && (
+          <img
+            src={variant.image.url}
+            width={variant.image.width ?? undefined}
+            height={variant.image.height ?? undefined}
+            className="h-full w-full object-cover"
+            loading="lazy"
+            alt="Product"
+          />
+        )}
+      </Link>
     </div>
   );
 }
