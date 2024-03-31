@@ -14,7 +14,7 @@ Contextualizes data based on the additional information provided by the directiv
 """
 directive @inContext(
   """The buyer's identity."""
-  buyer: BuyerIdentityInput
+  buyer: BuyerInput
 
   """The country code for context. For example, `CA`."""
   country: CountryCode
@@ -535,11 +535,13 @@ type BrandColors {
 }
 
 "The input fields for obtaining the buyer's identity.\n"
-input BuyerIdentityInput {
+input BuyerInput {
   """The identifier of the company location."""
   companyLocationId: ID
 
-  """The customer access token."""
+  """
+  The storefront customer access token retrieved from the [Customer Accounts API](https://shopify.dev/docs/api/customer/reference/mutations/storefrontCustomerAccessTokenCreate).
+  """
   customerAccessToken: String!
 }
 

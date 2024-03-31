@@ -1,7 +1,6 @@
 "use client";
 
 import { PopoverClose } from "@radix-ui/react-popover";
-import { Portal } from "@radix-ui/react-portal";
 import { useState } from "react";
 import { useQuery } from "urql";
 
@@ -36,7 +35,9 @@ function Button({
   return (
     <span className="flex items-center justify-center gap-2 rounded-md bg-neutral-900 px-3 py-2 text-sm font-medium text-white">
       Karfa
-      {totalQuantity > 0 ? <span>{totalQuantity}</span> : null}
+      {totalQuantity > 0 ? (
+        <span className="text-neutral-500">{totalQuantity}</span>
+      ) : null}
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
@@ -75,15 +76,17 @@ export function Cart({ cart: serverCart }: { cart?: CartType }) {
       <nav className="fixed right-4 top-3 z-20">
         <div className="sm:hidden">
           <Drawer>
-            <Portal className="fixed inset-x-0 bottom-0 z-30 w-full p-4">
+            <div className="fixed inset-x-0 bottom-0 z-30 w-full p-4">
               <DrawerTrigger className="block w-full rounded-md bg-neutral-900 px-4 py-3 text-lg font-medium text-white shadow-xl sm:hidden">
                 <span>
                   Karfa{" "}
-                  {totalQuantity > 0 ? <span>{totalQuantity}</span> : null}
+                  {totalQuantity > 0 ? (
+                    <span className="text-neutral-500">{totalQuantity}</span>
+                  ) : null}
                 </span>
               </DrawerTrigger>
-            </Portal>
-            <DrawerContent>
+            </div>
+            <DrawerContent className="font-sans">
               <DrawerHeader>
                 <DrawerTitle>Karfan þín</DrawerTitle>
               </DrawerHeader>
@@ -92,7 +95,7 @@ export function Cart({ cart: serverCart }: { cart?: CartType }) {
               </div>
               <DrawerFooter>
                 <CartFooter cart={cart}>
-                  <DrawerClose>
+                  <DrawerClose asChild>
                     <button>Loka</button>
                   </DrawerClose>
                 </CartFooter>

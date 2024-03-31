@@ -554,10 +554,10 @@ export type BrandColors = {
  * The input fields for obtaining the buyer's identity.
  *
  */
-export type BuyerIdentityInput = {
+export type BuyerInput = {
   /** The identifier of the company location. */
   companyLocationId?: InputMaybe<Scalars['ID']['input']>;
-  /** The customer access token. */
+  /** The storefront customer access token retrieved from the [Customer Accounts API](https://shopify.dev/docs/api/customer/reference/mutations/storefrontCustomerAccessTokenCreate). */
   customerAccessToken: Scalars['String']['input'];
 };
 

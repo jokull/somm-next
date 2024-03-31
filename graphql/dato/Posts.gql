@@ -1,0 +1,34 @@
+query Posts {
+  allPosts {
+    id
+    slug
+    title
+    date
+    content {
+      __typename
+      links
+      blocks {
+        __typename
+        id
+        ... on ProductRecord {
+          shopifyProductId
+        }
+      }
+      value
+    }
+    image {
+      responsiveImage(imgixParams: { w: 480, h: 480 }) {
+        width
+        height
+        src
+        alt
+      }
+    }
+    _status
+    _firstPublishedAt
+  }
+
+  _allPostsMeta {
+    count
+  }
+}

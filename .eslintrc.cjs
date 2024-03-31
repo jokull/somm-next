@@ -130,5 +130,5 @@ module.exports = {
       version: "18.2.0",
     },
   },
-  ignorePatterns: ["lib/gql"],
+  ignorePatterns: ["lib/gql", "dato.ts", "shopify.ts", "graphql.config.ts"],
 };

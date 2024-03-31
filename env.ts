@@ -10,6 +10,7 @@ export const env = createEnv({
   client: {
     NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN: z.string().min(1),
     NEXT_PUBLIC_VERCEL_URL: z.string().min(1),
+    NEXT_PUBLIC_DATOCMS_API_TOKEN: z.string().min(1),
   },
 
   /*
@@ -50,5 +51,6 @@ export const env = createEnv({
       process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN,
     HUBSPOT_API_TOKEN: process.env.HUBSPOT_API_TOKEN,
     HUBSPOT_SUBSCRIPTION_ID: process.env.HUBSPOT_SUBSCRIPTION_ID,
+    NEXT_PUBLIC_DATOCMS_API_TOKEN: process.env.NEXT_PUBLIC_DATOCMS_API_TOKEN,
   },
 });
