@@ -30,7 +30,7 @@ export default async function Page({
   searchParams,
 }: Props) {
   const wineType = getFirstSearchParam(searchParams, "wineType");
-  const vendorName = getVendorFromSlug(vendor)?.name ?? "";
+  const vendorName = getVendorFromSlug(vendor)?.shopifyVendor ?? "";
   const { collection } = await shopify.Products({
     filters: [
       {
@@ -48,7 +48,7 @@ export default async function Page({
     ].filter(Boolean),
   });
   const products = collection?.products;
-  if (!products) {
+  if (!products?.edges.length) {
     return "Engar vörur";
   }
   return <ProductsGrid products={products} />;
