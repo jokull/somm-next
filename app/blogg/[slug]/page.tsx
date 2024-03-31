@@ -43,7 +43,10 @@ export default async function Page({ params }: Props) {
         </div>
         <div className="flex flex-col items-center justify-center gap-4 sm:items-stretch">
           <h1 className="text-3xl sm:text-5xl">{post.title}</h1>
-          <time suppressHydrationWarning className="font-thin text-neutral-500">
+          <time
+            suppressHydrationWarning
+            className="font-light text-neutral-500"
+          >
             {new Date(`${post.date}T00:00:00`).toLocaleDateString()}
           </time>
           <p className="w-full text-xl">{post.excerpt}</p>

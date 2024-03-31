@@ -49,9 +49,14 @@ export function Navigation({ vendors }: { vendors: Vendor[] }) {
               vendor && vendor.slug === slug && "underline",
             )}
           >
-            <a href={`/${slug}`}>{name}</a>
+            <Link href={`/${slug}`}>{name}</Link>
           </li>
         ))}
+        <li className={vendorSlug === "blogg" ? "underline" : ""}>
+          <Link href="/blogg" className="italic text-neutral-950">
+            Blogg
+          </Link>
+        </li>
       </ul>
       {segments.length === 0 ? (
         <ul className="mb-4 flex w-full flex-wrap justify-center gap-x-2 sm:gap-4 lg:w-auto">

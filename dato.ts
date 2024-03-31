@@ -2611,33 +2611,23 @@ export const PostDocument = gql`
   }
 `;
 export const PostsDocument = gql`
-  query Posts {
-    allPosts {
+  query Posts($skip: IntType) {
+    allPosts(first: 100, skip: $skip) {
       id
       slug
       title
       date
       excerpt
-      content {
-        __typename
-        blocks {
-          __typename
-          id
-          ... on ProductRecord {
-            shopifyProductId
-          }
-        }
-      }
       image {
-        responsiveImage(imgixParams: { w: 320, h: 320 }) {
+        responsiveImage(
+          imgixParams: { w: 120, h: 120, fit: crop, crop: focalpoint }
+        ) {
           width
           height
           src
           alt
         }
       }
-      _status
-      _firstPublishedAt
     }
     _allPostsMeta {
       count
@@ -2786,7 +2776,9 @@ export type PostQuery = {
   } | null;
 };
 
-export type PostsQueryVariables = Exact<{ [key: string]: never }>;
+export type PostsQueryVariables = Exact<{
+  skip?: InputMaybe<Scalars["IntType"]["input"]>;
+}>;
 
 export type PostsQuery = {
   __typename?: "Query";
@@ -2797,16 +2789,6 @@ export type PostsQuery = {
     title: string;
     date: string;
     excerpt: string;
-    _status: ItemStatus;
-    _firstPublishedAt?: string | null;
-    content: {
-      __typename: "PostModelContentField";
-      blocks: Array<{
-        __typename: "ProductRecord";
-        shopifyProductId: string;
-        id: string;
-      }>;
-    };
     image: {
       __typename?: "ImageFileField";
       responsiveImage: {

@@ -1,30 +1,20 @@
-query Posts {
-  allPosts {
+query Posts($skip: IntType) {
+  allPosts(first: 100, skip: $skip) {
     id
     slug
     title
     date
     excerpt
-    content {
-      __typename
-      blocks {
-        __typename
-        id
-        ... on ProductRecord {
-          shopifyProductId
-        }
-      }
-    }
     image {
-      responsiveImage(imgixParams: { w: 320, h: 320 }) {
+      responsiveImage(
+        imgixParams: { w: 120, h: 120, fit: crop, crop: focalpoint }
+      ) {
         width
         height
         src
         alt
       }
     }
-    _status
-    _firstPublishedAt
   }
 
   _allPostsMeta {
