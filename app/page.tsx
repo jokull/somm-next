@@ -11,30 +11,8 @@ import { ProductsGrid } from "./_components/products-grid";
 
 export const runtime = "edge";
 
-export default async function Page({
-  searchParams,
-}: {
-  searchParams: SearchParams;
-}) {
+async function Posts() {
   const posts = await dato.Posts();
-  const wineType = getFirstSearchParam(searchParams, "wineType");
-  const { collection } = await shopify.Products({
-    filters: wineType
-      ? [
-          {
-            productMetafield: {
-              namespace: "custom",
-              key: "wine_type",
-              value: wineType,
-            },
-          },
-        ]
-      : {},
-  });
-  const products = collection?.products;
-  if (!products) {
-    return "Empty";
-  }
   return (
     <div>
       {posts.allPosts.map(({ id, slug, title, content, image, date }) => (
@@ -68,6 +46,36 @@ export default async function Page({
           <hr className="mx-auto my-8 h-px w-1/3 bg-neutral-400" />
         </Fragment>
       ))}
+    </div>
+  );
+}
+
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: SearchParams;
+}) {
+  const wineType = getFirstSearchParam(searchParams, "wineType");
+  const { collection } = await shopify.Products({
+    filters: wineType
+      ? [
+          {
+            productMetafield: {
+              namespace: "custom",
+              key: "wine_type",
+              value: wineType,
+            },
+          },
+        ]
+      : {},
+  });
+  const products = collection?.products;
+  if (!products) {
+    return "Empty";
+  }
+  return (
+    <div>
+      {!wineType ? <Posts /> : null}
       <ProductsGrid products={products} />
     </div>
   );
