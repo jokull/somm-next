@@ -1,12 +1,12 @@
-query Posts {
-  allPosts {
+query Post($id: ItemId!) {
+  post(filter: { id: { eq: $id } }) {
     id
     slug
     title
     date
-    excerpt
     content {
       __typename
+      links
       blocks {
         __typename
         id
@@ -14,9 +14,10 @@ query Posts {
           shopifyProductId
         }
       }
+      value
     }
     image {
-      responsiveImage(imgixParams: { w: 320, h: 320 }) {
+      responsiveImage(imgixParams: { w: 640, h: 640 }) {
         width
         height
         src
@@ -25,9 +26,5 @@ query Posts {
     }
     _status
     _firstPublishedAt
-  }
-
-  _allPostsMeta {
-    count
   }
 }

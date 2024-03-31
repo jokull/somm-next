@@ -5,3 +5,12 @@ query Products($after: String, $filters: [ProductFilter!]) {
     }
   }
 }
+
+query ProductsByIds($ids: [ID!]!) {
+  nodes(ids: $ids) {
+    ... on Product {
+      __typename
+      ...ProductFields
+    }
+  }
+}

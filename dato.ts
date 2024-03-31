@@ -1792,6 +1792,7 @@ export type PostModelFilter = {
   _updatedAt?: InputMaybe<UpdatedAtFilter>;
   content?: InputMaybe<StructuredTextFilter>;
   date?: InputMaybe<DateFilter>;
+  excerpt?: InputMaybe<StringFilter>;
   id?: InputMaybe<ItemIdFilter>;
   image?: InputMaybe<FileFilter>;
   slug?: InputMaybe<SlugFilter>;
@@ -1817,6 +1818,8 @@ export type PostModelOrderBy =
   | "_updatedAt_DESC"
   | "date_ASC"
   | "date_DESC"
+  | "excerpt_ASC"
+  | "excerpt_DESC"
   | "id_ASC"
   | "id_DESC"
   | "title_ASC"
@@ -1840,6 +1843,7 @@ export type PostRecord = RecordInterface & {
   _updatedAt: Scalars["DateTime"]["output"];
   content: PostModelContentField;
   date: Scalars["Date"]["output"];
+  excerpt: Scalars["String"]["output"];
   id: Scalars["ItemId"]["output"];
   image: ImageFileField;
   slug: Scalars["String"]["output"];
@@ -2539,9 +2543,9 @@ export const HomePageDocument = gql`
     }
   }
 `;
-export const PostsDocument = gql`
-  query Posts {
-    allPosts {
+export const PostDocument = gql`
+  query Post($id: ItemId!) {
+    post(filter: { id: { eq: $id } }) {
       id
       slug
       title
@@ -2559,7 +2563,38 @@ export const PostsDocument = gql`
         value
       }
       image {
-        responsiveImage(imgixParams: { w: 480, h: 480 }) {
+        responsiveImage(imgixParams: { w: 640, h: 640 }) {
+          width
+          height
+          src
+          alt
+        }
+      }
+      _status
+      _firstPublishedAt
+    }
+  }
+`;
+export const PostsDocument = gql`
+  query Posts {
+    allPosts {
+      id
+      slug
+      title
+      date
+      excerpt
+      content {
+        __typename
+        blocks {
+          __typename
+          id
+          ... on ProductRecord {
+            shopifyProductId
+          }
+        }
+      }
+      image {
+        responsiveImage(imgixParams: { w: 320, h: 320 }) {
           width
           height
           src
@@ -2590,6 +2625,13 @@ export function getSdk<C>(requester: Requester<C>) {
         variables,
         options,
       ) as Promise<HomePageQuery>;
+    },
+    Post(variables: PostQueryVariables, options?: C): Promise<PostQuery> {
+      return requester<PostQuery, PostQueryVariables>(
+        PostDocument,
+        variables,
+        options,
+      ) as Promise<PostQuery>;
     },
     Posts(variables?: PostsQueryVariables, options?: C): Promise<PostsQuery> {
       return requester<PostsQuery, PostsQueryVariables>(
@@ -2637,11 +2679,13 @@ export type HomePageQuery = {
   } | null;
 };
 
-export type PostsQueryVariables = Exact<{ [key: string]: never }>;
+export type PostQueryVariables = Exact<{
+  id: Scalars["ItemId"]["input"];
+}>;
 
-export type PostsQuery = {
+export type PostQuery = {
   __typename?: "Query";
-  allPosts: Array<{
+  post?: {
     __typename?: "PostRecord";
     id: string;
     slug: string;
@@ -2653,6 +2697,40 @@ export type PostsQuery = {
       __typename: "PostModelContentField";
       links: Array<string>;
       value: StructuredTextScalar;
+      blocks: Array<{
+        __typename: "ProductRecord";
+        shopifyProductId: string;
+        id: string;
+      }>;
+    };
+    image: {
+      __typename?: "ImageFileField";
+      responsiveImage: {
+        __typename?: "ResponsiveImage";
+        width: number;
+        height: number;
+        src: string;
+        alt?: string | null;
+      };
+    };
+  } | null;
+};
+
+export type PostsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type PostsQuery = {
+  __typename?: "Query";
+  allPosts: Array<{
+    __typename?: "PostRecord";
+    id: string;
+    slug: string;
+    title: string;
+    date: string;
+    excerpt: string;
+    _status: ItemStatus;
+    _firstPublishedAt?: string | null;
+    content: {
+      __typename: "PostModelContentField";
       blocks: Array<{
         __typename: "ProductRecord";
         shopifyProductId: string;

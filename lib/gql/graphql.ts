@@ -8448,6 +8448,13 @@ export type ProductsQueryVariables = Exact<{
 
 export type ProductsQuery = { __typename: 'QueryRoot', collection?: { __typename: 'Collection', products: { __typename: 'ProductConnection', edges: Array<{ __typename: 'ProductEdge', cursor: string, node: { __typename: 'Product', id: string, handle: string, title: string, description: string, availableForSale: boolean, totalInventory?: number | null, vendor: string, thruga?: { __typename: 'Metafield', value: string, type: string } | null, country?: { __typename: 'Metafield', value: string, type: string } | null, region?: { __typename: 'Metafield', value: string, type: string } | null, wineType?: { __typename: 'Metafield', value: string, type: string } | null, framleidandi?: { __typename: 'Metafield', value: string, type: string } | null, raektun?: { __typename: 'Metafield', value: string, type: string } | null, abv?: { __typename: 'Metafield', value: string, type: string } | null, magn?: { __typename: 'Metafield', value: string, type: string } | null, variants: { __typename: 'ProductVariantConnection', edges: Array<{ __typename: 'ProductVariantEdge', node: { __typename: 'ProductVariant', id: string, title: string, availableForSale: boolean, image?: { __typename: 'Image', id?: string | null, url: any, altText?: string | null, width?: number | null, height?: number | null } | null, price: { __typename: 'MoneyV2', amount: any, currencyCode: CurrencyCode }, compareAtPrice?: { __typename: 'MoneyV2', amount: any, currencyCode: CurrencyCode } | null } }> } } }>, pageInfo: { __typename: 'PageInfo', hasNextPage: boolean } } } | null };
 
+export type ProductsByIdsQueryVariables = Exact<{
+  ids: Array<Scalars['ID']['input']> | Scalars['ID']['input'];
+}>;
+
+
+export type ProductsByIdsQuery = { __typename: 'QueryRoot', nodes: Array<{ __typename: 'AppliedGiftCard' } | { __typename: 'Article' } | { __typename: 'Blog' } | { __typename: 'Cart' } | { __typename: 'CartLine' } | { __typename: 'Checkout' } | { __typename: 'CheckoutLineItem' } | { __typename: 'Collection' } | { __typename: 'Comment' } | { __typename: 'Company' } | { __typename: 'CompanyContact' } | { __typename: 'CompanyLocation' } | { __typename: 'ComponentizableCartLine' } | { __typename: 'ExternalVideo' } | { __typename: 'GenericFile' } | { __typename: 'Location' } | { __typename: 'MailingAddress' } | { __typename: 'Market' } | { __typename: 'MediaImage' } | { __typename: 'MediaPresentation' } | { __typename: 'Menu' } | { __typename: 'MenuItem' } | { __typename: 'Metafield' } | { __typename: 'Metaobject' } | { __typename: 'Model3d' } | { __typename: 'Order' } | { __typename: 'Page' } | { __typename: 'Payment' } | { __typename: 'Product', id: string, handle: string, title: string, description: string, availableForSale: boolean, totalInventory?: number | null, vendor: string, thruga?: { __typename: 'Metafield', value: string, type: string } | null, country?: { __typename: 'Metafield', value: string, type: string } | null, region?: { __typename: 'Metafield', value: string, type: string } | null, wineType?: { __typename: 'Metafield', value: string, type: string } | null, framleidandi?: { __typename: 'Metafield', value: string, type: string } | null, raektun?: { __typename: 'Metafield', value: string, type: string } | null, abv?: { __typename: 'Metafield', value: string, type: string } | null, magn?: { __typename: 'Metafield', value: string, type: string } | null, variants: { __typename: 'ProductVariantConnection', edges: Array<{ __typename: 'ProductVariantEdge', node: { __typename: 'ProductVariant', id: string, title: string, availableForSale: boolean, image?: { __typename: 'Image', id?: string | null, url: any, altText?: string | null, width?: number | null, height?: number | null } | null, price: { __typename: 'MoneyV2', amount: any, currencyCode: CurrencyCode }, compareAtPrice?: { __typename: 'MoneyV2', amount: any, currencyCode: CurrencyCode } | null } }> } } | { __typename: 'ProductOption' } | { __typename: 'ProductVariant' } | { __typename: 'Shop' } | { __typename: 'ShopPolicy' } | { __typename: 'UrlRedirect' } | { __typename: 'Video' } | null> };
+
 export type VariantFieldsFragment = { __typename: 'ProductVariant', id: string, title: string, availableForSale: boolean, image?: { __typename: 'Image', id?: string | null, url: any, altText?: string | null, width?: number | null, height?: number | null } | null, price: { __typename: 'MoneyV2', amount: any, currencyCode: CurrencyCode }, compareAtPrice?: { __typename: 'MoneyV2', amount: any, currencyCode: CurrencyCode } | null };
 
 export class TypedDocumentString<TResult, TVariables>
@@ -9492,3 +9499,98 @@ fragment VariantFields on ProductVariant {
     currencyCode
   }
 }`, {"hash":"ffaa42c31056c87ac54ba439a34379281486f1e6"}) as unknown as TypedDocumentString<ProductsQuery, ProductsQueryVariables>;
+export const ProductsByIdsDocument = new TypedDocumentString(`
+    query ProductsByIds($ids: [ID!]!) {
+  __typename
+  nodes(ids: $ids) {
+    __typename
+    ... on Product {
+      __typename
+      ...ProductFields
+    }
+  }
+}
+    fragment ProductFields on Product {
+  __typename
+  id
+  handle
+  title
+  description
+  availableForSale
+  totalInventory
+  vendor
+  thruga: metafield(namespace: "custom", key: "thruga") {
+    __typename
+    value
+    type
+  }
+  country: metafield(namespace: "custom", key: "country") {
+    __typename
+    value
+    type
+  }
+  region: metafield(namespace: "custom", key: "region") {
+    __typename
+    value
+    type
+  }
+  wineType: metafield(namespace: "custom", key: "wine_type") {
+    __typename
+    value
+    type
+  }
+  framleidandi: metafield(namespace: "custom", key: "framleidandi") {
+    __typename
+    value
+    type
+  }
+  raektun: metafield(namespace: "custom", key: "raektun") {
+    __typename
+    value
+    type
+  }
+  abv: metafield(namespace: "custom", key: "abv") {
+    __typename
+    value
+    type
+  }
+  magn: metafield(namespace: "custom", key: "magn") {
+    __typename
+    value
+    type
+  }
+  variants(first: 10) {
+    __typename
+    edges {
+      __typename
+      node {
+        __typename
+        ...VariantFields
+      }
+    }
+  }
+}
+fragment VariantFields on ProductVariant {
+  __typename
+  id
+  title
+  availableForSale
+  image {
+    __typename
+    id
+    url(transform: {maxHeight: 1200, maxWidth: 1200, scale: 2})
+    altText
+    width
+    height
+  }
+  price {
+    __typename
+    amount
+    currencyCode
+  }
+  compareAtPrice {
+    __typename
+    amount
+    currencyCode
+  }
+}`, {"hash":"7a3028fa28f420d2a6075b6e7ee330cf28872821"}) as unknown as TypedDocumentString<ProductsByIdsQuery, ProductsByIdsQueryVariables>;

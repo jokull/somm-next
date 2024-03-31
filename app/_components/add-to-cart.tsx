@@ -1,3 +1,5 @@
+"use client";
+
 import { useRouter } from "next/navigation";
 import { useContext, useTransition } from "react";
 import { useQuery } from "urql";
@@ -26,7 +28,7 @@ export function AddToCart({ variant }: { variant: VariantFieldsFragment }) {
   const [pending, startTransition] = useTransition();
 
   return (
-    <div className="flex justify-between gap-2">
+    <div>
       {cartLine && cart ? (
         <div>
           <ItemQuantity

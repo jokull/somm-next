@@ -2108,6 +2108,7 @@ input PostModelFilter {
   _updatedAt: UpdatedAtFilter
   content: StructuredTextFilter
   date: DateFilter
+  excerpt: StringFilter
   id: ItemIdFilter
   image: FileFilter
   slug: SlugFilter
@@ -2133,6 +2134,8 @@ enum PostModelOrderBy {
   _updatedAt_DESC
   date_ASC
   date_DESC
+  excerpt_ASC
+  excerpt_DESC
   id_ASC
   id_DESC
   title_ASC
@@ -2161,6 +2164,7 @@ type PostRecord implements RecordInterface {
   _updatedAt: DateTime!
   content: PostModelContentField!
   date: Date!
+  excerpt: String!
   id: ItemId!
   image: ImageFileField!
   slug: String!

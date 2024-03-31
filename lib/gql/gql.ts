@@ -20,7 +20,7 @@ const documents = {
     "fragment PaginatedProductList on ProductConnection {\n  edges {\n    node {\n      ...ProductFields\n    }\n    cursor\n  }\n  pageInfo {\n    hasNextPage\n  }\n}": types.PaginatedProductListFragmentDoc,
     "query Product($id: ID!) {\n  product(id: $id) {\n    ...ProductFields\n    seo {\n      title\n      description\n    }\n  }\n}": types.ProductDocument,
     "fragment ProductFields on Product {\n  id\n  handle\n  title\n  description\n  availableForSale\n  totalInventory\n  vendor\n  thruga: metafield(namespace: \"custom\", key: \"thruga\") {\n    value\n    type\n  }\n  country: metafield(namespace: \"custom\", key: \"country\") {\n    value\n    type\n  }\n  region: metafield(namespace: \"custom\", key: \"region\") {\n    value\n    type\n  }\n  wineType: metafield(namespace: \"custom\", key: \"wine_type\") {\n    value\n    type\n  }\n  framleidandi: metafield(namespace: \"custom\", key: \"framleidandi\") {\n    value\n    type\n  }\n  raektun: metafield(namespace: \"custom\", key: \"raektun\") {\n    value\n    type\n  }\n  abv: metafield(namespace: \"custom\", key: \"abv\") {\n    value\n    type\n  }\n  magn: metafield(namespace: \"custom\", key: \"magn\") {\n    value\n    type\n  }\n  variants(first: 10) {\n    edges {\n      node {\n        ...VariantFields\n      }\n    }\n  }\n}": types.ProductFieldsFragmentDoc,
-    "query Products($after: String, $filters: [ProductFilter!]) {\n  collection(handle: \"in-stock\") {\n    products(first: 100, after: $after, filters: $filters) {\n      ...PaginatedProductList\n    }\n  }\n}": types.ProductsDocument,
+    "query Products($after: String, $filters: [ProductFilter!]) {\n  collection(handle: \"in-stock\") {\n    products(first: 100, after: $after, filters: $filters) {\n      ...PaginatedProductList\n    }\n  }\n}\n\nquery ProductsByIds($ids: [ID!]!) {\n  nodes(ids: $ids) {\n    ... on Product {\n      __typename\n      ...ProductFields\n    }\n  }\n}": types.ProductsDocument,
     "fragment VariantFields on ProductVariant {\n  __typename\n  id\n  title\n  availableForSale\n  image {\n    __typename\n    id\n    url(transform: {maxHeight: 1200, maxWidth: 1200, scale: 2})\n    altText\n    width\n    height\n  }\n  price {\n    __typename\n    amount\n    currencyCode\n  }\n  compareAtPrice {\n    __typename\n    amount\n    currencyCode\n  }\n}": types.VariantFieldsFragmentDoc,
 };
 
@@ -51,7 +51,7 @@ export function graphql(source: "fragment ProductFields on Product {\n  id\n  ha
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "query Products($after: String, $filters: [ProductFilter!]) {\n  collection(handle: \"in-stock\") {\n    products(first: 100, after: $after, filters: $filters) {\n      ...PaginatedProductList\n    }\n  }\n}"): typeof import('./graphql').ProductsDocument;
+export function graphql(source: "query Products($after: String, $filters: [ProductFilter!]) {\n  collection(handle: \"in-stock\") {\n    products(first: 100, after: $after, filters: $filters) {\n      ...PaginatedProductList\n    }\n  }\n}\n\nquery ProductsByIds($ids: [ID!]!) {\n  nodes(ids: $ids) {\n    ... on Product {\n      __typename\n      ...ProductFields\n    }\n  }\n}"): typeof import('./graphql').ProductsDocument;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
