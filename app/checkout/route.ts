@@ -7,6 +7,8 @@ import { getSession } from "~/lib/cart";
 import { shopify } from "~/lib/shopify";
 import { type CountryCode } from "~/storefront";
 
+export const runtime = "edge";
+
 interface DokobitSession {
   status: string;
   session_token: string;
