@@ -62,7 +62,11 @@ export default async function ProductComponent({
     .array(z.string())
     .catch([])
     .parse(JSON.parse(product.thruga?.value ?? "[]"));
-  const vendor = getVendorFromName(params.vendor);
+  const vendor = getVendorFromSlug(params.vendor);
+
+  if (!vendor) {
+    notFound();
+  }
 
   return (
     <div className="flex flex-col gap-4 sm:flex-row sm:gap-8">
