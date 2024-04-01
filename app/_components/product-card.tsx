@@ -73,7 +73,7 @@ export function ProductCard({ product }: { product: ProductFieldsFragment }) {
             {product.framleidandi?.value ?? ""}
           </div>
         </div>
-        <VariantToCart product={product} />
+        <VariantToCart key={product.id} product={product} />
       </div>
     </div>
   );

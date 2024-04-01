@@ -78,7 +78,6 @@ async function Post({
           <ProductEmbed key={product.id} product={product} />
         ))}
       </div>
-      {/* <hr className="mx-auto my-12 h-px w-1/3 bg-neutral-400" /> */}
     </div>
   );
 }
@@ -119,7 +118,7 @@ export default async function Page({
       {products ? (
         <div className="mt-12">
           <div className="my-8 text-center text-sm italic">Vínin</div>
-          <ProductsGrid products={products} />
+          <ProductsGrid products={products} key={wineType} />
         </div>
       ) : null}
     </div>
