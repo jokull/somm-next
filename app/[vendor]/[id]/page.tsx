@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { z } from "zod";
 
 import { VendorName } from "~/app/_components/vendor-name";
-import { getVendorFromName, getVendorFromSlug } from "~/lib/commerce";
+import { getVendorFromSlug } from "~/lib/commerce";
 import { shopify, unwrap } from "~/lib/shopify";
 
 import { Variants } from "./_components/variants";
