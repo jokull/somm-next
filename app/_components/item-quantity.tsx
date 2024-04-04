@@ -7,7 +7,11 @@ export function ItemQuantity({
   quantity,
   id,
   cartId,
-}: Pick<CartLine, "quantity" | "id"> & { cartId: string }) {
+  productQuantityStep,
+}: Pick<CartLine, "quantity" | "id"> & {
+  cartId: string;
+  productQuantityStep: number;
+}) {
   const [{ fetching }, update] = useMutation(UpdateCartItemDocument.toString());
   return (
     <div className="nums flex items-center gap-2 whitespace-nowrap text-sm tabular-nums">
@@ -18,7 +22,7 @@ export function ItemQuantity({
           void update({
             cartId,
             lineItemId: id,
-            quantity: quantity - 1,
+            quantity: quantity - 1 * productQuantityStep,
           });
         }}
         className="h-6 w-6 rounded-full text-[blue]"
@@ -33,7 +37,7 @@ export function ItemQuantity({
           void update({
             cartId,
             lineItemId: id,
-            quantity: quantity + 1,
+            quantity: quantity + 1 * productQuantityStep,
           });
         }}
         className="h-6 w-6 rounded-full enabled:text-[blue] disabled:text-neutral-500"

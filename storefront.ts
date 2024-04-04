@@ -8354,6 +8354,7 @@ export type CartFieldsFragment = {
                 id: string;
                 title: string;
                 vendor: string;
+                productType: string;
               };
               image?: {
                 __typename: "Image";
@@ -8432,6 +8433,7 @@ export type GetCartQuery = {
                   id: string;
                   title: string;
                   vendor: string;
+                  productType: string;
                 };
                 image?: {
                   __typename: "Image";
@@ -8512,6 +8514,7 @@ export type RemoveCartItemMutation = {
                     id: string;
                     title: string;
                     vendor: string;
+                    productType: string;
                   };
                   image?: {
                     __typename: "Image";
@@ -8594,6 +8597,7 @@ export type UpdateCartItemMutation = {
                     id: string;
                     title: string;
                     vendor: string;
+                    productType: string;
                   };
                   image?: {
                     __typename: "Image";
@@ -8675,6 +8679,7 @@ export type AddCartItemMutation = {
                     id: string;
                     title: string;
                     vendor: string;
+                    productType: string;
                   };
                   image?: {
                     __typename: "Image";
@@ -8755,6 +8760,7 @@ export type CreateCartMutation = {
                     id: string;
                     title: string;
                     vendor: string;
+                    productType: string;
                   };
                   image?: {
                     __typename: "Image";
@@ -8819,6 +8825,7 @@ export type LineItemFieldsFragment = {
       id: string;
       title: string;
       vendor: string;
+      productType: string;
     };
     image?: {
       __typename: "Image";
@@ -8878,6 +8885,7 @@ export type PaginatedProductListFragment = {
       availableForSale: boolean;
       totalInventory?: number | null;
       vendor: string;
+      productType: string;
       thruga?: { __typename?: "Metafield"; value: string; type: string } | null;
       country?: {
         __typename?: "Metafield";
@@ -8956,6 +8964,7 @@ export type ProductQuery = {
     availableForSale: boolean;
     totalInventory?: number | null;
     vendor: string;
+    productType: string;
     seo: {
       __typename?: "SEO";
       title?: string | null;
@@ -9015,6 +9024,7 @@ export type ProductFieldsFragment = {
   availableForSale: boolean;
   totalInventory?: number | null;
   vendor: string;
+  productType: string;
   thruga?: { __typename?: "Metafield"; value: string; type: string } | null;
   country?: { __typename?: "Metafield"; value: string; type: string } | null;
   region?: { __typename?: "Metafield"; value: string; type: string } | null;
@@ -9084,6 +9094,7 @@ export type ProductsQuery = {
           availableForSale: boolean;
           totalInventory?: number | null;
           vendor: string;
+          productType: string;
           thruga?: {
             __typename?: "Metafield";
             value: string;
@@ -9205,6 +9216,7 @@ export type ProductsByIdsQuery = {
         availableForSale: boolean;
         totalInventory?: number | null;
         vendor: string;
+        productType: string;
         thruga?: {
           __typename?: "Metafield";
           value: string;
@@ -9324,6 +9336,7 @@ export const LineItemFieldsFragmentDoc = gql`
           id
           title
           vendor
+          productType
         }
         image {
           __typename
@@ -9412,6 +9425,7 @@ export const ProductFieldsFragmentDoc = gql`
     availableForSale
     totalInventory
     vendor
+    productType
     thruga: metafield(namespace: "custom", key: "thruga") {
       value
       type

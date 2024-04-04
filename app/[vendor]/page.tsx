@@ -29,22 +29,14 @@ export default async function Page({
   params: { vendor },
   searchParams,
 }: Props) {
-  const wineType = getFirstSearchParam(searchParams, "wineType");
+  const productType = getFirstSearchParam(searchParams, "tegund");
   const vendorName = getVendorFromSlug(vendor)?.shopifyVendor ?? "";
   const { collection } = await shopify.Products({
     filters: [
       {
         productVendor: vendorName,
       },
-      wineType
-        ? {
-            productMetafield: {
-              namespace: "custom",
-              key: "wine_type",
-              value: wineType,
-            },
-          }
-        : null,
+      productType ? { productType } : null,
     ].filter(Boolean),
   });
   const products = collection?.products;

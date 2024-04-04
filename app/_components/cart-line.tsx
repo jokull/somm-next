@@ -2,7 +2,7 @@ import Link from "next/link";
 import { useMutation } from "urql";
 
 import { type CartLine } from "~/lib/cart";
-import { getVendorFromName } from "~/lib/commerce";
+import { getProductQuantityStep, getVendorFromName } from "~/lib/commerce";
 import { RemoveCartItemDocument } from "~/lib/gql/graphql";
 import { cn } from "~/lib/utils";
 
@@ -22,6 +22,7 @@ export function CartLine({
 }) {
   const vendor = getVendorFromName(product.vendor);
   const [{ fetching }, remove] = useMutation(RemoveCartItemDocument.toString());
+  const productQuantityStep = getProductQuantityStep(product.productType);
   return (
     <>
       <div className="w-full min-w-0 truncate">
@@ -33,7 +34,12 @@ export function CartLine({
         </Link>
       </div>
       <div>
-        <ItemQuantity quantity={quantity} id={id} cartId={cartId} />
+        <ItemQuantity
+          productQuantityStep={productQuantityStep}
+          quantity={quantity}
+          id={id}
+          cartId={cartId}
+        />
       </div>
       <div className="w-[105px] whitespace-nowrap text-right slashed-zero tabular-nums">
         {Number.parseInt(cost.totalAmount.amount).toLocaleString("de-DE", {

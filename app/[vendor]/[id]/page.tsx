@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { z } from "zod";
 
 import { VendorName } from "~/app/_components/vendor-name";
-import { getVendorFromSlug } from "~/lib/commerce";
+import { getProductQuantityStep, getVendorFromSlug } from "~/lib/commerce";
 import { shopify, unwrap } from "~/lib/shopify";
 
 import { Variants } from "./_components/variants";
@@ -67,6 +67,8 @@ export default async function ProductComponent({
   if (!vendor) {
     notFound();
   }
+
+  const productQuantityStep = getProductQuantityStep(product.productType);
 
   return (
     <div className="flex flex-col gap-4 sm:flex-row sm:gap-8">
@@ -153,7 +155,10 @@ export default async function ProductComponent({
             )}
           </tbody>
         </table>
-        <Variants variants={variants} />
+        <Variants
+          variants={variants}
+          productQuantityStep={productQuantityStep}
+        />
       </div>
     </div>
   );

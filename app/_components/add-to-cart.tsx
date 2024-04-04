@@ -12,7 +12,13 @@ import { type VariantFieldsFragment } from "~/storefront";
 import { CartContext } from "./cart-provider";
 import { ItemQuantity } from "./item-quantity";
 
-export function AddToCart({ variant }: { variant: VariantFieldsFragment }) {
+export function AddToCart({
+  variant,
+  productQuantityStep,
+}: {
+  variant: VariantFieldsFragment;
+  productQuantityStep: number;
+}) {
   const router = useRouter();
   const { cart: serverCart } = useContext(CartContext);
   const [result, queryExecute] = useQuery({
@@ -34,6 +40,7 @@ export function AddToCart({ variant }: { variant: VariantFieldsFragment }) {
           <ItemQuantity
             cartId={cart.id}
             quantity={cartLine.quantity}
+            productQuantityStep={productQuantityStep}
             id={cartLine.id}
           />
         </div>
@@ -49,7 +56,7 @@ export function AddToCart({ variant }: { variant: VariantFieldsFragment }) {
           onClick={(event) => {
             event.preventDefault();
             startTransition(() => {
-              void addToCart(variant.id).then(() => {
+              void addToCart(variant.id, productQuantityStep).then(() => {
                 router.refresh();
                 queryExecute({ requestPolicy: "network-only" });
               });

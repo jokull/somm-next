@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { z } from "zod";
 
-import { getVendorFromName } from "~/lib/commerce";
+import { getProductQuantityStep, getVendorFromName } from "~/lib/commerce";
 import { type ProductFieldsFragment } from "~/storefront";
 
 import { AddToCart } from "./add-to-cart";
@@ -12,6 +12,7 @@ export function ProductEmbed({ product }: { product: ProductFieldsFragment }) {
   const variants = product.variants.edges.map((edge) => edge.node);
   const variant = variants.find((v) => v.availableForSale) ?? variants[0];
   const vendor = getVendorFromName(product.vendor);
+  const productQuantityStep = getProductQuantityStep(product.productType);
 
   const defaultVariant = variants.find(
     ({ availableForSale }) => availableForSale,
@@ -54,7 +55,12 @@ export function ProductEmbed({ product }: { product: ProductFieldsFragment }) {
             </div>
           ) : null}
         </div>
-        {defaultVariant ? <AddToCart variant={defaultVariant} /> : null}
+        {defaultVariant ? (
+          <AddToCart
+            productQuantityStep={productQuantityStep}
+            variant={defaultVariant}
+          />
+        ) : null}
       </div>
       <Link
         href={`/${vendor.slug}/${id}`}

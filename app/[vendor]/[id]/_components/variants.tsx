@@ -8,7 +8,13 @@ import { CartContext } from "~/app/_components/cart-provider";
 import { cn } from "~/lib/utils";
 import { type VariantFieldsFragment } from "~/storefront";
 
-export function Variants({ variants }: { variants: VariantFieldsFragment[] }) {
+export function Variants({
+  variants,
+  productQuantityStep,
+}: {
+  variants: VariantFieldsFragment[];
+  productQuantityStep: number;
+}) {
   const searchParamVariant = useSearchParams().get("variant");
   const { cart } = useContext(CartContext);
   const [selectedVariant, setSelectedVariant] = useState(
@@ -26,9 +32,12 @@ export function Variants({ variants }: { variants: VariantFieldsFragment[] }) {
     return <div>Not found</div>;
   }
 
+  const hasVintageVariants =
+    variants.length > 1 && selectedVariant.title !== "Default Title";
+
   return (
     <div className="mt-4 flex items-center justify-between gap-2 border-t pt-4">
-      <div className="flex gap-2">
+      <div className="flex grow gap-2">
         {variants.map((variant) => (
           <button
             key={variant.id}
@@ -42,21 +51,30 @@ export function Variants({ variants }: { variants: VariantFieldsFragment[] }) {
               setSelectedVariant(variant);
             }}
           >
-            {variant.title}
-            {cartLines.find((line) => line.merchandise.id === variant.id)
-              ?.id ? (
-              <div className="border-1 absolute -right-1 -top-1 h-2 w-2 rounded-full border border-white bg-[blue]" />
-            ) : null}
+            {hasVintageVariants ? (
+              <>
+                {variant.title}
+                {cartLines.find((line) => line.merchandise.id === variant.id)
+                  ?.id ? (
+                  <div className="border-1 absolute -right-1 -top-1 h-2 w-2 rounded-full border border-white bg-[blue]" />
+                ) : null}
+              </>
+            ) : (
+              "NV"
+            )}
           </button>
         ))}
       </div>
-      <p className="grow text-right">
+      <p>
         {new Intl.NumberFormat("de-DE", { maximumFractionDigits: 0 }).format(
           Number.parseInt(selectedVariant.price.amount),
         )}
-        kr
+        kr {productQuantityStep > 1 ? `× ${productQuantityStep}` : ""}
       </p>
-      <AddToCart variant={selectedVariant} />
+      <AddToCart
+        variant={selectedVariant}
+        productQuantityStep={productQuantityStep}
+      />
     </div>
   );
 }

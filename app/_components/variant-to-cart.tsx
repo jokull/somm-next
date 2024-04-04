@@ -7,7 +7,13 @@ import { type ProductFieldsFragment } from "~/storefront";
 
 import { AddToCart } from "./add-to-cart";
 
-export function VariantToCart({ product }: { product: ProductFieldsFragment }) {
+export function VariantToCart({
+  product,
+  productQuantityStep,
+}: {
+  product: ProductFieldsFragment;
+  productQuantityStep: number;
+}) {
   const variants = unwrap(product.variants);
   const defaultVariant = variants.find(
     ({ availableForSale }) => availableForSale,
@@ -75,7 +81,10 @@ export function VariantToCart({ product }: { product: ProductFieldsFragment }) {
 
       {selectedVariant && price ? (
         <div className="flex items-center justify-between">
-          <AddToCart variant={selectedVariant} />
+          <AddToCart
+            variant={selectedVariant}
+            productQuantityStep={productQuantityStep}
+          />
           <p>
             {new Intl.NumberFormat("de-DE", {
               maximumFractionDigits: 0,

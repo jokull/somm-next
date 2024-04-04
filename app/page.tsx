@@ -87,19 +87,9 @@ export default async function Page({
 }: {
   searchParams: SearchParams;
 }) {
-  const wineType = getFirstSearchParam(searchParams, "wineType");
+  const productType = getFirstSearchParam(searchParams, "tegund");
   const { collection } = await shopify.Products({
-    filters: wineType
-      ? [
-          {
-            productMetafield: {
-              namespace: "custom",
-              key: "wine_type",
-              value: wineType,
-            },
-          },
-        ]
-      : {},
+    filters: productType ? { productType } : {},
   });
   const products = collection?.products;
 
@@ -110,15 +100,17 @@ export default async function Page({
 
   return (
     <div>
-      {!wineType ? (
+      {!productType ? (
         <div className="my-20">
           <Post post={homePage.post} />
         </div>
       ) : null}
       {products ? (
         <div className="mt-12">
-          <div className="my-8 text-center text-sm italic">Vínin</div>
-          <ProductsGrid products={products} key={wineType} />
+          <div className="my-8 text-center text-sm italic">
+            {productType === "Bjór" ? "Bjórarnir" : "Vínin"}
+          </div>
+          <ProductsGrid products={products} key={productType} />
         </div>
       ) : null}
     </div>

@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { getVendorFromName } from "~/lib/commerce";
+import { getProductQuantityStep, getVendorFromName } from "~/lib/commerce";
 import { cn } from "~/lib/utils";
 import { type ProductFieldsFragment } from "~/storefront";
 
@@ -12,6 +12,7 @@ export function ProductCard({ product }: { product: ProductFieldsFragment }) {
   const variants = product.variants.edges.map((edge) => edge.node);
   const variant = variants.find((v) => v.availableForSale) ?? variants[0];
   const vendor = getVendorFromName(product.vendor);
+  const productQuantityStep = getProductQuantityStep(product.productType);
 
   return (
     <div>
@@ -73,7 +74,11 @@ export function ProductCard({ product }: { product: ProductFieldsFragment }) {
             {product.framleidandi?.value ?? ""}
           </div>
         </div>
-        <VariantToCart key={product.id} product={product} />
+        <VariantToCart
+          key={product.id}
+          product={product}
+          productQuantityStep={productQuantityStep}
+        />
       </div>
     </div>
   );

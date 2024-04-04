@@ -117,7 +117,7 @@ export function Cart({ cart: serverCart }: { cart?: CartType }) {
               <h2 className="mb-2 text-xl font-medium">Karfa</h2>
               {cart ? <CartLines lines={lines} cartId={cart.id} /> : null}
               <CartFooter cart={cart}>
-                <PopoverClose>
+                <PopoverClose asChild>
                   <button>Loka</button>
                 </PopoverClose>
               </CartFooter>

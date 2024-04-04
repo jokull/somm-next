@@ -18,7 +18,7 @@ export function VendorName({
       ) : (
         <strong className="text-xl">{vendor.name}</strong>
       )}
-      <InstagramLink handle={vendor.instagram} />
+      {vendor.instagram ? <InstagramLink handle={vendor.instagram} /> : null}
     </div>
   );
 }

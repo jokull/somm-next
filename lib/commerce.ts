@@ -55,7 +55,24 @@ export const vendors = {
     slug: "le-caviste",
     instagram: "apero.rvk",
   },
+  annad: {
+    name: "Annað",
+    shopifyVendor: "somm.is",
+    slug: "annad",
+    instagram: null,
+  },
 } as const;
+
+export const allProductTypes = [
+  null,
+  "Rauðvín",
+  "Hvítvín",
+  "Rósavín",
+  "Freyðivín",
+  "Gulvín",
+  "Bjór",
+  "Óáfengt",
+] as const;
 
 export type Vendor = (typeof vendors)[keyof typeof vendors];
 
@@ -90,4 +107,10 @@ export function getProductsByVendor(products: ProductsCollection) {
       },
     ),
   };
+}
+
+export function getProductQuantityStep(productType: string) {
+  const isBeer = productType === "Bjór";
+  const productQuantityStep = isBeer ? 4 : 1;
+  return productQuantityStep;
 }

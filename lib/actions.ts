@@ -32,14 +32,17 @@ export async function removeCartItem(lineItemId: string) {
   return result.cartLinesRemove?.cart;
 }
 
-export async function addToCart(variantId: string) {
+export async function addToCart(
+  variantId: string,
+  productQuantityStep: number,
+) {
   let cart = await getCart();
   if (!cart) {
     cart = await createCart();
   }
   await shopify.AddCartItem({
     cartId: cart.id,
-    lineItem: { merchandiseId: variantId },
+    lineItem: { merchandiseId: variantId, quantity: productQuantityStep },
   });
   return cart;
 }
