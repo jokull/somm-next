@@ -55,6 +55,12 @@ export const vendors = {
     slug: "le-caviste",
     instagram: "apero.rvk",
   },
+  "a-fly-fishing-club": {
+    name: "Á Fly Fishing Club",
+    shopifyVendor: "Ægir Brugghús ehf.",
+    slug: "a-fly-fishing-club",
+    instagram: "a.flyflishingclub",
+  },
   annad: {
     name: "Annað",
     shopifyVendor: "somm.is",
