@@ -19,7 +19,7 @@ async function Post({
 }: {
   post: NonNullable<HomePageQuery["homePage"]>["post"];
 }) {
-  const products = await getProducts(post.content.blocks);
+  const products = (await getProducts(post.content.blocks)).slice(0, 2);
   const date = new Date(`${post.date}T00:00:00`);
   return (
     <div className="mb-8">

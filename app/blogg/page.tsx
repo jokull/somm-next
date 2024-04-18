@@ -35,23 +35,25 @@ export default async function Page() {
   const { allPosts } = await dato.Posts();
   const postGroups = groupBy(allPosts, (post) => post.date.slice(0, 7));
   return (
-    <div className="mx-auto max-w-md space-y-6">
+    <div className="mx-auto max-w-xl space-y-6">
       {Object.entries(postGroups).map(([key, posts]) => (
         <div key={key}>
           <div className="mb-4 text-xs font-light">{formatDateString(key)}</div>
-          <div className="space-y-4">
+          <div className="space-y-4 sm:space-y-6">
             {posts.map((post) => (
               <Link
                 href={`/blogg/${post.slug}`}
                 key={post.id}
-                className="flex gap-4"
+                className="flex gap-4 sm:gap-6"
               >
-                <DatoImage
-                  data={post.image.responsiveImage}
-                  className="shrink-0 overflow-hidden rounded-md shadow-lg"
-                />
+                <div className="w-1/3 shrink-0 sm:w-auto">
+                  <DatoImage
+                    data={post.image.responsiveImage}
+                    className="overflow-hidden rounded-md shadow-lg"
+                  />
+                </div>
                 <div>
-                  <div className="text-xl">{post.title}</div>
+                  <div className="text-xl sm:text-2xl">{post.title}</div>
                   <time
                     suppressHydrationWarning
                     className="text-sm text-neutral-500"
@@ -63,7 +65,7 @@ export default async function Page() {
                       timeStyle: undefined,
                     })}
                   </time>
-                  <p className="line-clamp-4 text-sm font-light">
+                  <p className="line-clamp-2 text-sm font-light">
                     {post.excerpt}
                   </p>
                 </div>

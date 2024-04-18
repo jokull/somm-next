@@ -11,6 +11,10 @@ const requester = async <R, V>(doc: DocumentNode, variables?: V) => {
       "Content-Type": "application/json",
       Accept: "application/json",
       Authorization: `Bearer ${env.NEXT_PUBLIC_DATOCMS_API_TOKEN}`,
+
+      ...(env.NEXT_PUBLIC_VERCEL_URL === "members.hundrad.is"
+        ? { "X-Include-Drafts": "true" }
+        : {}),
     },
     body: JSON.stringify({ query: print(doc), variables }),
     cache: "no-cache",

@@ -2620,7 +2620,7 @@ export const PostsDocument = gql`
       excerpt
       image {
         responsiveImage(
-          imgixParams: { w: 120, h: 120, fit: crop, crop: focalpoint }
+          imgixParams: { w: 200, h: 200, fit: crop, crop: focalpoint }
         ) {
           width
           height
