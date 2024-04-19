@@ -2,7 +2,6 @@
 
 import { PopoverClose } from "@radix-ui/react-popover";
 import { useState } from "react";
-import { useQuery } from "urql";
 
 import {
   Drawer,
@@ -18,8 +17,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "~/components/ui/popover";
-import { type Cart as CartType } from "~/lib/cart";
-import { GetCartDocument } from "~/lib/gql/graphql";
+import { useCart } from "~/lib/use-cart";
 import { cn } from "~/lib/utils";
 
 import { CartFooter } from "./cart-footer";
@@ -56,13 +54,8 @@ function Button({
   );
 }
 
-export function Cart({ cart: serverCart }: { cart?: CartType }) {
-  const [result] = useQuery({
-    query: GetCartDocument.toString(),
-    variables: { cartId: serverCart?.id ?? "" },
-    pause: !serverCart,
-  });
-  const cart = result.data?.cart ?? serverCart;
+export function Cart() {
+  const [cart] = useCart();
   const [open, setOpen] = useState(false);
   const totalQuantity = cart?.totalQuantity ?? 0;
 
@@ -94,7 +87,7 @@ export function Cart({ cart: serverCart }: { cart?: CartType }) {
                 {cart ? <CartLines lines={lines} cartId={cart.id} /> : null}
               </div>
               <DrawerFooter>
-                <CartFooter cart={cart}>
+                <CartFooter>
                   <DrawerClose asChild>
                     <button>Loka</button>
                   </DrawerClose>
@@ -116,7 +109,7 @@ export function Cart({ cart: serverCart }: { cart?: CartType }) {
             <PopoverContent className="flex max-h-[calc(100vh-120px)] w-full -translate-x-4 flex-col gap-2 overflow-y-auto rounded-md border border-neutral-200 bg-neutral-100 p-6 shadow-xl">
               <h2 className="mb-2 text-xl font-medium">Karfa</h2>
               {cart ? <CartLines lines={lines} cartId={cart.id} /> : null}
-              <CartFooter cart={cart}>
+              <CartFooter>
                 <PopoverClose asChild>
                   <button>Loka</button>
                 </PopoverClose>

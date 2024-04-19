@@ -8919,6 +8919,7 @@ export type PaginatedProductListFragment = {
             id: string;
             title: string;
             availableForSale: boolean;
+            quantityAvailable?: number | null;
             image?: {
               __typename: "Image";
               id?: string | null;
@@ -8991,6 +8992,7 @@ export type ProductQuery = {
           id: string;
           title: string;
           availableForSale: boolean;
+          quantityAvailable?: number | null;
           image?: {
             __typename: "Image";
             id?: string | null;
@@ -9046,6 +9048,7 @@ export type ProductFieldsFragment = {
         id: string;
         title: string;
         availableForSale: boolean;
+        quantityAvailable?: number | null;
         image?: {
           __typename: "Image";
           id?: string | null;
@@ -9144,6 +9147,7 @@ export type ProductsQuery = {
                 id: string;
                 title: string;
                 availableForSale: boolean;
+                quantityAvailable?: number | null;
                 image?: {
                   __typename: "Image";
                   id?: string | null;
@@ -9258,6 +9262,7 @@ export type ProductsByIdsQuery = {
               id: string;
               title: string;
               availableForSale: boolean;
+              quantityAvailable?: number | null;
               image?: {
                 __typename: "Image";
                 id?: string | null;
@@ -9295,6 +9300,7 @@ export type VariantFieldsFragment = {
   id: string;
   title: string;
   availableForSale: boolean;
+  quantityAvailable?: number | null;
   image?: {
     __typename: "Image";
     id?: string | null;
@@ -9396,6 +9402,7 @@ export const VariantFieldsFragmentDoc = gql`
     id
     title
     availableForSale
+    quantityAvailable
     image {
       __typename
       id

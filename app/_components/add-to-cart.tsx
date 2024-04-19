@@ -1,15 +1,13 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useContext, useTransition } from "react";
-import { useQuery } from "urql";
+import { useTransition } from "react";
 
 import { addToCart } from "~/lib/actions";
-import { GetCartDocument } from "~/lib/gql/graphql";
+import { useCart } from "~/lib/use-cart";
 import { cn } from "~/lib/utils";
 import { type VariantFieldsFragment } from "~/storefront";
 
-import { CartContext } from "./cart-provider";
 import { ItemQuantity } from "./item-quantity";
 
 export function AddToCart({
@@ -20,13 +18,7 @@ export function AddToCart({
   productQuantityStep: number;
 }) {
   const router = useRouter();
-  const { cart: serverCart } = useContext(CartContext);
-  const [result, queryExecute] = useQuery({
-    query: GetCartDocument.toString(),
-    variables: { cartId: serverCart?.id ?? "" },
-    pause: !serverCart,
-  });
-  const cart = result.data?.cart ?? serverCart;
+  const [cart, reexecuteQuery] = useCart();
   const cartLine = cart?.lines.edges
     .flatMap(({ node }) => (node.__typename === "CartLine" ? [node] : []))
     .find(({ merchandise }) => merchandise.id === variant.id);
@@ -40,6 +32,7 @@ export function AddToCart({
           <ItemQuantity
             cartId={cart.id}
             quantity={cartLine.quantity}
+            quantityAvailable={variant.quantityAvailable ?? undefined}
             productQuantityStep={productQuantityStep}
             id={cartLine.id}
           />
@@ -56,9 +49,9 @@ export function AddToCart({
           onClick={(event) => {
             event.preventDefault();
             startTransition(() => {
-              void addToCart(variant.id, productQuantityStep).then(() => {
+              void addToCart(variant.id, productQuantityStep).then((data) => {
                 router.refresh();
-                queryExecute({ requestPolicy: "network-only" });
+                reexecuteQuery({ requestPolicy: "network-only" });
               });
             });
           }}

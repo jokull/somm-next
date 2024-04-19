@@ -14,7 +14,7 @@ export function VariantToCart({
   product: ProductFieldsFragment;
   productQuantityStep: number;
 }) {
-  const variants = unwrap(product.variants);
+  const variants = unwrap(product.variants).filter((v) => v.availableForSale);
   const defaultVariant = variants.find(
     ({ availableForSale }) => availableForSale,
   );

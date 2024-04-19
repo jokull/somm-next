@@ -156,7 +156,7 @@ export default async function ProductComponent({
           </tbody>
         </table>
         <Variants
-          variants={variants}
+          variants={variants.filter((v) => v.availableForSale)}
           productQuantityStep={productQuantityStep}
         />
       </div>

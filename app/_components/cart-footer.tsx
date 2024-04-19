@@ -1,32 +1,26 @@
 import { Slot } from "@radix-ui/react-slot";
 import { type ReactNode } from "react";
 
-import { type Cart as CartType } from "~/lib/cart";
+import { useCart } from "~/lib/use-cart";
 
-export function CartFooter({
-  cart,
-  children,
-}: {
-  cart?: CartType;
-  children: ReactNode;
-}) {
+export function CartFooter({ children }: { children: ReactNode }) {
+  const [cart] = useCart();
   const totalQuantity = cart?.totalQuantity ?? 0;
 
   if (!cart || totalQuantity === 0) {
     return <div>Tóm karfa</div>;
   }
 
+  const totalAmount = cart.cost.totalAmount;
+
   return (
     <>
       <div className="mt-2 flex justify-between border-t pt-3 font-medium">
         <div>Samtals</div>
         <div className="w-[105px] shrink-0 text-right">
-          {Number.parseInt(cart.cost.totalAmount.amount).toLocaleString(
-            "de-DE",
-            {
-              maximumFractionDigits: 0,
-            },
-          )}{" "}
+          {Number.parseInt(totalAmount.amount).toLocaleString("de-DE", {
+            maximumFractionDigits: 0,
+          })}{" "}
           kr
         </div>
       </div>

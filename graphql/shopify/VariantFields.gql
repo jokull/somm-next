@@ -3,6 +3,7 @@ fragment VariantFields on ProductVariant {
   id
   title
   availableForSale
+  quantityAvailable
   image {
     __typename
     id

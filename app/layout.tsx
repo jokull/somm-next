@@ -87,7 +87,7 @@ export default async function RootLayout({
                   </div>
                 </Link>
                 <div>
-                  <Cart cart={cart} />
+                  <Cart />
                 </div>
               </div>
               <div className="mb-8 grow sm:mb-12 md:mb-16">

@@ -8,9 +8,11 @@ export function ItemQuantity({
   id,
   cartId,
   productQuantityStep,
+  quantityAvailable,
 }: Pick<CartLine, "quantity" | "id"> & {
   cartId: string;
   productQuantityStep: number;
+  quantityAvailable?: number;
 }) {
   const [{ fetching }, update] = useMutation(UpdateCartItemDocument.toString());
   return (
@@ -31,7 +33,12 @@ export function ItemQuantity({
       </button>
       <div className="mt-0.5 leading-none">{quantity}</div>
       <button
-        disabled={fetching}
+        disabled={
+          fetching ||
+          (typeof quantityAvailable === "number"
+            ? quantityAvailable <= quantity
+            : false)
+        }
         onClick={(event) => {
           event.preventDefault();
           void update({
@@ -40,7 +47,7 @@ export function ItemQuantity({
             quantity: quantity + 1 * productQuantityStep,
           });
         }}
-        className="h-6 w-6 rounded-full enabled:text-[blue] disabled:text-neutral-500"
+        className="h-6 w-6 rounded-full enabled:text-[blue] disabled:opacity-30"
       >
         <img className="h-6 w-6" src="/icons/plus.svg" alt="Plús" />
       </button>

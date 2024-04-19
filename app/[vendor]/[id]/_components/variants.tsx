@@ -1,10 +1,10 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { useContext, useState } from "react";
+import { useState } from "react";
 
 import { AddToCart } from "~/app/_components/add-to-cart";
-import { CartContext } from "~/app/_components/cart-provider";
+import { useCart } from "~/lib/use-cart";
 import { cn } from "~/lib/utils";
 import { type VariantFieldsFragment } from "~/storefront";
 
@@ -16,7 +16,7 @@ export function Variants({
   productQuantityStep: number;
 }) {
   const searchParamVariant = useSearchParams().get("variant");
-  const { cart } = useContext(CartContext);
+  const [cart] = useCart();
   const [selectedVariant, setSelectedVariant] = useState(
     searchParamVariant
       ? variants.find(({ id }) => id === searchParamVariant)
@@ -33,37 +33,43 @@ export function Variants({
   }
 
   const hasVintageVariants =
-    variants.length > 1 && selectedVariant.title !== "Default Title";
+    variants.length > 0 && selectedVariant.title !== "Default Title";
 
   return (
     <div className="mt-4 flex items-center justify-between gap-2 border-t pt-4">
       <div className="flex grow gap-2">
-        {variants.map((variant) => (
-          <button
-            key={variant.id}
-            className={cn(
-              variant.id === selectedVariant.id
-                ? "border-neutral-900 bg-neutral-900 text-white"
-                : "border-neutral-200 hover:border-neutral-800",
-              "relative rounded border px-2 pb-0 pt-1",
-            )}
-            onClick={() => {
-              setSelectedVariant(variant);
-            }}
-          >
-            {hasVintageVariants ? (
-              <>
-                {variant.title}
-                {cartLines.find((line) => line.merchandise.id === variant.id)
-                  ?.id ? (
-                  <div className="border-1 absolute -right-1 -top-1 h-2 w-2 rounded-full border border-white bg-[blue]" />
-                ) : null}
-              </>
-            ) : (
-              "NV"
-            )}
-          </button>
-        ))}
+        {variants.map((variant) => {
+          const cartLine = cartLines.find(
+            (line) => line.merchandise.id === variant.id,
+          );
+          return (
+            <button
+              key={variant.id}
+              className={cn(
+                variant.id === selectedVariant.id
+                  ? "border-neutral-900 bg-neutral-900 text-white"
+                  : "border-neutral-200 hover:border-neutral-800",
+                "relative rounded border px-2 pb-0 pt-1",
+              )}
+              onClick={() => {
+                setSelectedVariant(variant);
+              }}
+            >
+              {hasVintageVariants ? (
+                <>
+                  {variant.title}
+                  {cartLine?.id ? (
+                    <div className="border-1 absolute -right-2.5 -top-2.5 flex h-5 w-5 items-center justify-center rounded-full border border-white bg-[blue] font-sans text-xs text-white">
+                      {cartLine.quantity}
+                    </div>
+                  ) : null}
+                </>
+              ) : (
+                "NV"
+              )}
+            </button>
+          );
+        })}
       </div>
       <p>
         {new Intl.NumberFormat("de-DE", { maximumFractionDigits: 0 }).format(
