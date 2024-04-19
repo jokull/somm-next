@@ -1,8 +1,6 @@
+import { Analytics } from "@vercel/analytics/react";
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
-
-import "./globals.css";
-
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -19,6 +17,8 @@ import { CartProvider } from "./_components/cart-provider";
 import { Navigation } from "./_components/navigation";
 import { Newsletter } from "./_components/newsletter";
 import { SiggiImage } from "./_components/siggi-image";
+
+import "./globals.css";
 
 const ppeditorial = localFont({
   variable: "--font-ppeditorial",
@@ -60,6 +60,7 @@ export default async function RootLayout({
   const cart = await getCart();
   return (
     <CartProvider cart={cart ?? null}>
+      <Analytics />
       <html lang="en">
         <body className={`${ppeditorial.variable} bg-white font-serif`}>
           <div className="relative mx-auto max-w-7xl">
