@@ -5,14 +5,17 @@ fragment CartFields on Cart {
   checkoutUrl
   cost {
     subtotalAmount {
+      __typename
       amount
       currencyCode
     }
     totalAmount {
+      __typename
       amount
       currencyCode
     }
     totalTaxAmount {
+      __typename
       amount
       currencyCode
     }

@@ -83,6 +83,7 @@ const shopify = {
       generates: {
         "storefront.graphql": {
           plugins: ["schema-ast"],
+          documentTransforms: [addTypenameSelectionDocumentTransform],
         },
         "./lib/gql/": {
           preset: "client",

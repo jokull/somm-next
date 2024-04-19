@@ -8313,17 +8313,17 @@ export type CartFieldsFragment = {
   cost: {
     __typename?: "CartCost";
     subtotalAmount: {
-      __typename?: "MoneyV2";
+      __typename: "MoneyV2";
       amount: string;
       currencyCode: CurrencyCode;
     };
     totalAmount: {
-      __typename?: "MoneyV2";
+      __typename: "MoneyV2";
       amount: string;
       currencyCode: CurrencyCode;
     };
     totalTaxAmount?: {
-      __typename?: "MoneyV2";
+      __typename: "MoneyV2";
       amount: string;
       currencyCode: CurrencyCode;
     } | null;
@@ -8392,17 +8392,17 @@ export type GetCartQuery = {
     cost: {
       __typename?: "CartCost";
       subtotalAmount: {
-        __typename?: "MoneyV2";
+        __typename: "MoneyV2";
         amount: string;
         currencyCode: CurrencyCode;
       };
       totalAmount: {
-        __typename?: "MoneyV2";
+        __typename: "MoneyV2";
         amount: string;
         currencyCode: CurrencyCode;
       };
       totalTaxAmount?: {
-        __typename?: "MoneyV2";
+        __typename: "MoneyV2";
         amount: string;
         currencyCode: CurrencyCode;
       } | null;
@@ -8473,17 +8473,17 @@ export type RemoveCartItemMutation = {
       cost: {
         __typename?: "CartCost";
         subtotalAmount: {
-          __typename?: "MoneyV2";
+          __typename: "MoneyV2";
           amount: string;
           currencyCode: CurrencyCode;
         };
         totalAmount: {
-          __typename?: "MoneyV2";
+          __typename: "MoneyV2";
           amount: string;
           currencyCode: CurrencyCode;
         };
         totalTaxAmount?: {
-          __typename?: "MoneyV2";
+          __typename: "MoneyV2";
           amount: string;
           currencyCode: CurrencyCode;
         } | null;
@@ -8556,17 +8556,17 @@ export type UpdateCartItemMutation = {
       cost: {
         __typename?: "CartCost";
         subtotalAmount: {
-          __typename?: "MoneyV2";
+          __typename: "MoneyV2";
           amount: string;
           currencyCode: CurrencyCode;
         };
         totalAmount: {
-          __typename?: "MoneyV2";
+          __typename: "MoneyV2";
           amount: string;
           currencyCode: CurrencyCode;
         };
         totalTaxAmount?: {
-          __typename?: "MoneyV2";
+          __typename: "MoneyV2";
           amount: string;
           currencyCode: CurrencyCode;
         } | null;
@@ -8638,17 +8638,17 @@ export type AddCartItemMutation = {
       cost: {
         __typename?: "CartCost";
         subtotalAmount: {
-          __typename?: "MoneyV2";
+          __typename: "MoneyV2";
           amount: string;
           currencyCode: CurrencyCode;
         };
         totalAmount: {
-          __typename?: "MoneyV2";
+          __typename: "MoneyV2";
           amount: string;
           currencyCode: CurrencyCode;
         };
         totalTaxAmount?: {
-          __typename?: "MoneyV2";
+          __typename: "MoneyV2";
           amount: string;
           currencyCode: CurrencyCode;
         } | null;
@@ -8719,17 +8719,17 @@ export type CreateCartMutation = {
       cost: {
         __typename?: "CartCost";
         subtotalAmount: {
-          __typename?: "MoneyV2";
+          __typename: "MoneyV2";
           amount: string;
           currencyCode: CurrencyCode;
         };
         totalAmount: {
-          __typename?: "MoneyV2";
+          __typename: "MoneyV2";
           amount: string;
           currencyCode: CurrencyCode;
         };
         totalTaxAmount?: {
-          __typename?: "MoneyV2";
+          __typename: "MoneyV2";
           amount: string;
           currencyCode: CurrencyCode;
         } | null;
@@ -9369,14 +9369,17 @@ export const CartFieldsFragmentDoc = gql`
     checkoutUrl
     cost {
       subtotalAmount {
+        __typename
         amount
         currencyCode
       }
       totalAmount {
+        __typename
         amount
         currencyCode
       }
       totalTaxAmount {
+        __typename
         amount
         currencyCode
       }
