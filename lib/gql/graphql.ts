@@ -8429,16 +8429,16 @@ export type TermsQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type TermsQuery = { __typename: 'QueryRoot', shop: { __typename: 'Shop', termsOfService?: { __typename: 'ShopPolicy', body: string } | null, privacyPolicy?: { __typename: 'ShopPolicy', body: string } | null } };
 
-export type PaginatedProductListFragment = { __typename: 'ProductConnection', edges: Array<{ __typename: 'ProductEdge', cursor: string, node: { __typename: 'Product', id: string, handle: string, title: string, description: string, availableForSale: boolean, totalInventory?: number | null, vendor: string, productType: string, thruga?: { __typename: 'Metafield', value: string, type: string } | null, country?: { __typename: 'Metafield', value: string, type: string } | null, region?: { __typename: 'Metafield', value: string, type: string } | null, wineType?: { __typename: 'Metafield', value: string, type: string } | null, framleidandi?: { __typename: 'Metafield', value: string, type: string } | null, raektun?: { __typename: 'Metafield', value: string, type: string } | null, abv?: { __typename: 'Metafield', value: string, type: string } | null, magn?: { __typename: 'Metafield', value: string, type: string } | null, variants: { __typename: 'ProductVariantConnection', edges: Array<{ __typename: 'ProductVariantEdge', node: { __typename: 'ProductVariant', id: string, title: string, availableForSale: boolean, quantityAvailable?: number | null, image?: { __typename: 'Image', id?: string | null, url: any, altText?: string | null, width?: number | null, height?: number | null } | null, price: { __typename: 'MoneyV2', amount: any, currencyCode: CurrencyCode }, compareAtPrice?: { __typename: 'MoneyV2', amount: any, currencyCode: CurrencyCode } | null } }> } } }>, pageInfo: { __typename: 'PageInfo', hasNextPage: boolean } };
+export type PaginatedProductListFragment = { __typename: 'ProductConnection', edges: Array<{ __typename: 'ProductEdge', cursor: string, node: { __typename: 'Product', id: string, handle: string, title: string, description: string, availableForSale: boolean, totalInventory?: number | null, vendor: string, productType: string, featuredImage?: { __typename: 'Image', id?: string | null, url: any, altText?: string | null, width?: number | null, height?: number | null } | null, thruga?: { __typename: 'Metafield', value: string, type: string } | null, country?: { __typename: 'Metafield', value: string, type: string } | null, region?: { __typename: 'Metafield', value: string, type: string } | null, wineType?: { __typename: 'Metafield', value: string, type: string } | null, framleidandi?: { __typename: 'Metafield', value: string, type: string } | null, raektun?: { __typename: 'Metafield', value: string, type: string } | null, abv?: { __typename: 'Metafield', value: string, type: string } | null, magn?: { __typename: 'Metafield', value: string, type: string } | null, variants: { __typename: 'ProductVariantConnection', edges: Array<{ __typename: 'ProductVariantEdge', node: { __typename: 'ProductVariant', id: string, title: string, availableForSale: boolean, quantityAvailable?: number | null, image?: { __typename: 'Image', id?: string | null, url: any, altText?: string | null, width?: number | null, height?: number | null } | null, price: { __typename: 'MoneyV2', amount: any, currencyCode: CurrencyCode }, compareAtPrice?: { __typename: 'MoneyV2', amount: any, currencyCode: CurrencyCode } | null } }> } } }>, pageInfo: { __typename: 'PageInfo', hasNextPage: boolean } };
 
 export type ProductQueryVariables = Exact<{
   id: Scalars['ID']['input'];
 }>;
 
 
-export type ProductQuery = { __typename: 'QueryRoot', product?: { __typename: 'Product', id: string, handle: string, title: string, description: string, availableForSale: boolean, totalInventory?: number | null, vendor: string, productType: string, seo: { __typename: 'SEO', title?: string | null, description?: string | null }, thruga?: { __typename: 'Metafield', value: string, type: string } | null, country?: { __typename: 'Metafield', value: string, type: string } | null, region?: { __typename: 'Metafield', value: string, type: string } | null, wineType?: { __typename: 'Metafield', value: string, type: string } | null, framleidandi?: { __typename: 'Metafield', value: string, type: string } | null, raektun?: { __typename: 'Metafield', value: string, type: string } | null, abv?: { __typename: 'Metafield', value: string, type: string } | null, magn?: { __typename: 'Metafield', value: string, type: string } | null, variants: { __typename: 'ProductVariantConnection', edges: Array<{ __typename: 'ProductVariantEdge', node: { __typename: 'ProductVariant', id: string, title: string, availableForSale: boolean, quantityAvailable?: number | null, image?: { __typename: 'Image', id?: string | null, url: any, altText?: string | null, width?: number | null, height?: number | null } | null, price: { __typename: 'MoneyV2', amount: any, currencyCode: CurrencyCode }, compareAtPrice?: { __typename: 'MoneyV2', amount: any, currencyCode: CurrencyCode } | null } }> } } | null };
+export type ProductQuery = { __typename: 'QueryRoot', product?: { __typename: 'Product', id: string, handle: string, title: string, description: string, availableForSale: boolean, totalInventory?: number | null, vendor: string, productType: string, seo: { __typename: 'SEO', title?: string | null, description?: string | null }, featuredImage?: { __typename: 'Image', id?: string | null, url: any, altText?: string | null, width?: number | null, height?: number | null } | null, thruga?: { __typename: 'Metafield', value: string, type: string } | null, country?: { __typename: 'Metafield', value: string, type: string } | null, region?: { __typename: 'Metafield', value: string, type: string } | null, wineType?: { __typename: 'Metafield', value: string, type: string } | null, framleidandi?: { __typename: 'Metafield', value: string, type: string } | null, raektun?: { __typename: 'Metafield', value: string, type: string } | null, abv?: { __typename: 'Metafield', value: string, type: string } | null, magn?: { __typename: 'Metafield', value: string, type: string } | null, variants: { __typename: 'ProductVariantConnection', edges: Array<{ __typename: 'ProductVariantEdge', node: { __typename: 'ProductVariant', id: string, title: string, availableForSale: boolean, quantityAvailable?: number | null, image?: { __typename: 'Image', id?: string | null, url: any, altText?: string | null, width?: number | null, height?: number | null } | null, price: { __typename: 'MoneyV2', amount: any, currencyCode: CurrencyCode }, compareAtPrice?: { __typename: 'MoneyV2', amount: any, currencyCode: CurrencyCode } | null } }> } } | null };
 
-export type ProductFieldsFragment = { __typename: 'Product', id: string, handle: string, title: string, description: string, availableForSale: boolean, totalInventory?: number | null, vendor: string, productType: string, thruga?: { __typename: 'Metafield', value: string, type: string } | null, country?: { __typename: 'Metafield', value: string, type: string } | null, region?: { __typename: 'Metafield', value: string, type: string } | null, wineType?: { __typename: 'Metafield', value: string, type: string } | null, framleidandi?: { __typename: 'Metafield', value: string, type: string } | null, raektun?: { __typename: 'Metafield', value: string, type: string } | null, abv?: { __typename: 'Metafield', value: string, type: string } | null, magn?: { __typename: 'Metafield', value: string, type: string } | null, variants: { __typename: 'ProductVariantConnection', edges: Array<{ __typename: 'ProductVariantEdge', node: { __typename: 'ProductVariant', id: string, title: string, availableForSale: boolean, quantityAvailable?: number | null, image?: { __typename: 'Image', id?: string | null, url: any, altText?: string | null, width?: number | null, height?: number | null } | null, price: { __typename: 'MoneyV2', amount: any, currencyCode: CurrencyCode }, compareAtPrice?: { __typename: 'MoneyV2', amount: any, currencyCode: CurrencyCode } | null } }> } };
+export type ProductFieldsFragment = { __typename: 'Product', id: string, handle: string, title: string, description: string, availableForSale: boolean, totalInventory?: number | null, vendor: string, productType: string, featuredImage?: { __typename: 'Image', id?: string | null, url: any, altText?: string | null, width?: number | null, height?: number | null } | null, thruga?: { __typename: 'Metafield', value: string, type: string } | null, country?: { __typename: 'Metafield', value: string, type: string } | null, region?: { __typename: 'Metafield', value: string, type: string } | null, wineType?: { __typename: 'Metafield', value: string, type: string } | null, framleidandi?: { __typename: 'Metafield', value: string, type: string } | null, raektun?: { __typename: 'Metafield', value: string, type: string } | null, abv?: { __typename: 'Metafield', value: string, type: string } | null, magn?: { __typename: 'Metafield', value: string, type: string } | null, variants: { __typename: 'ProductVariantConnection', edges: Array<{ __typename: 'ProductVariantEdge', node: { __typename: 'ProductVariant', id: string, title: string, availableForSale: boolean, quantityAvailable?: number | null, image?: { __typename: 'Image', id?: string | null, url: any, altText?: string | null, width?: number | null, height?: number | null } | null, price: { __typename: 'MoneyV2', amount: any, currencyCode: CurrencyCode }, compareAtPrice?: { __typename: 'MoneyV2', amount: any, currencyCode: CurrencyCode } | null } }> } };
 
 export type ProductsQueryVariables = Exact<{
   after?: InputMaybe<Scalars['String']['input']>;
@@ -8446,14 +8446,14 @@ export type ProductsQueryVariables = Exact<{
 }>;
 
 
-export type ProductsQuery = { __typename: 'QueryRoot', collection?: { __typename: 'Collection', products: { __typename: 'ProductConnection', edges: Array<{ __typename: 'ProductEdge', cursor: string, node: { __typename: 'Product', id: string, handle: string, title: string, description: string, availableForSale: boolean, totalInventory?: number | null, vendor: string, productType: string, thruga?: { __typename: 'Metafield', value: string, type: string } | null, country?: { __typename: 'Metafield', value: string, type: string } | null, region?: { __typename: 'Metafield', value: string, type: string } | null, wineType?: { __typename: 'Metafield', value: string, type: string } | null, framleidandi?: { __typename: 'Metafield', value: string, type: string } | null, raektun?: { __typename: 'Metafield', value: string, type: string } | null, abv?: { __typename: 'Metafield', value: string, type: string } | null, magn?: { __typename: 'Metafield', value: string, type: string } | null, variants: { __typename: 'ProductVariantConnection', edges: Array<{ __typename: 'ProductVariantEdge', node: { __typename: 'ProductVariant', id: string, title: string, availableForSale: boolean, quantityAvailable?: number | null, image?: { __typename: 'Image', id?: string | null, url: any, altText?: string | null, width?: number | null, height?: number | null } | null, price: { __typename: 'MoneyV2', amount: any, currencyCode: CurrencyCode }, compareAtPrice?: { __typename: 'MoneyV2', amount: any, currencyCode: CurrencyCode } | null } }> } } }>, pageInfo: { __typename: 'PageInfo', hasNextPage: boolean } } } | null };
+export type ProductsQuery = { __typename: 'QueryRoot', collection?: { __typename: 'Collection', products: { __typename: 'ProductConnection', edges: Array<{ __typename: 'ProductEdge', cursor: string, node: { __typename: 'Product', id: string, handle: string, title: string, description: string, availableForSale: boolean, totalInventory?: number | null, vendor: string, productType: string, featuredImage?: { __typename: 'Image', id?: string | null, url: any, altText?: string | null, width?: number | null, height?: number | null } | null, thruga?: { __typename: 'Metafield', value: string, type: string } | null, country?: { __typename: 'Metafield', value: string, type: string } | null, region?: { __typename: 'Metafield', value: string, type: string } | null, wineType?: { __typename: 'Metafield', value: string, type: string } | null, framleidandi?: { __typename: 'Metafield', value: string, type: string } | null, raektun?: { __typename: 'Metafield', value: string, type: string } | null, abv?: { __typename: 'Metafield', value: string, type: string } | null, magn?: { __typename: 'Metafield', value: string, type: string } | null, variants: { __typename: 'ProductVariantConnection', edges: Array<{ __typename: 'ProductVariantEdge', node: { __typename: 'ProductVariant', id: string, title: string, availableForSale: boolean, quantityAvailable?: number | null, image?: { __typename: 'Image', id?: string | null, url: any, altText?: string | null, width?: number | null, height?: number | null } | null, price: { __typename: 'MoneyV2', amount: any, currencyCode: CurrencyCode }, compareAtPrice?: { __typename: 'MoneyV2', amount: any, currencyCode: CurrencyCode } | null } }> } } }>, pageInfo: { __typename: 'PageInfo', hasNextPage: boolean } } } | null };
 
 export type ProductsByIdsQueryVariables = Exact<{
   ids: Array<Scalars['ID']['input']> | Scalars['ID']['input'];
 }>;
 
 
-export type ProductsByIdsQuery = { __typename: 'QueryRoot', nodes: Array<{ __typename: 'AppliedGiftCard' } | { __typename: 'Article' } | { __typename: 'Blog' } | { __typename: 'Cart' } | { __typename: 'CartLine' } | { __typename: 'Checkout' } | { __typename: 'CheckoutLineItem' } | { __typename: 'Collection' } | { __typename: 'Comment' } | { __typename: 'Company' } | { __typename: 'CompanyContact' } | { __typename: 'CompanyLocation' } | { __typename: 'ComponentizableCartLine' } | { __typename: 'ExternalVideo' } | { __typename: 'GenericFile' } | { __typename: 'Location' } | { __typename: 'MailingAddress' } | { __typename: 'Market' } | { __typename: 'MediaImage' } | { __typename: 'MediaPresentation' } | { __typename: 'Menu' } | { __typename: 'MenuItem' } | { __typename: 'Metafield' } | { __typename: 'Metaobject' } | { __typename: 'Model3d' } | { __typename: 'Order' } | { __typename: 'Page' } | { __typename: 'Payment' } | { __typename: 'Product', id: string, handle: string, title: string, description: string, availableForSale: boolean, totalInventory?: number | null, vendor: string, productType: string, thruga?: { __typename: 'Metafield', value: string, type: string } | null, country?: { __typename: 'Metafield', value: string, type: string } | null, region?: { __typename: 'Metafield', value: string, type: string } | null, wineType?: { __typename: 'Metafield', value: string, type: string } | null, framleidandi?: { __typename: 'Metafield', value: string, type: string } | null, raektun?: { __typename: 'Metafield', value: string, type: string } | null, abv?: { __typename: 'Metafield', value: string, type: string } | null, magn?: { __typename: 'Metafield', value: string, type: string } | null, variants: { __typename: 'ProductVariantConnection', edges: Array<{ __typename: 'ProductVariantEdge', node: { __typename: 'ProductVariant', id: string, title: string, availableForSale: boolean, quantityAvailable?: number | null, image?: { __typename: 'Image', id?: string | null, url: any, altText?: string | null, width?: number | null, height?: number | null } | null, price: { __typename: 'MoneyV2', amount: any, currencyCode: CurrencyCode }, compareAtPrice?: { __typename: 'MoneyV2', amount: any, currencyCode: CurrencyCode } | null } }> } } | { __typename: 'ProductOption' } | { __typename: 'ProductVariant' } | { __typename: 'Shop' } | { __typename: 'ShopPolicy' } | { __typename: 'UrlRedirect' } | { __typename: 'Video' } | null> };
+export type ProductsByIdsQuery = { __typename: 'QueryRoot', nodes: Array<{ __typename: 'AppliedGiftCard' } | { __typename: 'Article' } | { __typename: 'Blog' } | { __typename: 'Cart' } | { __typename: 'CartLine' } | { __typename: 'Checkout' } | { __typename: 'CheckoutLineItem' } | { __typename: 'Collection' } | { __typename: 'Comment' } | { __typename: 'Company' } | { __typename: 'CompanyContact' } | { __typename: 'CompanyLocation' } | { __typename: 'ComponentizableCartLine' } | { __typename: 'ExternalVideo' } | { __typename: 'GenericFile' } | { __typename: 'Location' } | { __typename: 'MailingAddress' } | { __typename: 'Market' } | { __typename: 'MediaImage' } | { __typename: 'MediaPresentation' } | { __typename: 'Menu' } | { __typename: 'MenuItem' } | { __typename: 'Metafield' } | { __typename: 'Metaobject' } | { __typename: 'Model3d' } | { __typename: 'Order' } | { __typename: 'Page' } | { __typename: 'Payment' } | { __typename: 'Product', id: string, handle: string, title: string, description: string, availableForSale: boolean, totalInventory?: number | null, vendor: string, productType: string, featuredImage?: { __typename: 'Image', id?: string | null, url: any, altText?: string | null, width?: number | null, height?: number | null } | null, thruga?: { __typename: 'Metafield', value: string, type: string } | null, country?: { __typename: 'Metafield', value: string, type: string } | null, region?: { __typename: 'Metafield', value: string, type: string } | null, wineType?: { __typename: 'Metafield', value: string, type: string } | null, framleidandi?: { __typename: 'Metafield', value: string, type: string } | null, raektun?: { __typename: 'Metafield', value: string, type: string } | null, abv?: { __typename: 'Metafield', value: string, type: string } | null, magn?: { __typename: 'Metafield', value: string, type: string } | null, variants: { __typename: 'ProductVariantConnection', edges: Array<{ __typename: 'ProductVariantEdge', node: { __typename: 'ProductVariant', id: string, title: string, availableForSale: boolean, quantityAvailable?: number | null, image?: { __typename: 'Image', id?: string | null, url: any, altText?: string | null, width?: number | null, height?: number | null } | null, price: { __typename: 'MoneyV2', amount: any, currencyCode: CurrencyCode }, compareAtPrice?: { __typename: 'MoneyV2', amount: any, currencyCode: CurrencyCode } | null } }> } } | { __typename: 'ProductOption' } | { __typename: 'ProductVariant' } | { __typename: 'Shop' } | { __typename: 'ShopPolicy' } | { __typename: 'UrlRedirect' } | { __typename: 'Video' } | null> };
 
 export type VariantFieldsFragment = { __typename: 'ProductVariant', id: string, title: string, availableForSale: boolean, quantityAvailable?: number | null, image?: { __typename: 'Image', id?: string | null, url: any, altText?: string | null, width?: number | null, height?: number | null } | null, price: { __typename: 'MoneyV2', amount: any, currencyCode: CurrencyCode }, compareAtPrice?: { __typename: 'MoneyV2', amount: any, currencyCode: CurrencyCode } | null };
 
@@ -8631,6 +8631,14 @@ export const ProductFieldsFragmentDoc = new TypedDocumentString(`
   totalInventory
   vendor
   productType
+  featuredImage {
+    __typename
+    id
+    url(transform: {maxHeight: 250, maxWidth: 250, scale: 2})
+    altText
+    width
+    height
+  }
   thruga: metafield(namespace: "custom", key: "thruga") {
     __typename
     value
@@ -8733,6 +8741,14 @@ export const PaginatedProductListFragmentDoc = new TypedDocumentString(`
   totalInventory
   vendor
   productType
+  featuredImage {
+    __typename
+    id
+    url(transform: {maxHeight: 250, maxWidth: 250, scale: 2})
+    altText
+    width
+    height
+  }
   thruga: metafield(namespace: "custom", key: "thruga") {
     __typename
     value
@@ -9327,6 +9343,14 @@ export const ProductDocument = new TypedDocumentString(`
   totalInventory
   vendor
   productType
+  featuredImage {
+    __typename
+    id
+    url(transform: {maxHeight: 250, maxWidth: 250, scale: 2})
+    altText
+    width
+    height
+  }
   thruga: metafield(namespace: "custom", key: "thruga") {
     __typename
     value
@@ -9402,7 +9426,7 @@ fragment VariantFields on ProductVariant {
     amount
     currencyCode
   }
-}`, {"hash":"6fc9005f0652f827a64849a77f1ea39a6a421321"}) as unknown as TypedDocumentString<ProductQuery, ProductQueryVariables>;
+}`, {"hash":"0a1f8d9b567fbbed1d76a4852746e385df653616"}) as unknown as TypedDocumentString<ProductQuery, ProductQueryVariables>;
 export const ProductsDocument = new TypedDocumentString(`
     query Products($after: String, $filters: [ProductFilter!]) {
   __typename
@@ -9439,6 +9463,14 @@ fragment ProductFields on Product {
   totalInventory
   vendor
   productType
+  featuredImage {
+    __typename
+    id
+    url(transform: {maxHeight: 250, maxWidth: 250, scale: 2})
+    altText
+    width
+    height
+  }
   thruga: metafield(namespace: "custom", key: "thruga") {
     __typename
     value
@@ -9514,7 +9546,7 @@ fragment VariantFields on ProductVariant {
     amount
     currencyCode
   }
-}`, {"hash":"9ce49c9a0e74d354c8c7579fa540dfec52d5baa0"}) as unknown as TypedDocumentString<ProductsQuery, ProductsQueryVariables>;
+}`, {"hash":"04c1087fce94d6181b136a37417cd5e9b13f82cc"}) as unknown as TypedDocumentString<ProductsQuery, ProductsQueryVariables>;
 export const ProductsByIdsDocument = new TypedDocumentString(`
     query ProductsByIds($ids: [ID!]!) {
   __typename
@@ -9536,6 +9568,14 @@ export const ProductsByIdsDocument = new TypedDocumentString(`
   totalInventory
   vendor
   productType
+  featuredImage {
+    __typename
+    id
+    url(transform: {maxHeight: 250, maxWidth: 250, scale: 2})
+    altText
+    width
+    height
+  }
   thruga: metafield(namespace: "custom", key: "thruga") {
     __typename
     value
@@ -9611,4 +9651,4 @@ fragment VariantFields on ProductVariant {
     amount
     currencyCode
   }
-}`, {"hash":"a9f690747000143f429ceb18bef05fa2cb7d1488"}) as unknown as TypedDocumentString<ProductsByIdsQuery, ProductsByIdsQueryVariables>;
+}`, {"hash":"7f40c4eafbe6a782308fd4e064a12c33a6c6b377"}) as unknown as TypedDocumentString<ProductsByIdsQuery, ProductsByIdsQueryVariables>;

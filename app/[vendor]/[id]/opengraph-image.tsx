@@ -45,11 +45,11 @@ export default async function GET({
     notFound();
   }
 
-  // const ppeditorial = fetch(
-  //   new URL("../../../assets/PPEditorialnew-Normal.ttf", import.meta.url),
-  // ).then((res) => res.arrayBuffer());
+  const ppeditorial = fetch(
+    new URL("../../../assets/PPEditorialnew-Normal.ttf", import.meta.url),
+  ).then((res) => res.arrayBuffer());
 
-  const productImage = product.variants.edges[0]?.node.image;
+  const productImage = product.featuredImage;
 
   return new ImageResponse(
     (
@@ -90,14 +90,14 @@ export default async function GET({
     {
       width: 1200,
       height: 630,
-      // fonts: [
-      //   {
-      //     name: "PPEditorial",
-      //     data: await ppeditorial,
-      //     weight: 400,
-      //     style: "normal",
-      //   },
-      // ],
+      fonts: [
+        {
+          name: "PPEditorial",
+          data: await ppeditorial,
+          weight: 400,
+          style: "normal",
+        },
+      ],
     },
   );
 }

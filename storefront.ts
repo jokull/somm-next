@@ -8886,6 +8886,14 @@ export type PaginatedProductListFragment = {
       totalInventory?: number | null;
       vendor: string;
       productType: string;
+      featuredImage?: {
+        __typename: "Image";
+        id?: string | null;
+        url: string;
+        altText?: string | null;
+        width?: number | null;
+        height?: number | null;
+      } | null;
       thruga?: { __typename?: "Metafield"; value: string; type: string } | null;
       country?: {
         __typename?: "Metafield";
@@ -8971,6 +8979,14 @@ export type ProductQuery = {
       title?: string | null;
       description?: string | null;
     };
+    featuredImage?: {
+      __typename: "Image";
+      id?: string | null;
+      url: string;
+      altText?: string | null;
+      width?: number | null;
+      height?: number | null;
+    } | null;
     thruga?: { __typename?: "Metafield"; value: string; type: string } | null;
     country?: { __typename?: "Metafield"; value: string; type: string } | null;
     region?: { __typename?: "Metafield"; value: string; type: string } | null;
@@ -9027,6 +9043,14 @@ export type ProductFieldsFragment = {
   totalInventory?: number | null;
   vendor: string;
   productType: string;
+  featuredImage?: {
+    __typename: "Image";
+    id?: string | null;
+    url: string;
+    altText?: string | null;
+    width?: number | null;
+    height?: number | null;
+  } | null;
   thruga?: { __typename?: "Metafield"; value: string; type: string } | null;
   country?: { __typename?: "Metafield"; value: string; type: string } | null;
   region?: { __typename?: "Metafield"; value: string; type: string } | null;
@@ -9098,6 +9122,14 @@ export type ProductsQuery = {
           totalInventory?: number | null;
           vendor: string;
           productType: string;
+          featuredImage?: {
+            __typename: "Image";
+            id?: string | null;
+            url: string;
+            altText?: string | null;
+            width?: number | null;
+            height?: number | null;
+          } | null;
           thruga?: {
             __typename?: "Metafield";
             value: string;
@@ -9221,6 +9253,14 @@ export type ProductsByIdsQuery = {
         totalInventory?: number | null;
         vendor: string;
         productType: string;
+        featuredImage?: {
+          __typename: "Image";
+          id?: string | null;
+          url: string;
+          altText?: string | null;
+          width?: number | null;
+          height?: number | null;
+        } | null;
         thruga?: {
           __typename?: "Metafield";
           value: string;
@@ -9436,6 +9476,14 @@ export const ProductFieldsFragmentDoc = gql`
     totalInventory
     vendor
     productType
+    featuredImage {
+      __typename
+      id
+      url(transform: { maxHeight: 250, maxWidth: 250, scale: 2 })
+      altText
+      width
+      height
+    }
     thruga: metafield(namespace: "custom", key: "thruga") {
       value
       type

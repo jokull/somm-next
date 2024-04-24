@@ -7,6 +7,14 @@ fragment ProductFields on Product {
   totalInventory
   vendor
   productType
+  featuredImage {
+    __typename
+    id
+    url(transform: { maxHeight: 250, maxWidth: 250, scale: 2 })
+    altText
+    width
+    height
+  }
   thruga: metafield(namespace: "custom", key: "thruga") {
     value
     type
