@@ -1,9 +1,23 @@
-import { mkdir } from "node:fs/promises";
+import { mkdir, rename } from "node:fs/promises";
 import { join } from "node:path";
 
 import { z } from "zod";
 
 import { getVendorFromName } from "./lib/commerce";
+
+// Function to rename directories
+async function renameDirectory(oldPath: string, newPath: string) {
+  try {
+    await rename(oldPath, newPath);
+    // eslint-disable-next-line no-console
+    console.info(`Renamed directory from ${oldPath} to ${newPath}`);
+  } catch (error) {
+    console.error(
+      `Error renaming directory from ${oldPath} to ${newPath}:`,
+      error,
+    );
+  }
+}
 
 // Fetching the JSON data from the API
 const response = await fetch("http://localhost:3000/api/products");
@@ -12,6 +26,8 @@ const products = z
     products: z.array(z.object({ id: z.string(), vendor: z.string() })),
   })
   .parse(await response.json()).products;
+
+await renameDirectory("app/[vendor]/[id]/_og", "app/[vendor]/[id]/og");
 
 for (const product of products) {
   const idMatch = product.id.match(/(\d+)/);
@@ -39,3 +55,5 @@ for (const product of products) {
   // eslint-disable-next-line no-console
   console.info(`Image saved to ${filePath.toString()}`);
 }
+
+await renameDirectory("app/[vendor]/[id]/og", "app/[vendor]/[id]/_og");
