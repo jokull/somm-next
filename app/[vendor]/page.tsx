@@ -19,9 +19,11 @@ export function generateMetadata({ params }: Props): Metadata {
   if (!vendorName) {
     throw notFound();
   }
+  const title = `${vendorName} - Somm`;
   return {
-    title: `${vendorName} - Somm`,
+    title,
     description: `Vín flutt inn af ${vendorName} til sölu á Somm`,
+    openGraph: { title },
   };
 }
 

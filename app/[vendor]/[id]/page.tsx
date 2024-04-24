@@ -10,7 +10,6 @@ import { Variants } from "./_components/variants";
 
 export const runtime = "edge";
 export const dynamic = "force-dynamic";
-
 interface Props {
   params: { vendor: string; id: string };
 }
@@ -26,9 +25,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     notFound();
   }
 
+  const title = `${product.title} — ${vendorName} — Somm`;
+
   return {
-    title: `${product.title} — ${vendorName} — Somm`,
+    title,
     description: `${product.title} frá ${product.framleidandi?.value ?? vendorName}`,
+    openGraph: {
+      title,
+    },
   };
 }
 
