@@ -8951,7 +8951,11 @@ export type PaginatedProductListFragment = {
       };
     };
   }>;
-  pageInfo: { __typename?: "PageInfo"; hasNextPage: boolean };
+  pageInfo: {
+    __typename?: "PageInfo";
+    hasNextPage: boolean;
+    endCursor?: string | null;
+  };
 };
 
 export type PaginatedProductListFragmentVariables = Exact<{
@@ -9203,7 +9207,11 @@ export type ProductsQuery = {
           };
         };
       }>;
-      pageInfo: { __typename?: "PageInfo"; hasNextPage: boolean };
+      pageInfo: {
+        __typename?: "PageInfo";
+        hasNextPage: boolean;
+        endCursor?: string | null;
+      };
     };
   } | null;
 };
@@ -9536,6 +9544,7 @@ export const PaginatedProductListFragmentDoc = gql`
     }
     pageInfo {
       hasNextPage
+      endCursor
     }
   }
   ${ProductFieldsFragmentDoc}

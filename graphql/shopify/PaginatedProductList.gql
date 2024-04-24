@@ -1,11 +1,12 @@
 fragment PaginatedProductList on ProductConnection {
-	edges {
-		node {
-			...ProductFields
-		}
-		cursor
-	}
-	pageInfo {
-		hasNextPage
-	}
+  edges {
+    node {
+      ...ProductFields
+    }
+    cursor
+  }
+  pageInfo {
+    hasNextPage
+    endCursor
+  }
 }
