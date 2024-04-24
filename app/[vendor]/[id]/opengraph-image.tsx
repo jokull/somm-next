@@ -45,9 +45,9 @@ export default async function GET({
     notFound();
   }
 
-  const ppeditorial = fetch(
-    new URL("../../../../assets/PPEditorialnew-Normal.ttf", import.meta.url),
-  ).then((res) => res.arrayBuffer());
+  // const ppeditorial = fetch(
+  //   new URL("../../../assets/PPEditorialnew-Normal.ttf", import.meta.url),
+  // ).then((res) => res.arrayBuffer());
 
   const productImage = product.variants.edges[0]?.node.image;
 
@@ -88,16 +88,16 @@ export default async function GET({
       </div>
     ),
     {
-      width: 1200 / 2,
-      height: 630 / 2,
-      fonts: [
-        {
-          name: "PPEditorial",
-          data: await ppeditorial,
-          weight: 400,
-          style: "normal",
-        },
-      ],
+      width: 1200,
+      height: 630,
+      // fonts: [
+      //   {
+      //     name: "PPEditorial",
+      //     data: await ppeditorial,
+      //     weight: 400,
+      //     style: "normal",
+      //   },
+      // ],
     },
   );
 }
