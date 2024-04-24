@@ -32,6 +32,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     description: `${product.title} frá ${product.framleidandi?.value ?? vendorName}`,
     openGraph: {
       title,
+      images: [
+        {
+          url: `/opengraph-images/${params.vendor}/${params.id}.png`,
+          width: 1200,
+          height: 630,
+        },
+      ],
     },
   };
 }

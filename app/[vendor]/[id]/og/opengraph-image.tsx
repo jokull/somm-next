@@ -35,6 +35,10 @@ export default async function GET({
 }: {
   params: { vendor: string; id: string };
 }) {
+  if (env.NEXT_PUBLIC_VERCEL_URL === "www.somm.is") {
+    return <></>;
+  }
+
   const { product } = await shopify.Product({
     id: `gid://shopify/Product/${params.id}`,
   });
