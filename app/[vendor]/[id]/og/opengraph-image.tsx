@@ -46,7 +46,7 @@ export default async function GET({
   }
 
   const ppeditorial = fetch(
-    new URL("../../../assets/PPEditorialnew-Normal.ttf", import.meta.url),
+    new URL("../../../../assets/PPEditorialnew-Normal.ttf", import.meta.url),
   ).then((res) => res.arrayBuffer());
 
   const productImage = product.variants.edges[0]?.node.image;
