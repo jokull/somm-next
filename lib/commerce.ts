@@ -49,12 +49,12 @@ export const vendors = {
     slug: "vinbondinn",
     instagram: "vinbondinn",
   },
-  "le-caviste": {
-    name: "Le Caviste",
-    shopifyVendor: "Le Caviste",
-    slug: "le-caviste",
-    instagram: "apero.rvk",
-  },
+  // "le-caviste": {
+  //   name: "Le Caviste",
+  //   shopifyVendor: "Le Caviste",
+  //   slug: "le-caviste",
+  //   instagram: "apero.rvk",
+  // },
   "a-fly-fishing-club": {
     name: "Á Fly Fishing Club",
     shopifyVendor: "Ægir Brugghús ehf.",
