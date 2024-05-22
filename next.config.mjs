@@ -5,9 +5,6 @@ const nextConfig = {
     skipLibCheck: true,
     noEmit: true,
   },
-  experimental: {
-    ppr: true,
-  },
 };
 
 export default nextConfig;
