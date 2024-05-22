@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Start a new tmux session and create the first window (tab)
-tmux new-session -d -s somm -n next 'bun run dev'
+tmux new-session -d -s somm -n next 'pnpm run dev'
 
 # Set mouse support and increase scrollback buffer for this session
 tmux set -t somm mouse on
