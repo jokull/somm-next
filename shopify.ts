@@ -35,6 +35,7 @@ export function getRequester<T extends RequestInit = RequestInit>({
         method: "POST",
         ...(options ?? {}),
         ...(initialOptions ?? {}),
+        cache: "no-cache",
       },
     );
 
