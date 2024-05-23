@@ -1,18 +1,19 @@
 "use client";
 
+import { FragmentOf } from "gql.tada";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 
 import { AddToCart } from "~/app/_components/add-to-cart";
+import { variantFragment } from "~/lib/products";
 import { useCart } from "~/lib/use-cart";
 import { cn } from "~/lib/utils";
-import { type VariantFieldsFragment } from "~/storefront";
 
 export function Variants({
   variants,
   productQuantityStep,
 }: {
-  variants: VariantFieldsFragment[];
+  variants: FragmentOf<typeof variantFragment>[];
   productQuantityStep: number;
 }) {
   const searchParamVariant = useSearchParams().get("variant");

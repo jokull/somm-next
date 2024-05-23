@@ -1,7 +1,26 @@
 import { useMutation } from "urql";
 
-import { type CartLine } from "~/lib/cart";
-import { UpdateCartItemDocument } from "~/lib/gql/graphql";
+import { cartFragment, type CartLine } from "~/graphql/cart";
+import { graphql } from "~/graphql/shopify";
+
+const UpdateCartItem = graphql(
+  `
+    mutation UpdateCartItem($cartId: ID!, $lineItemId: ID!, $quantity: Int!) {
+      __typename
+      cartLinesUpdate(
+        cartId: $cartId
+        lines: [{ id: $lineItemId, quantity: $quantity }]
+      ) {
+        __typename
+        cart {
+          __typename
+          ...Cart
+        }
+      }
+    }
+  `,
+  [cartFragment],
+);
 
 export function ItemQuantity({
   quantity,
@@ -14,7 +33,7 @@ export function ItemQuantity({
   productQuantityStep: number;
   quantityAvailable?: number;
 }) {
-  const [{ fetching }, update] = useMutation(UpdateCartItemDocument.toString());
+  const [{ fetching }, update] = useMutation(UpdateCartItem);
   return (
     <div className="nums flex items-center gap-2 whitespace-nowrap text-sm tabular-nums">
       <button

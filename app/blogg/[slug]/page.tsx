@@ -4,7 +4,8 @@ import { toNextMetadata } from "react-datocms";
 
 import { DatoImage } from "~/app/_components/dato-image";
 import { PostContent } from "~/app/_components/post-content";
-import { dato } from "~/lib/dato";
+import { client, graphql } from "~/graphql/dato";
+import { Post } from "~/graphql/post";
 
 export const runtime = "edge";
 export const dynamic = "force-dynamic";
@@ -14,7 +15,22 @@ interface Props {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { post } = await dato.Post({ slug: params.slug });
+  const { post } = await client.request(
+    graphql(`
+      query Post($slug: String!) {
+        post(filter: { slug: { eq: $slug } }) {
+          title
+          excerpt
+          _seoMetaTags {
+            attributes
+            content
+            tag
+          }
+        }
+      }
+    `),
+    { slug: params.slug },
+  );
 
   if (!post) {
     notFound();
@@ -28,7 +44,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function Page({ params }: Props) {
-  const { post } = await dato.Post({ slug: params.slug });
+  const { post } = await client.request(Post, { slug: params.slug });
 
   if (!post) {
     notFound();

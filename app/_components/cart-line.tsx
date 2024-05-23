@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { useMutation } from "urql";
 
-import { type CartLine } from "~/lib/cart";
+import { cartFragment, type CartLine } from "~/graphql/cart";
+import { graphql } from "~/graphql/shopify";
 import { getProductQuantityStep, getVendorFromName } from "~/lib/commerce";
-import { RemoveCartItemDocument } from "~/lib/gql/graphql";
 import { cn } from "~/lib/utils";
 
 import { ItemQuantity } from "./item-quantity";
@@ -21,7 +21,23 @@ export function CartLine({
   cartId: string;
 }) {
   const vendor = getVendorFromName(product.vendor);
-  const [{ fetching }, remove] = useMutation(RemoveCartItemDocument.toString());
+  const [{ fetching }, remove] = useMutation(
+    graphql(
+      `
+        mutation RemoveCartItem($cartId: ID!, $lineItemId: ID!) {
+          __typename
+          cartLinesRemove(cartId: $cartId, lineIds: [$lineItemId]) {
+            __typename
+            cart {
+              __typename
+              ...Cart
+            }
+          }
+        }
+      `,
+      [cartFragment],
+    ),
+  );
   const productQuantityStep = getProductQuantityStep(product.productType);
   return (
     <>

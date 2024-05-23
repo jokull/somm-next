@@ -3,7 +3,7 @@
 import { createContext, type ReactNode } from "react";
 import { Provider } from "urql";
 
-import { type Cart } from "~/lib/cart";
+import { Cart } from "~/graphql/cart";
 import { client } from "~/lib/urql";
 
 export const CartContext = createContext<{

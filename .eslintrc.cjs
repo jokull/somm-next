@@ -33,7 +33,7 @@ module.exports = {
       "error",
       { fixStyle: "inline-type-imports", prefer: "type-imports" },
     ],
-    "import/no-namespace": ["error", { ignore: ["@radix-ui/*"] }],
+    "import/no-namespace": ["warning", { ignore: ["@radix-ui/*"] }],
     "no-console": ["error", { allow: ["warn", "error"] }],
 
     // start https://github.com/cpojer/eslint-config

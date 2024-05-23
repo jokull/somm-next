@@ -2,8 +2,8 @@ import { notFound } from "next/navigation";
 import { ImageResponse } from "next/og";
 
 import { env } from "~/env";
+import { client, graphql } from "~/graphql/shopify";
 import { getVendorFromSlug } from "~/lib/commerce";
-import { shopify } from "~/lib/shopify";
 
 export const runtime = "edge";
 export const alt = "About";
@@ -39,9 +39,30 @@ export default async function GET({
     return <></>;
   }
 
-  const { product } = await shopify.Product({
-    id: `gid://shopify/Product/${params.id}`,
-  });
+  const { product } = await client.request(
+    graphql(`
+      query Product($id: ID!) {
+        product(id: $id) {
+          title
+          framleidandi: metafield(namespace: "custom", key: "framleidandi") {
+            value
+            type
+          }
+          featuredImage {
+            __typename
+            id
+            url(transform: { maxHeight: 250, maxWidth: 250, scale: 2 })
+            altText
+            width
+            height
+          }
+        }
+      }
+    `),
+    {
+      id: `gid://shopify/Product/${params.id}`,
+    },
+  );
 
   const vendorName = getVendorFromSlug(params.vendor)?.name;
 

@@ -1,9 +1,10 @@
 "use client";
 
+import { FragmentOf } from "gql.tada";
 import { useState } from "react";
 
+import { productFragment } from "~/lib/products";
 import { unwrap } from "~/lib/shopify";
-import { type ProductFieldsFragment } from "~/storefront";
 
 import { AddToCart } from "./add-to-cart";
 
@@ -11,7 +12,7 @@ export function VariantToCart({
   product,
   productQuantityStep,
 }: {
-  product: ProductFieldsFragment;
+  product: FragmentOf<typeof productFragment>;
   productQuantityStep: number;
 }) {
   const variants = unwrap(product.variants).filter((v) => v.availableForSale);

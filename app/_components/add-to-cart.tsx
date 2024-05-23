@@ -1,12 +1,13 @@
 "use client";
 
+import { FragmentOf } from "gql.tada";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 
 import { addToCart } from "~/lib/actions";
+import { variantFragment } from "~/lib/products";
 import { useCart } from "~/lib/use-cart";
 import { cn } from "~/lib/utils";
-import { type VariantFieldsFragment } from "~/storefront";
 
 import { ItemQuantity } from "./item-quantity";
 
@@ -14,7 +15,7 @@ export function AddToCart({
   variant,
   productQuantityStep,
 }: {
-  variant: VariantFieldsFragment;
+  variant: FragmentOf<typeof variantFragment>;
   productQuantityStep: number;
 }) {
   const router = useRouter();

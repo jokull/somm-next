@@ -3,34 +3,10 @@
 import { z } from "zod";
 
 import { env } from "~/env";
+import { cartFragment } from "~/graphql/cart";
+import { client, graphql } from "~/graphql/shopify";
 
 import { createCart, getCart } from "./cart";
-import { shopify } from "./shopify";
-
-export async function updateCartItem(lineItemId: string, quantity: number) {
-  const cart = await getCart();
-  if (!cart) {
-    return cart;
-  }
-  const result = await shopify.UpdateCartItem({
-    cartId: cart.id,
-    lineItemId,
-    quantity,
-  });
-  return result.cartLinesUpdate?.cart;
-}
-
-export async function removeCartItem(lineItemId: string) {
-  const cart = await getCart();
-  if (!cart) {
-    return;
-  }
-  const result = await shopify.RemoveCartItem({
-    cartId: cart.id,
-    lineItemId,
-  });
-  return result.cartLinesRemove?.cart;
-}
 
 export async function addToCart(
   variantId: string,
@@ -40,10 +16,24 @@ export async function addToCart(
   if (!cart) {
     cart = await createCart();
   }
-  await shopify.AddCartItem({
-    cartId: cart.id,
-    lineItem: { merchandiseId: variantId, quantity: productQuantityStep },
-  });
+  await client.request(
+    graphql(
+      `
+        mutation AddCartItem($cartId: ID!, $lineItem: CartLineInput!) {
+          cartLinesAdd(cartId: $cartId, lines: [$lineItem]) {
+            cart {
+              ...Cart
+            }
+          }
+        }
+      `,
+      [cartFragment],
+    ),
+    {
+      cartId: cart.id,
+      lineItem: { merchandiseId: variantId, quantity: productQuantityStep },
+    },
+  );
   return cart;
 }
 

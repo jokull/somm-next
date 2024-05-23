@@ -3,9 +3,8 @@ import { cookies } from "next/headers";
 import { z } from "zod";
 
 import { env } from "~/env";
-import { type GetCartQuery } from "~/storefront";
-
-import { shopify } from "./shopify";
+import { cartFragment, GetCartQuery } from "~/graphql/cart";
+import { client, graphql } from "~/graphql/shopify";
 
 const NAME = "session";
 
@@ -38,7 +37,9 @@ export async function setSession(session: Session) {
 export async function getCart() {
   const session = await getSession();
   if (session) {
-    const { cart } = await shopify.GetCart({ cartId: session.cartId });
+    const { cart } = await client.request(GetCartQuery, {
+      cartId: session.cartId,
+    });
     if (cart) {
       return cart;
     }
@@ -46,18 +47,31 @@ export async function getCart() {
 }
 
 export async function createCart() {
-  const { cartCreate } = await shopify.CreateCart({ input: {} });
+  const { cartCreate } = await client.request(
+    graphql(
+      `
+        mutation CreateCart($input: CartInput) {
+          cartCreate(input: $input) {
+            cart {
+              ...Cart
+            }
+            userErrors {
+              code
+              message
+            }
+          }
+        }
+      `,
+      [cartFragment],
+    ),
+    { input: {} },
+  );
+
   const cart = cartCreate?.cart;
   if (!cart) {
     throw new Error("Could not create cart");
   }
+
   await setSession({ cartId: cart.id });
   return cart;
 }
-
-export type Cart = NonNullable<GetCartQuery["cart"]>;
-
-export type CartLine = Extract<
-  Cart["lines"]["edges"][0]["node"],
-  { __typename: "CartLine" }
->;

@@ -1,10 +1,7 @@
+import { FragmentOf } from "gql.tada";
 import { groupBy, pipe } from "remeda";
 
-import { type ProductsQuery } from "~/storefront";
-
-export type ProductsCollection = NonNullable<
-  ProductsQuery["collection"]
->["products"];
+import { paginatedProductsFragment } from "./products";
 
 export const vendors = {
   kaffihusvesturbaejar: {
@@ -93,7 +90,9 @@ export function getVendorFromSlug(slug: string) {
   return Object.values(vendors).find((value) => value.slug === slug);
 }
 
-export function getProductsByVendor(products: ProductsCollection) {
+export function getProductsByVendor(
+  products: FragmentOf<typeof paginatedProductsFragment>,
+) {
   const vendorProducts = pipe(
     products.edges,
     groupBy((x) => x.node.vendor),

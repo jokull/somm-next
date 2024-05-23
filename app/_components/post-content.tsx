@@ -1,7 +1,9 @@
+import { ResultOf } from "gql.tada";
 import { StructuredText } from "react-datocms/structured-text";
 
-import { type PostQuery } from "~/dato";
-import { shopify } from "~/lib/shopify";
+import { Post } from "~/graphql/post";
+import { client, graphql } from "~/graphql/shopify";
+import { productFragment } from "~/lib/products";
 
 import { ProductEmbed } from "./product-embed";
 
@@ -11,9 +13,24 @@ import { ProductEmbed } from "./product-embed";
 
 export async function getProducts(blocks: { shopifyProductId: string }[]) {
   const ids = blocks.map(({ shopifyProductId }) => shopifyProductId);
-  const { nodes } = await shopify.ProductsByIds({
-    ids: ids.map((id) => `gid://shopify/Product/${id}`),
-  });
+  const { nodes } = await client.request(
+    graphql(
+      `
+        query ProductsByIds($ids: [ID!]!) {
+          nodes(ids: $ids) {
+            ... on Product {
+              __typename
+              ...ProductFields
+            }
+          }
+        }
+      `,
+      [productFragment],
+    ),
+    {
+      ids: ids.map((id) => `gid://shopify/Product/${id}`),
+    },
+  );
   return nodes.flatMap((node) =>
     node?.__typename === "Product" ? [node] : [],
   );
@@ -22,7 +39,7 @@ export async function getProducts(blocks: { shopifyProductId: string }[]) {
 export async function PostContent({
   field,
 }: {
-  field: NonNullable<PostQuery["post"]>["content"];
+  field: NonNullable<ResultOf<typeof Post>["post"]>["content"];
 }) {
   const products = await getProducts(field.blocks);
   return (

@@ -2,9 +2,10 @@ import { type Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { ProductsGrid } from "~/app/_components/products-grid";
+import { client } from "~/graphql/shopify";
 import { getVendorFromSlug } from "~/lib/commerce";
+import { Products } from "~/lib/products";
 import { getFirstSearchParam, type SearchParams } from "~/lib/search-params";
-import { shopify } from "~/lib/shopify";
 
 export const runtime = "edge";
 export const dynamic = "force-dynamic";
@@ -33,7 +34,7 @@ export default async function Page({
 }: Props) {
   const productType = getFirstSearchParam(searchParams, "tegund");
   const vendorName = getVendorFromSlug(vendor)?.shopifyVendor ?? "";
-  const { collection } = await shopify.Products({
+  const { collection } = await client.request(Products, {
     filters: [
       {
         productVendor: vendorName,

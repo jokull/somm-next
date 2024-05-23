@@ -8,9 +8,9 @@ import { toNextMetadata } from "react-datocms";
 import { Toaster } from "sonner";
 
 import { env } from "~/env";
+import { client, graphql } from "~/graphql/dato";
 import { getCart } from "~/lib/cart";
 import { vendors } from "~/lib/commerce";
-import { dato } from "~/lib/dato";
 
 import { Cart } from "./_components/cart";
 import { CartProvider } from "./_components/cart-provider";
@@ -28,13 +28,35 @@ const ppeditorial = localFont({
   ],
 });
 
+const metadataQuery = graphql(`
+  query Metadata {
+    homePage {
+      _seoMetaTags {
+        attributes
+        content
+        tag
+      }
+      seo {
+        title
+        description
+      }
+    }
+  }
+`);
+
 export async function generateMetadata(): Promise<Metadata> {
-  const { homePage } = await dato.HomePage();
+  const { homePage } = await client.request({
+    document: metadataQuery,
+  });
   if (!homePage) {
     notFound();
   }
   return {
-    ...toNextMetadata(homePage._seoMetaTags),
+    ...toNextMetadata(
+      homePage._seoMetaTags.flatMap(({ attributes, content, tag }) =>
+        content ? [{ attributes, content, tag }] : [],
+      ),
+    ),
     title: homePage.seo?.title ?? "Somm",
     description:
       homePage.seo?.description ??

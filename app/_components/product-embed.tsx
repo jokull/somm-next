@@ -1,13 +1,18 @@
+import { FragmentOf } from "gql.tada";
 import Link from "next/link";
 import { z } from "zod";
 
 import { getProductQuantityStep, getVendorFromName } from "~/lib/commerce";
-import { type ProductFieldsFragment } from "~/storefront";
+import { productFragment } from "~/lib/products";
 
 import { AddToCart } from "./add-to-cart";
 import { WineTypeDot } from "./wine-type-dot";
 
-export function ProductEmbed({ product }: { product: ProductFieldsFragment }) {
+export function ProductEmbed({
+  product,
+}: {
+  product: FragmentOf<typeof productFragment>;
+}) {
   const id = product.id.split("/").at(-1) ?? "";
   const variants = product.variants.edges.map((edge) => edge.node);
   const variant = variants.find((v) => v.availableForSale) ?? variants[0];

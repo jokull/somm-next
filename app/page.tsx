@@ -1,10 +1,11 @@
+import { type FragmentOf } from "gql.tada";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import { type HomePageQuery } from "~/dato";
-import { dato } from "~/lib/dato";
+import * as dato from "~/graphql/dato";
+import * as shopify from "~/graphql/shopify";
+import { Products } from "~/lib/products";
 import { getFirstSearchParam, type SearchParams } from "~/lib/search-params";
-import { shopify } from "~/lib/shopify";
 
 import { DatoImage } from "./_components/dato-image";
 import { getProducts } from "./_components/post-content";
@@ -14,11 +15,51 @@ import { ProductsGrid } from "./_components/products-grid";
 export const runtime = "edge";
 export const dynamic = "force-dynamic";
 
-async function Post({
-  post,
-}: {
-  post: NonNullable<HomePageQuery["homePage"]>["post"];
-}) {
+const postFragment = dato.graphql(`
+  fragment Post on PostRecord @_unmask {
+    id
+    slug
+    title
+    date
+    excerpt
+    content {
+      __typename
+      blocks {
+        __typename
+        id
+        ... on ProductRecord {
+          shopifyProductId
+        }
+      }
+    }
+    image {
+      responsiveImage(imgixParams: { w: 320, h: 320 }) {
+        width
+        height
+        src
+        alt
+      }
+    }
+    _status
+    _firstPublishedAt
+  }
+`);
+
+const homePageQuery = dato.graphql(
+  `
+    query HomePage {
+      homePage {
+        id
+        post {
+          ...Post
+        }
+      }
+    }
+  `,
+  [postFragment],
+);
+
+async function Post({ post }: { post: FragmentOf<typeof postFragment> }) {
   const products = (await getProducts(post.content.blocks)).slice(0, 2);
   const date = new Date(`${post.date}T00:00:00`);
   return (
@@ -88,12 +129,15 @@ export default async function Page({
   searchParams: SearchParams;
 }) {
   const productType = getFirstSearchParam(searchParams, "tegund");
-  const { collection } = await shopify.Products({
-    filters: productType ? { productType } : {},
+  const { collection } = await shopify.client.request(Products, {
+    filters: productType ? [{ productType }] : [{}],
   });
   const products = collection?.products;
 
-  const { homePage } = await dato.HomePage();
+  const { homePage } = await dato.client.request({
+    document: homePageQuery,
+  });
+
   if (!homePage) {
     notFound();
   }

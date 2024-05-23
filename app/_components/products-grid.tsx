@@ -1,9 +1,15 @@
-import { type ProductsCollection } from "~/lib/commerce";
+import { FragmentOf } from "gql.tada";
+
+import { paginatedProductsFragment } from "~/lib/products";
 import { unwrap } from "~/lib/shopify";
 
 import { ProductCard } from "./product-card";
 
-export function ProductsGrid({ products }: { products: ProductsCollection }) {
+export function ProductsGrid({
+  products,
+}: {
+  products: FragmentOf<typeof paginatedProductsFragment>;
+}) {
   const filteredProducts = unwrap(products)
     .filter((product) =>
       unwrap(product.variants).find((variant) => variant.image?.url),

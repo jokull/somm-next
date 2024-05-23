@@ -2,7 +2,7 @@ import { type Metadata } from "next";
 import Link from "next/link";
 import { groupBy } from "remeda";
 
-import { dato } from "~/lib/dato";
+import { client, graphql } from "~/graphql/dato";
 
 import { DatoImage } from "../_components/dato-image";
 
@@ -31,8 +31,34 @@ function formatDateString(dateString: string): string {
   return formattedDate;
 }
 
+const Posts = graphql(`
+  query Posts($skip: IntType) {
+    allPosts(first: 100, skip: $skip) {
+      id
+      slug
+      title
+      date
+      excerpt
+      image {
+        responsiveImage(
+          imgixParams: { w: 200, h: 200, fit: crop, crop: focalpoint }
+        ) {
+          width
+          height
+          src
+          alt
+        }
+      }
+    }
+
+    _allPostsMeta {
+      count
+    }
+  }
+`);
+
 export default async function Page() {
-  const { allPosts } = await dato.Posts();
+  const { allPosts } = await client.request(Posts, { skip: undefined });
   const postGroups = groupBy(allPosts, (post) => post.date.slice(0, 7));
   return (
     <div className="mx-auto max-w-xl space-y-6">

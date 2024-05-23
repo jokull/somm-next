@@ -1,32 +1,55 @@
 import { NextResponse } from "next/server";
 
-import { shopify } from "~/lib/shopify";
-import { type ProductFieldsFragment } from "~/storefront";
+import { client, graphql } from "~/graphql/shopify";
 
 export const runtime = "edge";
 
+const Products = graphql(`
+  query Products($after: String) {
+    collection(handle: "in-stock") {
+      products(first: 100, after: $after) {
+        edges {
+          node {
+            id
+            vendor
+          }
+          cursor
+        }
+        pageInfo {
+          hasNextPage
+          endCursor
+        }
+      }
+    }
+  }
+`);
+
+async function request(after: string | undefined) {
+  return (await client.request(Products, { after })).collection?.products;
+}
+
 export async function GET() {
-  const products: ProductFieldsFragment[] = [];
+  const products: { id: string; vendor: string }[] = [];
 
   let after: undefined | string = undefined;
   let hasMoreData = true;
 
   while (hasMoreData) {
-    const { collection } = await shopify.Products({ after });
+    const _products = await request(after);
 
-    if (!collection) {
-      throw new Error("No products");
+    if (!_products) {
+      throw new Error("No result");
     }
 
-    collection.products.edges.forEach(({ node }) => {
-      products.push(node);
+    _products.edges.forEach((edge) => {
+      products.push(edge.node);
     });
 
-    const pageInfo = collection.products.pageInfo;
+    const pageInfo = _products.pageInfo;
 
     // Determine if there is more data to fetch
     if (pageInfo.hasNextPage && pageInfo.endCursor) {
-      after = collection.products.pageInfo.endCursor ?? undefined;
+      after = _products.pageInfo.endCursor ?? undefined;
     } else {
       hasMoreData = false; // Stop the while loop
     }

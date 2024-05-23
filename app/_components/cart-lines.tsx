@@ -1,4 +1,4 @@
-import { type CartLine as CartLineType } from "~/lib/cart";
+import { type CartLine as CartLineType } from "~/graphql/cart";
 
 import { CartLine } from "./cart-line";
 

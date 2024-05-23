@@ -3,9 +3,8 @@ import { NextResponse, type NextRequest } from "next/server";
 import { z } from "zod";
 
 import { env } from "~/env";
+import { client, graphql } from "~/graphql/shopify";
 import { getSession } from "~/lib/cart";
-import { shopify } from "~/lib/shopify";
-import { type CountryCode } from "~/storefront";
 
 export const runtime = "edge";
 
@@ -68,21 +67,42 @@ export async function GET(request: NextRequest) {
 
   if (dokobitSessionToken && session?.cartId) {
     const dokobitSession = await getDokobitSession(dokobitSessionToken);
-    const response = await shopify.CartAttributesUpdate({
-      cartId: session.cartId,
-      buyerIdentidy: {
-        phone: dokobitSession.phone,
-        countryCode:
-          dokobitSession.country_code.toLocaleUpperCase() as CountryCode,
-      },
-      attributes: [
-        { key: "kennitala", value: dokobitSession.code },
-        {
-          key: "name",
-          value: `${dokobitSession.name} ${dokobitSession.surname}`,
+    const response = await client.request(
+      graphql(`
+        mutation CartAttributesUpdate(
+          $cartId: ID!
+          $buyerIdentidy: CartBuyerIdentityInput!
+          $attributes: [AttributeInput!]!
+        ) {
+          cartAttributesUpdate(attributes: $attributes, cartId: $cartId) {
+            __typename
+          }
+          cartBuyerIdentityUpdate(
+            cartId: $cartId
+            buyerIdentity: $buyerIdentidy
+          ) {
+            __typename
+            cart {
+              checkoutUrl
+            }
+          }
+        }
+      `),
+      {
+        cartId: session.cartId,
+        buyerIdentidy: {
+          phone: dokobitSession.phone,
+          countryCode: dokobitSession.country_code.toLocaleUpperCase() as any,
         },
-      ],
-    });
+        attributes: [
+          { key: "kennitala", value: dokobitSession.code },
+          {
+            key: "name",
+            value: `${dokobitSession.name} ${dokobitSession.surname}`,
+          },
+        ],
+      },
+    );
     if (response.cartBuyerIdentityUpdate?.cart?.checkoutUrl) {
       checkoutUrl = response.cartBuyerIdentityUpdate.cart.checkoutUrl;
       return NextResponse.redirect(checkoutUrl);

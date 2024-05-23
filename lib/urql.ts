@@ -1,10 +1,22 @@
 import { cacheExchange } from "@urql/exchange-graphcache";
+import { VariablesOf } from "gql.tada";
 import { Client, fetchExchange } from "urql";
 
 import { env } from "~/env";
-import { type MutationCartLinesUpdateArgs } from "~/storefront";
+import { Cart, GetCartQuery } from "~/graphql/cart";
+import { graphql } from "~/graphql/shopify";
 
-import { GetCartDocument, type UpdateCartItemMutation } from "./gql/graphql";
+const Mutation = graphql(`
+  mutation UpdateLines($cartId: ID!, $lines: [CartLineUpdateInput!]!) {
+    cartLinesUpdate(cartId: $cartId, lines: $lines) {
+      cart {
+        id
+      }
+    }
+  }
+`);
+
+type CartLinesUpdateArgs = VariablesOf<typeof Mutation>;
 
 export const client = new Client({
   url: "https://somm-is.myshopify.com/api/2024-04/graphql",
@@ -20,9 +32,9 @@ export const client = new Client({
   exchanges: [
     cacheExchange({
       optimistic: {
-        cartLinesUpdate: (args: MutationCartLinesUpdateArgs, cache) => {
+        cartLinesUpdate: (args: CartLinesUpdateArgs, cache) => {
           const response = cache.readQuery({
-            query: GetCartDocument.toString(),
+            query: GetCartQuery,
             variables: { cartId: args.cartId },
           });
           if (response?.cart) {
@@ -52,9 +64,7 @@ export const client = new Client({
                 },
               },
             } satisfies {
-              cart: NonNullable<
-                NonNullable<UpdateCartItemMutation["cartLinesUpdate"]>["cart"]
-              >;
+              cart: Cart;
             };
           }
           return null;

@@ -3,8 +3,10 @@ import { notFound } from "next/navigation";
 import { z } from "zod";
 
 import { VendorName } from "~/app/_components/vendor-name";
+import { client, graphql } from "~/graphql/shopify";
 import { getProductQuantityStep, getVendorFromSlug } from "~/lib/commerce";
-import { shopify, unwrap } from "~/lib/shopify";
+import { productFragment } from "~/lib/products";
+import { unwrap } from "~/lib/shopify";
 
 import { Variants } from "./_components/variants";
 
@@ -15,9 +17,25 @@ interface Props {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { product } = await shopify.Product({
-    id: `gid://shopify/Product/${params.id}`,
-  });
+  const { product } = await client.request(
+    graphql(
+      `
+        query Product($id: ID!) {
+          product(id: $id) {
+            title
+            framleidandi: metafield(namespace: "custom", key: "framleidandi") {
+              value
+              type
+            }
+          }
+        }
+      `,
+      [productFragment],
+    ),
+    {
+      id: `gid://shopify/Product/${params.id}`,
+    },
+  );
 
   const vendorName = getVendorFromSlug(params.vendor)?.name;
 
@@ -48,9 +66,25 @@ export default async function ProductComponent({
 }: {
   params: { vendor: string; id: string };
 }) {
-  const { product } = await shopify.Product({
-    id: `gid://shopify/Product/${params.id}`,
-  });
+  const { product } = await client.request(
+    graphql(
+      `
+        query Product($id: ID!) {
+          product(id: $id) {
+            ...ProductFields
+            seo {
+              title
+              description
+            }
+          }
+        }
+      `,
+      [productFragment],
+    ),
+    {
+      id: `gid://shopify/Product/${params.id}`,
+    },
+  );
 
   if (!product) {
     notFound();

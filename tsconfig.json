@@ -20,6 +20,34 @@
     "plugins": [
       {
         "name": "next"
+      },
+      {
+        "name": "@0no-co/graphqlsp",
+        "schemas": [
+          {
+            "name": "shopify",
+            "schema": {
+              "url": "https://somm-is.myshopify.com/api/2024-04/graphql",
+              "headers": {
+                "X-Shopify-Storefront-Access-Token": "d69aaa070510c4d1d270b30d49161d6e"
+              }
+            },
+            "tadaOutputLocation": "./graphql/shopify-env.d.ts"
+          },
+          {
+            "name": "dato",
+            "schema": {
+              "url": "https://graphql.datocms.com",
+              "headers": {
+                "Content-Type": "application/json",
+                "X-Exclude-Invalid": "true",
+                "Accept": "application/json",
+                "Authorization": "Bearer a15548b95d9f15a126f6e8e5d3286f"
+              }
+            },
+            "tadaOutputLocation": "./graphql/dato-env.d.ts"
+          }
+        ]
       }
     ],
     "paths": {

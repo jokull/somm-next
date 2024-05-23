@@ -1,6 +1,6 @@
 import { type Metadata } from "next";
 
-import { shopify } from "~/lib/shopify";
+import { client, graphql } from "~/graphql/shopify";
 
 import { Prose } from "../_components/prose";
 
@@ -11,7 +11,20 @@ export const metadata: Metadata = {
 };
 
 export default async function Page() {
-  const result = await shopify.Terms();
+  const result = await client.request(
+    graphql(`
+      query ShippingPolicy {
+        shop {
+          termsOfService {
+            body
+          }
+          privacyPolicy {
+            body
+          }
+        }
+      }
+    `),
+  );
   return (
     <Prose
       html={`
