@@ -67,10 +67,6 @@ export const productFragment = graphql(
         value
         type
       }
-      raektun: metafield(namespace: "custom", key: "raektun") {
-        value
-        type
-      }
       abv: metafield(namespace: "custom", key: "abv") {
         value
         type

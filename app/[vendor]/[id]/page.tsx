@@ -5,7 +5,7 @@ import { z } from "zod";
 import { VendorName } from "~/app/_components/vendor-name";
 import { client, graphql } from "~/graphql/shopify";
 import { getProductQuantityStep, getVendorFromSlug } from "~/lib/commerce";
-import { productFragment } from "~/lib/products";
+import { variantFragment } from "~/lib/products";
 import { unwrap } from "~/lib/shopify";
 
 import { Variants } from "./_components/variants";
@@ -18,20 +18,17 @@ interface Props {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { product } = await client.request(
-    graphql(
-      `
-        query Product($id: ID!) {
-          product(id: $id) {
-            title
-            framleidandi: metafield(namespace: "custom", key: "framleidandi") {
-              value
-              type
-            }
+    graphql(`
+      query Product($id: ID!) {
+        product(id: $id) {
+          title
+          framleidandi: metafield(namespace: "custom", key: "framleidandi") {
+            value
+            type
           }
         }
-      `,
-      [productFragment],
-    ),
+      }
+    `),
     {
       id: `gid://shopify/Product/${params.id}`,
     },
@@ -71,15 +68,64 @@ export default async function ProductComponent({
       `
         query Product($id: ID!) {
           product(id: $id) {
-            ...ProductFields
-            seo {
-              title
-              description
+            handle
+            title
+            description
+            availableForSale
+            totalInventory
+            vendor
+            productType
+            featuredImage {
+              __typename
+              id
+              url(transform: { maxHeight: 250, maxWidth: 250, scale: 2 })
+              altText
+              width
+              height
+            }
+            thruga: metafield(namespace: "custom", key: "thruga") {
+              value
+              type
+            }
+            country: metafield(namespace: "custom", key: "country") {
+              value
+              type
+            }
+            region: metafield(namespace: "custom", key: "region") {
+              value
+              type
+            }
+            wineType: metafield(namespace: "custom", key: "wine_type") {
+              value
+              type
+            }
+            framleidandi: metafield(namespace: "custom", key: "framleidandi") {
+              value
+              type
+            }
+            raektun: metafield(namespace: "custom", key: "raektun") {
+              value
+              type
+            }
+            abv: metafield(namespace: "custom", key: "abv") {
+              value
+              type
+            }
+            magn: metafield(namespace: "custom", key: "magn") {
+              value
+              type
+            }
+            variants(first: 10) {
+              edges {
+                node {
+                  ...VariantFields
+                }
+              }
             }
           }
         }
       `,
-      [productFragment],
+      [variantFragment],
     ),
     {
       id: `gid://shopify/Product/${params.id}`,
