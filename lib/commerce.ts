@@ -115,7 +115,8 @@ export function getProductsByVendor(
 }
 
 export function getProductQuantityStep(productType: string) {
-  const isBeer = productType === "Bjór";
-  const productQuantityStep = isBeer ? 4 : 1;
-  return productQuantityStep;
+  return 1;
+  // const isBeer = productType === "Bjór";
+  // const productQuantityStep = isBeer ? 4 : 1;
+  // return productQuantityStep;
 }
