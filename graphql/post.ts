@@ -13,9 +13,27 @@ export const Post = graphql(`
         links
         blocks {
           __typename
-          id
           ... on ProductRecord {
+            id
             shopifyProductId
+          }
+          ... on ImageRecord {
+            id
+            image {
+              responsiveImage(imgixParams: { auto: format, w: 1200 }) {
+                srcSet
+                webpSrcSet
+                sizes
+                src
+                width
+                height
+                aspectRatio
+                alt
+                title
+                base64
+                bgColor
+              }
+            }
           }
         }
         value

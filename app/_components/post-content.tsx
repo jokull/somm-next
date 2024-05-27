@@ -41,13 +41,18 @@ export async function PostContent({
 }: {
   field: NonNullable<ResultOf<typeof Post>["post"]>["content"];
 }) {
-  const products = await getProducts(field.blocks);
+  const productBlocks = field.blocks.flatMap((block) =>
+    block.__typename === "ProductRecord" ? [block] : [],
+  );
+  const products = await getProducts(productBlocks);
   return (
     <StructuredText
       data={{ ...field, links: [] }}
       renderBlock={({ record }) => {
-        const product = products.find(({ id }) =>
-          id.includes(record.shopifyProductId),
+        const product = products.find(
+          ({ id }) =>
+            record.__typename === "ProductRecord" &&
+            id.includes(record.shopifyProductId),
         );
         if (product) {
           return (

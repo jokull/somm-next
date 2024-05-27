@@ -23,11 +23,9 @@ const postFragment = dato.graphql(`
     date
     excerpt
     content {
-      __typename
       blocks {
-        __typename
-        id
         ... on ProductRecord {
+          id
           shopifyProductId
         }
       }
@@ -60,7 +58,13 @@ const homePageQuery = dato.graphql(
 );
 
 async function Post({ post }: { post: FragmentOf<typeof postFragment> }) {
-  const products = (await getProducts(post.content.blocks)).slice(0, 2);
+  const products = (
+    await getProducts(
+      post.content.blocks.flatMap((block) =>
+        block.__typename === "ProductRecord" ? [block] : [],
+      ),
+    )
+  ).slice(0, 2);
   const date = new Date(`${post.date}T00:00:00`);
   return (
     <div className="mb-8">
