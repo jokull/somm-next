@@ -1,22 +1,14 @@
 import { cacheExchange } from "@urql/exchange-graphcache";
-import { VariablesOf } from "gql.tada";
 import { Client, fetchExchange } from "urql";
 
 import { env } from "~/env";
 import { Cart, GetCartQuery } from "~/graphql/cart";
 import { graphql } from "~/graphql/shopify";
 
-const Mutation = graphql(`
-  mutation UpdateLines($cartId: ID!, $lines: [CartLineUpdateInput!]!) {
-    cartLinesUpdate(cartId: $cartId, lines: $lines) {
-      cart {
-        id
-      }
-    }
-  }
-`);
-
-type CartLinesUpdateArgs = VariablesOf<typeof Mutation>;
+type CartLinesUpdateArgs = {
+  cartId: string;
+  lines: ReturnType<typeof graphql.scalar<"CartLineUpdateInput">>[];
+};
 
 export const client = new Client({
   url: "https://somm-is.myshopify.com/api/2024-04/graphql",

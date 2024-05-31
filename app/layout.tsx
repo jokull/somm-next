@@ -145,6 +145,16 @@ export default async function RootLayout({
                         Hafa samband{" "}
                       </a>
                     </li>
+                    <li>
+                      <a
+                        href="https://www.instagram.com/sommrvk"
+                        className="truncate underline"
+                        target="_blank"
+                      >
+                        {" "}
+                        Instagram{" "}
+                      </a>
+                    </li>
                     <li className="mt-4">
                       <div className="flex items-center gap-2">
                         <svg
