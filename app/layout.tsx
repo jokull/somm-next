@@ -87,7 +87,7 @@ export default async function RootLayout({
         <body className={`${ppeditorial.variable} bg-white font-serif`}>
           <div className="relative mx-auto max-w-7xl">
             <div className="flex min-h-screen flex-col px-4 py-8">
-              <div className="mb-6 flex flex-row items-center justify-between gap-4">
+              <div className="mb-6 flex flex-row items-center sm:justify-between sm:gap-4">
                 <div></div>
                 <Link href="/">
                   <div className="relative">
@@ -104,7 +104,7 @@ export default async function RootLayout({
                       width={112 / 2}
                       height={98 / 2}
                       alt="Wine is on my mind"
-                      className="absolute -left-12 -top-4 -z-10"
+                      className="absolute -right-12 -top-4 -z-10 -scale-x-100 sm:-left-12 sm:right-auto sm:scale-x-100"
                     />
                   </div>
                 </Link>
@@ -113,7 +113,7 @@ export default async function RootLayout({
                 </div>
               </div>
               <div className="mb-8 grow sm:mb-12 md:mb-16">
-                <div className="mb-4 flex flex-col items-start gap-2 sm:mb-8 sm:mt-4 sm:gap-4 md:mb-12 lg:items-center lg:justify-center">
+                <div className="mb-4 flex flex-col items-start gap-2 sm:mb-8 sm:mt-4 sm:items-center sm:gap-4 md:mb-12 lg:justify-center">
                   <Navigation vendors={Object.values(vendors)} />
                 </div>
                 {children}

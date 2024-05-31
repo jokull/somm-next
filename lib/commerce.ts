@@ -67,7 +67,7 @@ export const vendors = {
 } as const;
 
 export const allProductTypes = [
-  null,
+  // null,
   "Rauðvín",
   "Hvítvín",
   "Rósavín",
