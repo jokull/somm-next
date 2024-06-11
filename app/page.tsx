@@ -25,6 +25,7 @@ const postFragment = graphql(`
     content {
       blocks {
         ... on ProductRecord {
+          __typename
           id
           shopifyProductId
         }
