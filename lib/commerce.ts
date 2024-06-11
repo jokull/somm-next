@@ -46,6 +46,12 @@ export const vendors = {
     slug: "vinbondinn",
     instagram: "vinbondinn",
   },
+  unagi: {
+    name: "Slóvakískt vín",
+    shopifyVendor: "Unagi ehf.",
+    slug: "slovakiskt-vin",
+    instagram: "slovakiskt.vin",
+  },
   // "le-caviste": {
   //   name: "Le Caviste",
   //   shopifyVendor: "Le Caviste",
