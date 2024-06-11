@@ -50,7 +50,7 @@ export function ItemQuantity({
       >
         <img className="h-6 w-6" src="/icons/minus.svg" alt="Mínus" />
       </button>
-      <div className="mt-0.5 leading-none">{quantity}</div>
+      <div className="mt-0.5 px-1 leading-none">{quantity}</div>
       <button
         disabled={
           fetching ||

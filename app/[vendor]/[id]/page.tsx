@@ -162,7 +162,7 @@ export default async function ProductComponent({
   const productQuantityStep = getProductQuantityStep(product.productType);
 
   return (
-    <div className="flex flex-col gap-4 sm:flex-row sm:gap-8">
+    <div className="flex flex-col gap-8 sm:flex-row">
       {selectedVariant.image && (
         <div className="grow-0 sm:w-1/2">
           <img
@@ -175,7 +175,7 @@ export default async function ProductComponent({
           />
         </div>
       )}
-      <div className="max-w-xs grow">
+      <div className="grow sm:max-w-xs">
         <div className="mb-4 border-b pb-2">
           <VendorName vendor={vendor} linkify />
         </div>
