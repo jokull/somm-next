@@ -1,9 +1,9 @@
 "use client";
 
-import { FragmentOf } from "gql.tada";
+import { type FragmentOf } from "gql.tada";
 import { useState } from "react";
 
-import { productFragment } from "~/lib/products";
+import { type productFragment } from "~/lib/products";
 import { unwrap } from "~/lib/shopify";
 
 import { AddToCart } from "./add-to-cart";

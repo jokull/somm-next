@@ -1,7 +1,7 @@
-import { FragmentOf } from "gql.tada";
+import { type FragmentOf } from "gql.tada";
 import { groupBy, pipe } from "remeda";
 
-import { paginatedProductsFragment } from "./products";
+import { type paginatedProductsFragment } from "./products";
 
 export const vendors = {
   kaffihusvesturbaejar: {

@@ -1,11 +1,11 @@
 "use client";
 
-import { FragmentOf } from "gql.tada";
+import { type FragmentOf } from "gql.tada";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 
 import { addToCart } from "~/lib/actions";
-import { variantFragment } from "~/lib/products";
+import { type variantFragment } from "~/lib/products";
 import { useCart } from "~/lib/use-cart";
 import { cn } from "~/lib/utils";
 
@@ -22,7 +22,7 @@ export function useAddToCart({
   const [, reexecuteQuery] = useCart();
   const [pending, startTransition] = useTransition();
   function add() {
-    return startTransition(() => {
+    startTransition(() => {
       void addToCart(variant.id, productQuantityStep).then((data) => {
         router.refresh();
         reexecuteQuery({ requestPolicy: "network-only" });

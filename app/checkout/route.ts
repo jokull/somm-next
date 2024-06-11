@@ -92,7 +92,9 @@ export async function GET(request: NextRequest) {
         cartId: session.cartId,
         buyerIdentidy: {
           phone: dokobitSession.phone,
-          countryCode: dokobitSession.country_code.toLocaleUpperCase() as any,
+          // @ts-expect-error this works
+          countryCode:
+            dokobitSession.country_code.toLocaleUpperCase() as unknown,
         },
         attributes: [
           { key: "kennitala", value: dokobitSession.code },

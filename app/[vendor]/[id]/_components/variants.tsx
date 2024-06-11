@@ -1,12 +1,12 @@
 "use client";
 
-import { FragmentOf } from "gql.tada";
+import { type FragmentOf } from "gql.tada";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 
-import { AddToCart, useAddToCart } from "~/app/_components/add-to-cart";
+import { useAddToCart } from "~/app/_components/add-to-cart";
 import { ItemQuantity } from "~/app/_components/item-quantity";
-import { variantFragment } from "~/lib/products";
+import { type variantFragment } from "~/lib/products";
 import { useCart } from "~/lib/use-cart";
 import { cn } from "~/lib/utils";
 
@@ -26,7 +26,8 @@ export function Variants({
   );
 
   if (!selectedVariant) {
-    return <div>Not found</div>;
+    throw new Error("Not found");
+    // return <div>Not found</div>;
   }
 
   const cartLines =

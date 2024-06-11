@@ -35,7 +35,7 @@ export function Navigation({ vendors }: { vendors: Vendor[] }) {
         <li>
           <Link
             href="/"
-            className={`text-neutral-950 ${typeof top === "undefined" ? "underline" : ""}`}
+            className={`text-neutral-950 ${top === undefined ? "underline" : ""}`}
           >
             Forsíða
           </Link>
@@ -80,7 +80,7 @@ export function Navigation({ vendors }: { vendors: Vendor[] }) {
           {allProductTypes.map((productType) => (
             <Option
               key={productType}
-              href={productType ? `/?tegund=${productType}` : "/"}
+              href={`/?tegund=${productType}`}
               option={productType}
             />
           ))}

@@ -2,13 +2,13 @@ import { cacheExchange } from "@urql/exchange-graphcache";
 import { Client, fetchExchange } from "urql";
 
 import { env } from "~/env";
-import { Cart, GetCartQuery } from "~/graphql/cart";
-import { graphql } from "~/graphql/shopify";
+import { GetCartQuery, type Cart } from "~/graphql/cart";
+import { type graphql } from "~/graphql/shopify";
 
-type CartLinesUpdateArgs = {
+interface CartLinesUpdateArgs {
   cartId: string;
   lines: ReturnType<typeof graphql.scalar<"CartLineUpdateInput">>[];
-};
+}
 
 export const client = new Client({
   url: "https://somm-is.myshopify.com/api/2024-04/graphql",
@@ -24,10 +24,11 @@ export const client = new Client({
   exchanges: [
     cacheExchange({
       optimistic: {
-        cartLinesUpdate: (args: CartLinesUpdateArgs, cache) => {
+        cartLinesUpdate: (args, cache) => {
+          const _args = args as unknown as CartLinesUpdateArgs;
           const response = cache.readQuery({
             query: GetCartQuery,
-            variables: { cartId: args.cartId },
+            variables: { cartId: _args.cartId },
           });
           if (response?.cart) {
             return {
@@ -41,7 +42,7 @@ export const client = new Client({
                       return edge;
                     } else {
                       const id = edge.node.id;
-                      const quantity = args.lines.find(
+                      const quantity = _args.lines.find(
                         (line) => line.id === id,
                       )?.quantity;
                       return {

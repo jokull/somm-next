@@ -18,12 +18,9 @@ export function CartFooter({ children }: { children: ReactNode }) {
       <div className="mt-2 flex justify-between border-t pt-3 font-medium">
         <div>Samtals</div>
         <div className="w-[105px] shrink-0 text-right">
-          {Number.parseInt(totalAmount.amount as string).toLocaleString(
-            "de-DE",
-            {
-              maximumFractionDigits: 0,
-            },
-          )}{" "}
+          {Number.parseInt(totalAmount.amount).toLocaleString("de-DE", {
+            maximumFractionDigits: 0,
+          })}{" "}
           kr
         </div>
       </div>

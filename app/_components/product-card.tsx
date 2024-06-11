@@ -1,8 +1,8 @@
-import { FragmentOf } from "gql.tada";
+import { type FragmentOf } from "gql.tada";
 import Link from "next/link";
 
 import { getProductQuantityStep, getVendorFromName } from "~/lib/commerce";
-import { productFragment } from "~/lib/products";
+import { type productFragment } from "~/lib/products";
 import { cn } from "~/lib/utils";
 
 import { VariantToCart } from "./variant-to-cart";

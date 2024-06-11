@@ -2,8 +2,8 @@ import { type FragmentOf } from "gql.tada";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import * as dato from "~/graphql/dato";
-import * as shopify from "~/graphql/shopify";
+import { client, graphql } from "~/graphql/dato";
+import { client as shopify_client } from "~/graphql/shopify";
 import { Products } from "~/lib/products";
 import { getFirstSearchParam, type SearchParams } from "~/lib/search-params";
 
@@ -15,7 +15,7 @@ import { ProductsGrid } from "./_components/products-grid";
 export const runtime = "edge";
 export const dynamic = "force-dynamic";
 
-const postFragment = dato.graphql(`
+const postFragment = graphql(`
   fragment Post on PostRecord @_unmask {
     id
     slug
@@ -43,7 +43,7 @@ const postFragment = dato.graphql(`
   }
 `);
 
-const homePageQuery = dato.graphql(
+const homePageQuery = graphql(
   `
     query HomePage {
       homePage {
@@ -133,12 +133,12 @@ export default async function Page({
   searchParams: SearchParams;
 }) {
   const productType = getFirstSearchParam(searchParams, "tegund");
-  const { collection } = await shopify.client.request(Products, {
+  const { collection } = await shopify_client.request(Products, {
     filters: productType ? [{ productType }] : [{}],
   });
   const products = collection?.products;
 
-  const { homePage } = await dato.client.request({
+  const { homePage } = await client.request({
     document: homePageQuery,
   });
 

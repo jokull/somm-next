@@ -1,6 +1,6 @@
-import { FragmentOf } from "gql.tada";
+import { type FragmentOf } from "gql.tada";
 
-import { paginatedProductsFragment } from "~/lib/products";
+import { type paginatedProductsFragment } from "~/lib/products";
 import { unwrap } from "~/lib/shopify";
 
 import { ProductCard } from "./product-card";

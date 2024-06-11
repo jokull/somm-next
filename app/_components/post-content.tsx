@@ -1,7 +1,7 @@
-import { ResultOf } from "gql.tada";
+import { type ResultOf } from "gql.tada";
 import { StructuredText } from "react-datocms/structured-text";
 
-import { Post } from "~/graphql/post";
+import { type Post } from "~/graphql/post";
 import { client, graphql } from "~/graphql/shopify";
 import { productFragment } from "~/lib/products";
 
