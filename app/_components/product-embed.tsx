@@ -2,11 +2,7 @@ import { type FragmentOf } from "gql.tada";
 import Link from "next/link";
 import { z } from "zod";
 
-import {
-  getProductQuantityStep,
-  getSlugFromProductType,
-  getVendorFromName,
-} from "~/lib/commerce";
+import { getProductQuantityStep, getSlugFromProductType } from "~/lib/commerce";
 import { type productFragment } from "~/lib/products";
 
 import { AddToCart } from "./add-to-cart";
