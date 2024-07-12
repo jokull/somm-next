@@ -1,7 +1,7 @@
 import { type FragmentOf } from "gql.tada";
 import Link from "next/link";
 
-import { getProductQuantityStep, getVendorFromName } from "~/lib/commerce";
+import { getProductQuantityStep, getSlugFromProductType } from "~/lib/commerce";
 import { type productFragment } from "~/lib/products";
 import { cn } from "~/lib/utils";
 
@@ -16,12 +16,12 @@ export function ProductCard({
   const id = product.id.split("/").at(-1) ?? "";
   const variants = product.variants.edges.map((edge) => edge.node);
   const variant = variants.find((v) => v.availableForSale) ?? variants[0];
-  const vendor = getVendorFromName(product.vendor);
   const productQuantityStep = getProductQuantityStep(product.productType);
+  const category = getSlugFromProductType(product.productType);
 
   return (
     <div>
-      <Link href={`/${vendor.slug}/${id}`} className="relative block">
+      <Link href={`/${category}/${id}`} className="relative block">
         {variant?.image && (
           <div className="overflow-hidden rounded-md shadow-xl">
             <img
@@ -70,7 +70,7 @@ export function ProductCard({
       <div className="mt-4 flex flex-col gap-1 md:gap-1.5">
         <div className="flex flex-col items-center justify-between gap-1 md:flex-row md:gap-3">
           <Link
-            href={`/${vendor.slug}/${id}`}
+            href={`/${category}/${id}`}
             className="min-w-0 max-w-full grow-[2] truncate sm:max-w-none"
           >
             {product.title}

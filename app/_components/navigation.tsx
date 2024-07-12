@@ -3,21 +3,20 @@
 import Link from "next/link";
 import { useSearchParams, useSelectedLayoutSegments } from "next/navigation";
 
-import {
-  allProductTypes,
-  getVendorFromSlug,
-  type Vendor,
-} from "~/lib/commerce";
+import { allProductTypes, getSlugFromProductType } from "~/lib/commerce";
 import { cn } from "~/lib/utils";
 
 function Option({ href, option }: { option: string | null; href: string }) {
+  const segments = useSelectedLayoutSegments();
+  const top = segments[0];
   const searchParams = useSearchParams();
   const current = searchParams.get("tegund");
+  const selected = current === option || href.startsWith(`/${top}`);
   return (
     <li>
       <Link
         href={href}
-        className={cn(current === option ? "underline" : "", "cursor-pointer")}
+        className={cn(selected ? "underline" : "", "cursor-pointer")}
       >
         <span className="whitespace-nowrap">{option ?? "Allt"}</span>
       </Link>
@@ -25,13 +24,13 @@ function Option({ href, option }: { option: string | null; href: string }) {
   );
 }
 
-export function Navigation({ vendors }: { vendors: Vendor[] }) {
+export function Navigation() {
   const segments = useSelectedLayoutSegments();
   const top = segments[0];
-  const vendor = top ? getVendorFromSlug(top) : undefined;
+  const slug = segments[1];
   return (
     <nav className="space-y-4">
-      <ul className="flex w-full flex-wrap font-medium text-[blue] sm:justify-center lg:w-auto">
+      <ul className="flex w-full flex-wrap font-medium sm:justify-center lg:w-auto">
         <li>
           <Link
             href="/"
@@ -44,7 +43,7 @@ export function Navigation({ vendors }: { vendors: Vendor[] }) {
         <li>
           <Link
             href="/blogg"
-            className={`text-neutral-950 ${top === "blogg" ? "underline" : ""}`}
+            className={`text-neutral-950 ${top === "blogg" && slug !== "afhending-a-pontunum" ? "underline" : ""}`}
           >
             Blogg
           </Link>
@@ -58,34 +57,28 @@ export function Navigation({ vendors }: { vendors: Vendor[] }) {
           >
             Instagram
           </a>
+          ・
+        </li>
+        <li>
+          <a
+            href="/blogg/afhending-a-pontunum"
+            className={`text-neutral-950 ${top === "blogg" && slug === "afhending-a-pontunum" ? "underline" : ""}`}
+          >
+            Staðsetningar
+          </a>
         </li>
       </ul>
       <ul className="flex w-full flex-wrap gap-x-3 gap-y-1 text-[blue] sm:justify-center md:gap-x-4 lg:w-auto">
-        {vendors
-          .filter(({ shopifyVendor }) => shopifyVendor !== "somm.is")
-          .map(({ slug, name }) => (
-            <li
-              key={slug}
-              className={cn(
-                "whitespace-nowrap",
-                vendor && vendor.slug === slug && "underline",
-              )}
-            >
-              <Link href={`/${slug}`}>{name}</Link>
-            </li>
-          ))}
+        {allProductTypes.map((productType) => {
+          const slug = getSlugFromProductType(productType);
+          if (!slug) {
+            return null;
+          }
+          return (
+            <Option key={productType} href={`/${slug}`} option={productType} />
+          );
+        })}
       </ul>
-      {segments.length === 0 ? (
-        <ul className="mb-4 flex w-full flex-wrap gap-x-3 gap-y-1 sm:justify-center sm:gap-4 lg:w-auto">
-          {allProductTypes.map((productType) => (
-            <Option
-              key={productType}
-              href={`/?tegund=${productType}`}
-              option={productType}
-            />
-          ))}
-        </ul>
-      ) : null}
     </nav>
   );
 }

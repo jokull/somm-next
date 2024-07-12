@@ -10,7 +10,6 @@ import { Toaster } from "sonner";
 import { env } from "~/env";
 import { client, graphql } from "~/graphql/dato";
 import { getCart } from "~/lib/cart";
-import { vendors } from "~/lib/commerce";
 
 import { Cart } from "./_components/cart";
 import { CartProvider } from "./_components/cart-provider";
@@ -114,7 +113,7 @@ export default async function RootLayout({
               </div>
               <div className="mb-8 grow sm:mb-12 md:mb-16">
                 <div className="mb-4 flex flex-col items-start gap-2 sm:mb-8 sm:mt-4 sm:items-center sm:gap-4 md:mb-12 lg:justify-center">
-                  <Navigation vendors={Object.values(vendors)} />
+                  <Navigation />
                 </div>
                 {children}
               </div>

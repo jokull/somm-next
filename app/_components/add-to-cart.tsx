@@ -1,36 +1,13 @@
 "use client";
 
 import { type FragmentOf } from "gql.tada";
-import { useRouter } from "next/navigation";
-import { useTransition } from "react";
 
-import { addToCart } from "~/lib/actions";
 import { type variantFragment } from "~/lib/products";
+import { useAddToCart } from "~/lib/use-add-to-cart";
 import { useCart } from "~/lib/use-cart";
 import { cn } from "~/lib/utils";
 
 import { ItemQuantity } from "./item-quantity";
-
-export function useAddToCart({
-  variant,
-  productQuantityStep,
-}: {
-  variant: FragmentOf<typeof variantFragment>;
-  productQuantityStep: number;
-}) {
-  const router = useRouter();
-  const [, reexecuteQuery] = useCart();
-  const [pending, startTransition] = useTransition();
-  function add() {
-    startTransition(() => {
-      void addToCart(variant.id, productQuantityStep).then((data) => {
-        router.refresh();
-        reexecuteQuery({ requestPolicy: "network-only" });
-      });
-    });
-  }
-  return [add, pending] as const;
-}
 
 export function AddToCart({
   variant,
@@ -39,12 +16,11 @@ export function AddToCart({
   variant: FragmentOf<typeof variantFragment>;
   productQuantityStep: number;
 }) {
-  const [add, pending] = useAddToCart({ variant, productQuantityStep });
+  const { add, pending, cartLine, soldOut } = useAddToCart({
+    variant,
+    productQuantityStep,
+  });
   const [cart] = useCart();
-  const cartLine = cart?.lines.edges
-    .flatMap(({ node }) => (node.__typename === "CartLine" ? [node] : []))
-    .find(({ merchandise }) => merchandise.id === variant.id);
-  const soldOut = !variant.availableForSale;
 
   return (
     <>

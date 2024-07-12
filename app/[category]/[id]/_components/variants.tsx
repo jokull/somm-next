@@ -4,9 +4,9 @@ import { type FragmentOf } from "gql.tada";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 
-import { useAddToCart } from "~/app/_components/add-to-cart";
 import { ItemQuantity } from "~/app/_components/item-quantity";
 import { type variantFragment } from "~/lib/products";
+import { useAddToCart } from "~/lib/use-add-to-cart";
 import { useCart } from "~/lib/use-cart";
 import { cn } from "~/lib/utils";
 
@@ -35,16 +35,10 @@ export function Variants({
       node.__typename === "CartLine" ? [node] : [],
     ) ?? [];
 
-  const cartLine = cartLines.find(
-    ({ merchandise }) => merchandise.id === selectedVariant.id,
-  );
-
-  const soldOut = !selectedVariant.availableForSale;
-
   const hasVintageVariants =
     variants.length > 0 && selectedVariant.title !== "Default Title";
 
-  const [add, pending] = useAddToCart({
+  const { add, pending, cartLine, soldOut } = useAddToCart({
     variant: selectedVariant,
     productQuantityStep,
   });

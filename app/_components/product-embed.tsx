@@ -2,7 +2,11 @@ import { type FragmentOf } from "gql.tada";
 import Link from "next/link";
 import { z } from "zod";
 
-import { getProductQuantityStep, getVendorFromName } from "~/lib/commerce";
+import {
+  getProductQuantityStep,
+  getSlugFromProductType,
+  getVendorFromName,
+} from "~/lib/commerce";
 import { type productFragment } from "~/lib/products";
 
 import { AddToCart } from "./add-to-cart";
@@ -16,7 +20,8 @@ export function ProductEmbed({
   const id = product.id.split("/").at(-1) ?? "";
   const variants = product.variants.edges.map((edge) => edge.node);
   const variant = variants.find((v) => v.availableForSale) ?? variants[0];
-  const vendor = getVendorFromName(product.vendor);
+
+  const category = getSlugFromProductType(product.productType);
   const productQuantityStep = getProductQuantityStep(product.productType);
 
   const defaultVariant = variants.find(
@@ -41,7 +46,7 @@ export function ProductEmbed({
       <div className="flex w-full flex-col justify-between gap-1 py-3 pl-3 md:gap-1.5">
         <div>
           <Link
-            href={`/${vendor.slug}/${id}`}
+            href={`/${category}/${id}`}
             className="min-w-0 truncate sm:max-w-none"
           >
             {product.title}
@@ -68,7 +73,7 @@ export function ProductEmbed({
         ) : null}
       </div>
       <Link
-        href={`/${vendor.slug}/${id}`}
+        href={`/${category}/${id}`}
         className="relative w-24 flex-shrink-0 overflow-hidden rounded-md"
       >
         {variant?.image && (

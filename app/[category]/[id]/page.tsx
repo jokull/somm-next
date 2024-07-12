@@ -4,7 +4,11 @@ import { z } from "zod";
 
 import { VendorName } from "~/app/_components/vendor-name";
 import { client, graphql } from "~/graphql/shopify";
-import { getProductQuantityStep, getVendorFromSlug } from "~/lib/commerce";
+import {
+  getProductQuantityStep,
+  getProductTypeFromSlug,
+  getVendorFromName,
+} from "~/lib/commerce";
 import { variantFragment } from "~/lib/products";
 import { unwrap } from "~/lib/shopify";
 
@@ -13,7 +17,7 @@ import { Variants } from "./_components/variants";
 export const runtime = "edge";
 export const dynamic = "force-dynamic";
 interface Props {
-  params: { vendor: string; id: string };
+  params: { category: string; id: string };
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -22,7 +26,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       query Product($id: ID!) {
         product(id: $id) {
           title
-          framleidandi: metafield(namespace: "custom", key: "framleidandi") {
+          vendor
+          wineType: metafield(namespace: "custom", key: "wine_type") {
             value
             type
           }
@@ -34,22 +39,23 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
   );
 
-  const vendorName = getVendorFromSlug(params.vendor)?.name;
+  const wineType = getProductTypeFromSlug(params.category);
 
-  if (!product || !vendorName) {
+  if (!product || !wineType) {
     notFound();
   }
 
-  const title = `${product.title} — ${vendorName} — Somm`;
+  const title = `${product.title} — ${wineType} — Somm`;
+  const vendor = product.vendor ? getVendorFromName(product.vendor) : null;
 
   return {
     title,
-    description: `${product.title} frá ${product.framleidandi?.value ?? vendorName}`,
+    description: `${product.title} — ${product.wineType?.value ?? wineType}`,
     openGraph: {
       title,
       images: [
         {
-          url: `/opengraph-images/${params.vendor}/${params.id}.png`,
+          url: `/opengraph-images/${vendor?.slug}/${params.id}.png`,
           width: 1200,
           height: 630,
         },
@@ -58,11 +64,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function ProductComponent({
-  params,
-}: {
-  params: { vendor: string; id: string };
-}) {
+export default async function ProductComponent({ params }: Props) {
   const { product } = await client.request(
     graphql(
       `
@@ -153,13 +155,15 @@ export default async function ProductComponent({
     .array(z.string())
     .catch([])
     .parse(JSON.parse(product.thruga?.value ?? "[]"));
-  const vendor = getVendorFromSlug(params.vendor);
+  const productType = getProductTypeFromSlug(params.category);
 
-  if (!vendor) {
+  if (!productType) {
     notFound();
   }
 
   const productQuantityStep = getProductQuantityStep(product.productType);
+
+  const vendor = product.vendor ? getVendorFromName(product.vendor) : null;
 
   return (
     <div className="flex flex-col gap-8 sm:flex-row">
@@ -176,9 +180,11 @@ export default async function ProductComponent({
         </div>
       )}
       <div className="grow sm:max-w-xs">
-        <div className="mb-4 border-b pb-2">
-          <VendorName vendor={vendor} linkify />
-        </div>
+        {vendor ? (
+          <div className="mb-4 border-b pb-2">
+            <VendorName vendor={vendor} />
+          </div>
+        ) : null}
         <h1 className="mb-4 text-2xl">
           <strong>{product.title}</strong>
         </h1>

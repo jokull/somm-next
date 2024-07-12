@@ -83,6 +83,44 @@ export const allProductTypes = [
   "Óáfengt",
 ] as const;
 
+export function getProductTypeFromSlug(slug: string | undefined) {
+  switch (slug) {
+    case "raudvin":
+      return "Rauðvín";
+    case "hvitvin":
+      return "Hvítvín";
+    case "rosavin":
+      return "Rósavín";
+    case "freydivin":
+      return "Freyðivín";
+    case "gulvin":
+      return "Gulvín";
+    case "bjor":
+      return "Bjór";
+    case "oafengt":
+      return "Óáfengt";
+  }
+}
+
+export function getSlugFromProductType(slug: string | undefined) {
+  switch (slug) {
+    case "Rauðvín":
+      return "raudvin";
+    case "Hvítvín":
+      return "hvitvin";
+    case "Rósavín":
+      return "rosavin";
+    case "Freyðivín":
+      return "freydivin";
+    case "Gulvín":
+      return "gulvin";
+    case "Bjór":
+      return "bjor";
+    case "Óáfengt":
+      return "oafengt";
+  }
+}
+
 export type Vendor = (typeof vendors)[keyof typeof vendors];
 
 export function getVendorFromName(vendor: string) {
