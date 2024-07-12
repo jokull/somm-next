@@ -37,9 +37,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   return {
+    description: post.excerpt,
     ...toNextMetadata(post._seoMetaTags),
     title: `${post.title} — Blogg — Somm`,
-    description: post.excerpt,
   };
 }
 

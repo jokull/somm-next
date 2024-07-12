@@ -1,4 +1,6 @@
+/* eslint-disable jsx-a11y/alt-text */
 import { type ResultOf } from "gql.tada";
+import { Image } from "react-datocms/image";
 import { StructuredText } from "react-datocms/structured-text";
 
 import { type Post } from "~/graphql/post";
@@ -49,10 +51,18 @@ export async function PostContent({
     <StructuredText
       data={{ ...field, links: [] }}
       renderBlock={({ record }) => {
-        const product = products.find(
-          ({ id }) =>
-            record.__typename === "ProductRecord" &&
-            id.includes(record.shopifyProductId),
+        if (record.__typename === "ImageRecord") {
+          return (
+            <div className="mb-4 sm:mb-6">
+              <Image
+                data={record.image.responsiveImage}
+                className="rounded-lg"
+              />
+            </div>
+          );
+        }
+        const product = products.find(({ id }) =>
+          id.includes(record.shopifyProductId),
         );
         if (product) {
           return (
