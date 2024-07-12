@@ -48,31 +48,33 @@ export async function PostContent({
   );
   const products = await getProducts(productBlocks);
   return (
-    <StructuredText
-      data={{ ...field, links: [] }}
-      renderBlock={({ record }) => {
-        if (record.__typename === "ImageRecord") {
-          return (
-            <div className="mb-4 sm:mb-6">
-              <Image
-                data={record.image.responsiveImage}
-                className="rounded-lg"
-              />
-            </div>
+    <div className="[&_a]:underline [&_h1]:mb-4 [&_h1]:text-2xl [&_h2]:my-4 [&_h2]:text-xl [&_p]:mb-4">
+      <StructuredText
+        data={{ ...field, links: [] }}
+        renderBlock={({ record }) => {
+          if (record.__typename === "ImageRecord") {
+            return (
+              <div className="mb-6 sm:mb-8">
+                <Image
+                  data={record.image.responsiveImage}
+                  className="rounded-lg"
+                />
+              </div>
+            );
+          }
+          const product = products.find(({ id }) =>
+            id.includes(record.shopifyProductId),
           );
-        }
-        const product = products.find(({ id }) =>
-          id.includes(record.shopifyProductId),
-        );
-        if (product) {
-          return (
-            <div className="mx-auto mb-4">
-              <ProductEmbed product={product} />
-            </div>
-          );
-        }
-        return null;
-      }}
-    />
+          if (product) {
+            return (
+              <div className="mx-auto mb-4">
+                <ProductEmbed product={product} />
+              </div>
+            );
+          }
+          return null;
+        }}
+      />
+    </div>
   );
 }
