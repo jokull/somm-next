@@ -1,15 +1,15 @@
 import { type VariablesOf } from "gql.tada";
 import { redirect } from "next/navigation";
 import { NextResponse, type NextRequest } from "next/server";
-import { z } from "zod";
 
 import { env } from "~/env";
 import { client, graphql } from "~/graphql/shopify";
 import { getSession } from "~/lib/cart";
+import { createDokobitSession, getDokobitSession } from "~/lib/dokobit";
 
 export const runtime = "edge";
 
-const gql = graphql(`
+const updateCartAttributes = graphql(`
   mutation CartAttributesUpdate(
     $cartId: ID!
     $buyerIdentidy: CartBuyerIdentityInput!
@@ -28,88 +28,32 @@ const gql = graphql(`
 `);
 
 type ShopifyCountryCode = NonNullable<
-  VariablesOf<typeof gql>["buyerIdentidy"]
+  VariablesOf<typeof updateCartAttributes>["buyerIdentidy"]
 >["countryCode"];
-
-// Define the Dokobit session success schema
-const dokobitSessionResponseSchema = z.object({
-  status: z.string(),
-  session_token: z.string(),
-  code: z.string(),
-  country_code: z.string(),
-  name: z.string(),
-  surname: z.string(),
-  authentication_method: z.string(),
-  date_authenticated: z.string(),
-  phone: z.string().optional(),
-});
-
-// Define the Dokobit error schema
-const dokobitSessionStatusErrorResponseSchema = z.object({
-  status: z.literal("error"),
-  message: z.string(),
-});
-
-async function getDokobitSession(sessionToken: string) {
-  const response = await fetch(
-    `${env.DOKOBIT_URL}/${sessionToken}/status?access_token=${env.DOKOBIT_TOKEN}`,
-  );
-
-  if (!response.ok) {
-    throw new Error(await response.text());
-  }
-
-  const data = await response.json();
-
-  // Check if the response is an error
-  const errorValidation =
-    dokobitSessionStatusErrorResponseSchema.safeParse(data);
-  if (errorValidation.success) {
-    throw new Error(errorValidation.data.message);
-  }
-
-  // Validate against the DokobitSession schema
-  return dokobitSessionResponseSchema.parse(data);
-}
-
-const dokobitCreateResponseSchema = z.object({
-  status: z.enum(["ok"]),
-  session_token: z.string(),
-  url: z.string(),
-  expires_in: z.number(), // Number of seconds
-});
 
 // On POST request to start the dokobit verification process and redirect to it
 export async function POST() {
-  // Return the user back to this route, but that will be the GET handler below
+  // Construct the Next.js URL we want the user to return to - this will actually be the GET handler
+  // below.
   const returnUrl = new URL("/checkout", `https://${env.VERCEL_URL}/`);
-
-  const data = await fetch(
-    `${env.DOKOBIT_URL}/create?access_token=${env.DOKOBIT_TOKEN}`,
-    {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({ return_url: returnUrl.toString() }),
-    },
-  ).then(async (response) => {
-    if (response.status !== 200) {
-      throw new Error(await response.text());
-    }
-    return dokobitCreateResponseSchema.parse(await response.json());
-  });
-
+  const session = await createDokobitSession(returnUrl.toString());
   // Redirect the user to the Dokobit authentication URL
-  throw redirect(data.url);
+  throw redirect(session.url);
 }
 
 // On GET requests process the dokobit based on the ?session_token, if presented
 export async function GET(request: NextRequest) {
+  // Get the Dokobit `?session_token=` value
   const dokobitSessionToken = request.nextUrl.searchParams.get("session_token");
 
-  const session = await getSession();
+  // Get the Shopify cart ID - this is stored in a cookie
+  const cartId = await getSession().then((session) => session?.cartId);
 
-  if (!dokobitSessionToken || !session?.cartId) {
-    return NextResponse.json({ message: "Session not found" }, { status: 400 });
+  if (!dokobitSessionToken || !cartId) {
+    return NextResponse.json(
+      { message: "Session or cart not found" },
+      { status: 400 },
+    );
   }
 
   const dokobitSession = await getDokobitSession(dokobitSessionToken);
@@ -120,8 +64,8 @@ export async function GET(request: NextRequest) {
   const countryCode =
     dokobitSession.country_code.toLocaleUpperCase() as unknown as ShopifyCountryCode;
 
-  const response = await client.request(gql, {
-    cartId: session.cartId,
+  const response = await client.request(updateCartAttributes, {
+    cartId,
     buyerIdentidy: {
       phone: dokobitSession.phone,
       countryCode,

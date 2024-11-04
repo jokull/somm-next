@@ -1,20 +1,7 @@
 /* eslint-disable */
 /* prettier-ignore */
 
-/** An IntrospectionQuery representation of your schema.
- *
- * @remarks
- * This is an introspection of your schema saved as a file by GraphQLSP.
- * It will automatically be used by `gql.tada` to infer the types of your GraphQL documents.
- * If you need to reuse this data or update your `scalars`, update `tadaOutputLocation` to
- * instead save to a .ts instead of a .d.ts file.
- */
-export type introspection = {
-  name: 'shopify';
-  query: 'QueryRoot';
-  mutation: 'Mutation';
-  subscription: never;
-  types: {
+export type introspection_types = {
     'ApiVersion': { kind: 'OBJECT'; name: 'ApiVersion'; fields: { 'displayName': { name: 'displayName'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'SCALAR'; name: 'String'; ofType: null; }; } }; 'handle': { name: 'handle'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'SCALAR'; name: 'String'; ofType: null; }; } }; 'supported': { name: 'supported'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'SCALAR'; name: 'Boolean'; ofType: null; }; } }; }; };
     'ApplePayWalletContentInput': { kind: 'INPUT_OBJECT'; name: 'ApplePayWalletContentInput'; isOneOf: false; inputFields: [{ name: 'billingAddress'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'INPUT_OBJECT'; name: 'MailingAddressInput'; ofType: null; }; }; defaultValue: null }, { name: 'data'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'SCALAR'; name: 'String'; ofType: null; }; }; defaultValue: null }, { name: 'header'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'INPUT_OBJECT'; name: 'ApplePayWalletHeaderInput'; ofType: null; }; }; defaultValue: null }, { name: 'lastDigits'; type: { kind: 'SCALAR'; name: 'String'; ofType: null; }; defaultValue: null }, { name: 'signature'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'SCALAR'; name: 'String'; ofType: null; }; }; defaultValue: null }, { name: 'version'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'SCALAR'; name: 'String'; ofType: null; }; }; defaultValue: null }]; };
     'ApplePayWalletHeaderInput': { kind: 'INPUT_OBJECT'; name: 'ApplePayWalletHeaderInput'; isOneOf: false; inputFields: [{ name: 'applicationData'; type: { kind: 'SCALAR'; name: 'String'; ofType: null; }; defaultValue: null }, { name: 'ephemeralPublicKey'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'SCALAR'; name: 'String'; ofType: null; }; }; defaultValue: null }, { name: 'publicKeyHash'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'SCALAR'; name: 'String'; ofType: null; }; }; defaultValue: null }, { name: 'transactionId'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'SCALAR'; name: 'String'; ofType: null; }; }; defaultValue: null }]; };
@@ -386,7 +373,22 @@ export type introspection = {
     'Video': { kind: 'OBJECT'; name: 'Video'; fields: { 'alt': { name: 'alt'; type: { kind: 'SCALAR'; name: 'String'; ofType: null; } }; 'id': { name: 'id'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'SCALAR'; name: 'ID'; ofType: null; }; } }; 'mediaContentType': { name: 'mediaContentType'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'ENUM'; name: 'MediaContentType'; ofType: null; }; } }; 'presentation': { name: 'presentation'; type: { kind: 'OBJECT'; name: 'MediaPresentation'; ofType: null; } }; 'previewImage': { name: 'previewImage'; type: { kind: 'OBJECT'; name: 'Image'; ofType: null; } }; 'sources': { name: 'sources'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'LIST'; name: never; ofType: { kind: 'NON_NULL'; name: never; ofType: { kind: 'OBJECT'; name: 'VideoSource'; ofType: null; }; }; }; } }; }; };
     'VideoSource': { kind: 'OBJECT'; name: 'VideoSource'; fields: { 'format': { name: 'format'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'SCALAR'; name: 'String'; ofType: null; }; } }; 'height': { name: 'height'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'SCALAR'; name: 'Int'; ofType: null; }; } }; 'mimeType': { name: 'mimeType'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'SCALAR'; name: 'String'; ofType: null; }; } }; 'url': { name: 'url'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'SCALAR'; name: 'String'; ofType: null; }; } }; 'width': { name: 'width'; type: { kind: 'NON_NULL'; name: never; ofType: { kind: 'SCALAR'; name: 'Int'; ofType: null; }; } }; }; };
     'WeightUnit': { name: 'WeightUnit'; enumValues: 'KILOGRAMS' | 'GRAMS' | 'POUNDS' | 'OUNCES'; };
-  };
+};
+
+/** An IntrospectionQuery representation of your schema.
+ *
+ * @remarks
+ * This is an introspection of your schema saved as a file by GraphQLSP.
+ * It will automatically be used by `gql.tada` to infer the types of your GraphQL documents.
+ * If you need to reuse this data or update your `scalars`, update `tadaOutputLocation` to
+ * instead save to a .ts instead of a .d.ts file.
+ */
+export type introspection = {
+  name: 'shopify';
+  query: 'QueryRoot';
+  mutation: 'Mutation';
+  subscription: never;
+  types: introspection_types;
 };
 
 import * as gqlTada from 'gql.tada';
