@@ -186,9 +186,8 @@ export default async function ProductComponent({ params }: Props) {
           </div>
         ) : null}
         <h1 className="mb-4 text-2xl">
-          <strong>{product.title}</strong>
+          <span>{product.title}</span>
         </h1>
-        {product.description.trim() ? <p>{product.description}</p> : null}
         <table className="table w-full max-w-sm">
           <tbody>
             {product.wineType && (
@@ -252,6 +251,9 @@ export default async function ProductComponent({ params }: Props) {
             )}
           </tbody>
         </table>
+        {product.description.trim() ? (
+          <p className="my-4">{product.description}</p>
+        ) : null}
         <Variants
           variants={variants.filter((v) => v.availableForSale)}
           productQuantityStep={productQuantityStep}

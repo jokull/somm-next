@@ -9,7 +9,7 @@ export function VendorName({
 }) {
   return (
     <div className="flex items-center justify-between gap-2">
-      <strong className="text-xl">{vendor.name}</strong>
+      <span className="text-xl">{vendor.name}</span>
       {vendor.instagram ? <InstagramLink handle={vendor.instagram} /> : null}
     </div>
   );
